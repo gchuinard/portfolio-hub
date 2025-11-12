@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Contact — PortfolioHub">
+  <h1 class="text-3xl font-bold mb-6">Contact</h1>
+
+  <div class="grid md:grid-cols-2 gap-10">
+    <!-- Bloc texte -->
+    <section class="space-y-4">
+      <p class="text-zinc-400">
+        Tu veux parler d’un projet, de QA, de domotique ou de tests auto ?
+        Laisse-moi un message et je te réponds dès que possible.
+      </p>
+
+      <div class="space-y-2 text-sm text-zinc-400">
+        <p><span class="font-semibold text-zinc-200">Email :</span> ton.mail@exemple.fr</p>
+        <p><span class="font-semibold text-zinc-200">Ville :</span> Bordeaux (ou métropole)</p>
+      </div>
+
+      <p class="text-xs text-zinc-500">
+        PS : ce formulaire est une maquette pour le moment, l’envoi sera branché plus tard.
+      </p>
+    </section>
+
+    <!-- Formulaire -->
+    <form class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1" for="name">Nom</label>
+        <input
+          id="name"
+          type="text"
+          class="w-full rounded-xl border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm
+                 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          placeholder="Votre nom"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1" for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="w-full rounded-xl border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm
+                 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          placeholder="vous@exemple.fr"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1" for="subject">Sujet</label>
+        <input
+          id="subject"
+          type="text"
+          class="w-full rounded-xl border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm
+                 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          placeholder="Objet de votre message"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1" for="message">Message</label>
+        <textarea
+          id="message"
+          rows="4"
+          class="w-full rounded-xl border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm
+                 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+          placeholder="Votre message..."
+        ></textarea>
+      </div>
+
+      <button
+        type="button"
+        class="inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-medium
+               bg-brand-600 hover:bg-brand-500 transition text-white">
+        Envoyer (maquette)
+      </button>
+    </form>
+  </div>
+</Base>

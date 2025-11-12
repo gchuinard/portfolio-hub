@@ -1,0 +1,214 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { LayoutGrid, List } from "lucide-astro";
+
+// Données
+const certs = (await getCollection("certifications")).sort(
+  (a, b) => b.data.issueDate.getTime() - a.data.issueDate.getTime()
+);
+
+// Groupage par année pour la timeline
+const byYear = certs.reduce((acc, c) => {
+  const y = c.data.issueDate.getFullYear();
+  (acc[y] ||= []).push(c);
+  return acc;
+}, /** @type{Record<number, typeof certs>} */ ({}));
+const years = Object.keys(byYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+---
+
+<Base title="Certifications — PortfolioHub">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <h1 class="text-3xl font-bold">Certifications</h1>
+
+    <button
+      id="viewToggle"
+      class="relative w-24 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
+           ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center justify-between px-2"
+    >
+      <span
+        id="viewSlider"
+        class="absolute inset-y-1 left-1 w-9 h-7
+                 rounded-full bg-brand-600 shadow-md transition-transform duration-300 ease-out will-change-transform z-0"
+      ></span>
+
+      <!-- Icône Grille -->
+      <LayoutGrid
+        id="iconGrid"
+        class="relative z-10 w-4 h-4 mx-1 text-white transition-colors duration-300"
+        stroke-width={2}
+      />
+      <!-- Icône Liste -->
+      <List
+        id="iconTimeline"
+        class="relative z-10 w-4 h-4 mx-1 text-zinc-400 transition-colors duration-300"
+        stroke-width={2}
+      />
+    </button>
+  </div>
+
+  <!-- VUE GRILLE -->
+  <section id="gridView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+      certs.map((c) => (
+        <article class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition">
+          <div class="flex items-center gap-3">
+            {c.data.logo ? (
+              <img
+                src={c.data.logo}
+                alt=""
+                class="h-10 w-10 rounded-md object-contain bg-zinc-800 p-1"
+              />
+            ) : (
+              <div class="h-10 w-10 rounded-md bg-zinc-800" />
+            )}
+            <div>
+              <h2 class="text-base font-semibold leading-tight">
+                {c.data.title}
+              </h2>
+              <p class="text-xs text-zinc-400">{c.data.issuer}</p>
+            </div>
+          </div>
+          <p class="mt-3 text-sm text-zinc-400">
+            Obtenue le {c.data.issueDate.toLocaleDateString("fr-FR")}
+            {c.data.expiryDate && (
+              <> • Expire le {c.data.expiryDate.toLocaleDateString("fr-FR")}</>
+            )}
+          </p>
+          {c.data.tags?.length > 0 && (
+            <div class="mt-3 flex flex-wrap gap-2">
+              {c.data.tags.map((t) => (
+                <span class="text-[11px] px-2 py-1 bg-zinc-800 rounded-full">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+          {c.data.credentialUrl && (
+            <a
+              href={c.data.credentialUrl}
+              target="_blank"
+              class="mt-4 inline-block px-3 py-1.5 rounded-full border border-zinc-700 hover:border-brand-500 text-sm"
+            >
+              Voir le certificat
+            </a>
+          )}
+        </article>
+      ))
+    }
+  </section>
+
+  <!-- VUE TIMELINE (cachée au départ) -->
+  <section id="timelineView" class="hidden">
+    <div class="relative pl-6">
+      <div class="absolute left-2 top-0 bottom-0 w-px bg-zinc-800"></div>
+      {
+        years.map((year) => (
+          <section class="mb-8">
+            <div class="relative -left-6 mb-4 flex items-center gap-3">
+              <span class="grid place-items-center h-8 w-8 rounded-full bg-brand-600 text-white text-sm shadow" />
+              <h2 class="text-xl font-semibold">{year}</h2>
+            </div>
+            <ul class="space-y-4">
+              {byYear[year].map((c) => (
+                <li class="relative">
+                  <span class="absolute -left-6 top-2 h-3 w-3 rounded-full bg-brand-500 ring-4 ring-zinc-950" />
+                  <article class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition">
+                    <div class="flex items-start gap-3">
+                      {c.data.logo ? (
+                        <img
+                          src={c.data.logo}
+                          alt=""
+                          class="h-10 w-10 rounded-md object-contain bg-zinc-800 p-1"
+                        />
+                      ) : (
+                        <div class="h-10 w-10 rounded-md bg-zinc-800" />
+                      )}
+                      <div class="min-w-0">
+                        <h3 class="text-base font-semibold leading-tight">
+                          {c.data.title}
+                        </h3>
+                        <p class="text-xs text-zinc-400">
+                          {c.data.issuer} •{" "}
+                          {c.data.issueDate.toLocaleDateString("fr-FR")}
+                          {c.data.expiryDate && (
+                            <>
+                              {" "}
+                              · expire le{" "}
+                              {c.data.expiryDate.toLocaleDateString("fr-FR")}
+                            </>
+                          )}
+                        </p>
+                        {c.data.tags?.length > 0 && (
+                          <div class="mt-2 flex flex-wrap gap-2">
+                            {c.data.tags.map((t) => (
+                              <span class="text-[11px] px-2 py-1 bg-zinc-800 rounded-full">
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {c.data.credentialUrl && (
+                      <div class="mt-3">
+                        <a
+                          href={c.data.credentialUrl}
+                          target="_blank"
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 hover:border-brand-500 text-sm"
+                        >
+                          Voir le certificat
+                        </a>
+                      </div>
+                    )}
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Script tout en bas (après le DOM) -->
+  <script type="module">
+    const btn = document.getElementById("viewToggle");
+    const slider = document.getElementById("viewSlider");
+    const iconGrid = document.getElementById("iconGrid");
+    const iconTimeline = document.getElementById("iconTimeline");
+    const grid = document.getElementById("gridView");
+    const timeline = document.getElementById("timelineView");
+
+    let view = "GRID";
+
+    function updateUI() {
+      const isGrid = view === "GRID";
+      slider.style.transform = isGrid ? "translateX(0)" : "translateX(140%)";
+      iconGrid.classList.toggle("text-white", isGrid);
+      iconGrid.classList.toggle("text-zinc-400", !isGrid);
+      iconTimeline.classList.toggle("text-white", !isGrid);
+      iconTimeline.classList.toggle("text-zinc-400", isGrid);
+      if (grid && timeline) {
+        grid.classList.toggle("hidden", !isGrid);
+        timeline.classList.toggle("hidden", isGrid);
+      }
+    }
+
+    btn?.addEventListener("click", () => {
+      view = view === "GRID" ? "TIMELINE" : "GRID";
+      updateUI();
+    });
+
+    updateUI();
+  </script>
+
+  <style>
+    /* petit rebond du slider */
+    #viewSlider {
+      transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  </style>
+</Base>

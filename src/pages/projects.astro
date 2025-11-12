@@ -1,0 +1,164 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ProjectCard from "../components/ProjectCard.astro";
+
+// Récup projets triés (du + récent au + ancien)
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+// Liste unique des tags
+const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
+---
+
+<Base title="Projets — PortfolioHub">
+  <h1 class="text-3xl font-bold mb-6">Hub de Projets</h1>
+
+  <!-- Filtres -->
+  <div id="filters" class="flex flex-wrap gap-2">
+    <button
+      data-tag="__all"
+      class="px-3 py-1 rounded-full border border-zinc-700 text-sm transition
+             hover:border-brand-500 hover:bg-zinc-800/60
+             aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:text-white
+             aria-[pressed=true]:border-brand-500"
+      aria-pressed="true"
+    >
+      Tous
+    </button>
+    {
+      allTags.map((t) => (
+        <button
+          data-tag={t}
+          class="px-3 py-1 rounded-full border border-zinc-700 text-sm transition
+                 hover:border-brand-500 hover:bg-zinc-800/60
+                 aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:text-white
+                 aria-[pressed=true]:border-brand-500"
+          aria-pressed="false"
+        >
+          {t}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Toggle AND/OR -->
+  <div class="mt-3 flex items-center gap-3">
+    <span class="text-sm text-zinc-400">Mode :</span>
+    <button
+      id="modeToggle"
+      class="relative w-32 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
+         ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center"
+    >
+      <!-- slider dessous -->
+      <span
+        id="slider"
+        class="absolute inset-1 w-[calc(50%-0.25rem)] h-[calc(100%-0.5rem)]
+               rounded-full bg-brand-600 shadow-md transition-transform duration-300 will-change-transform z-0"
+      ></span>
+      <!-- labels au-dessus, en flex -->
+      <span
+        id="lblAnd"
+        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
+        >ET</span
+      >
+      <span
+        id="lblOr"
+        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
+        >OU</span
+      >
+    </button>
+  </div>
+
+  <!-- Grille -->
+  <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+    {projects.map((p) => <ProjectCard entry={p} />)}
+  </div>
+
+  <!-- Script de filtre (vanilla) -->
+  <script type="module">
+    const grid = document.getElementById("grid");
+    const btns = document.querySelectorAll("#filters [data-tag]");
+    let active = new Set();
+    let mode = "AND"; // AND | OR
+
+    const toggle = document.getElementById("modeToggle");
+    const slider = document.getElementById("slider");
+    const lblAnd = document.getElementById("lblAnd");
+    const lblOr = document.getElementById("lblOr");
+
+    // Helpers UI
+    const setPressed = (el, pressed) =>
+      el.setAttribute("aria-pressed", pressed ? "true" : "false");
+    const updateSlider = () => {
+      slider.style.transform =
+        mode === "AND" ? "translateX(0)" : "translateX(100%)";
+      const etActif = mode === "AND";
+      lblAnd.classList.toggle("text-white", etActif);
+      lblAnd.classList.toggle("text-zinc-400", !etActif);
+      lblOr.classList.toggle("text-white", !etActif);
+      lblOr.classList.toggle("text-zinc-400", etActif);
+      // slider
+      slider.style.transform = etActif ? "translateX(0)" : "translateX(100%)";
+    };
+
+    // Applique le filtre
+    function apply() {
+      const cards = grid.children;
+      for (const el of cards) {
+        const tags = (el.getAttribute("data-tags") || "")
+          .split(",")
+          .filter(Boolean);
+        let show = true;
+        if (active.size > 0) {
+          show =
+            mode === "AND"
+              ? [...active].every((t) => tags.includes(t))
+              : [...active].some((t) => tags.includes(t));
+        }
+        el.classList.toggle("hidden", !show);
+      }
+    }
+
+    // Click sur tags
+    for (const btn of btns) {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tag;
+        if (tag === "__all") {
+          active.clear();
+          btns.forEach((b) => setPressed(b, b.dataset.tag === "__all"));
+        } else {
+          // désactive "Tous"
+          btns.forEach((b) => {
+            if (b.dataset.tag === "__all") setPressed(b, false);
+          });
+          // toggle du tag
+          if (active.has(tag)) {
+            active.delete(tag);
+            setPressed(btn, false);
+          } else {
+            active.add(tag);
+            setPressed(btn, true);
+          }
+          // si plus aucun tag => réactive "Tous"
+          if (active.size === 0) {
+            const all = document.querySelector('#filters [data-tag="__all"]');
+            setPressed(all, true);
+          }
+        }
+        apply();
+      });
+    }
+
+    // Toggle AND/OR
+    toggle.addEventListener("click", () => {
+      mode = mode === "AND" ? "OR" : "AND";
+      updateSlider();
+      apply();
+    });
+
+    // init
+    updateSlider();
+  </script>
+</Base>

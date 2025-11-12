@@ -1,0 +1,99 @@
+---
+import Base from "../layouts/Base.astro";
+
+// 👉 Modifie les valeurs comme tu veux (0–100)
+const tech = [
+  { label: "Astro", v: 85 },
+  { label: "React/Next", v: 75 },
+  { label: "Tailwind CSS", v: 80 },
+  { label: "Python/FastAPI", v: 70 },
+  { label: "CI/CD (GH Actions)", v: 65 },
+  { label: "Docker", v: 60 },
+];
+
+const soft = [
+  { label: "Pilotage projet", v: 85 },
+  { label: "Communication", v: 80 },
+  { label: "Priorisation", v: 75 },
+  { label: "QA & tests", v: 70 },
+];
+
+const tools = ["GitHub", "Azure DevOps", "Sentry", "Plausible", "Postman", "Playwright"];
+---
+<Base title="Compétences — PortfolioHub">
+  <h1 class="text-3xl font-bold mb-6">Mes Compétences</h1>
+
+  <!-- Tech + Soft -->
+  <div class="grid lg:grid-cols-2 gap-8">
+    <!-- Tech -->
+    <section>
+      <h2 class="text-xl font-semibold mb-3">Techniques</h2>
+      <ul class="space-y-3">
+        {tech.map((s) => (
+          <li>
+            <div class="flex justify-between text-sm mb-1">
+              <span>{s.label}</span><span class="text-zinc-400">{s.v}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-zinc-800 overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-brand-600 to-brand-400"
+                   style={`width:${s.v}%`}></div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Soft -->
+    <section>
+      <h2 class="text-xl font-semibold mb-3">Professionnelles</h2>
+      <ul class="space-y-3">
+        {soft.map((s) => (
+          <li>
+            <div class="flex justify-between text-sm mb-1">
+              <span>{s.label}</span><span class="text-zinc-400">{s.v}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-zinc-800 overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-brand-600 to-brand-400"
+                   style={`width:${s.v}%`}></div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  <!-- Frameworks & Outils -->
+  <section class="mt-10">
+    <h2 class="text-xl font-semibold mb-3">Frameworks & Outils</h2>
+    <div class="flex flex-wrap gap-2">
+      {tools.map(t => (
+        <span class="px-3 py-1 text-sm rounded-full border border-zinc-700">{t}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Mini “indicateurs” (cards) -->
+  <section class="mt-10 grid md:grid-cols-3 gap-4">
+    <div class="rounded-2xl border border-zinc-800 p-4">
+      <p class="text-sm text-zinc-400">Perf moyenne Lighthouse</p>
+      <p class="text-3xl font-semibold mt-1">95+</p>
+      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
+        <div class="h-full w-[95%] bg-brand-600 rounded"></div>
+      </div>
+    </div>
+    <div class="rounded-2xl border border-zinc-800 p-4">
+      <p class="text-sm text-zinc-400">Couverture tests E2E</p>
+      <p class="text-3xl font-semibold mt-1">70%</p>
+      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
+        <div class="h-full w-[70%] bg-brand-600 rounded"></div>
+      </div>
+    </div>
+    <div class="rounded-2xl border border-zinc-800 p-4">
+      <p class="text-sm text-zinc-400">Déploiements/mois</p>
+      <p class="text-3xl font-semibold mt-1">~12</p>
+      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
+        <div class="h-full w-[80%] bg-brand-600 rounded"></div>
+      </div>
+    </div>
+  </section>
+</Base>

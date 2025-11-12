@@ -1,0 +1,38 @@
+---
+const { title = "Portfolio", description = "Hub de projets" } = Astro.props;
+import "../styles/tailwind.css";
+---
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/tailwind.css" />
+  </head>
+  <body>
+    <header class="sticky top-0 z-50 backdrop-blur bg-zinc-950/70 border-b border-zinc-800">
+      <div class="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
+        <a href="/" class="font-semibold tracking-tight">Portfolio<span class="text-brand-400">Hub</span></a>
+        <nav class="flex gap-5 text-sm">
+          <a href="/projects">Projets</a>
+          <a href="/skills">Compétences</a>
+          <a href="/certifications">Certifications</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <slot />
+    </main>
+
+    <footer class="border-t border-zinc-800">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-zinc-400 flex justify-between">
+        <p>© {new Date().getFullYear()} • PortfolioHub</p>
+        <p><a href="/now">Now</a> · <a href="/posts">Articles</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
