@@ -1,22 +1,283 @@
 ---
 import Base from "../layouts/Base.astro";
+import { LayoutGrid, BadgeCheck, FileText, MessageCircle } from "lucide-astro";
 ---
-<Base title="Accueil — PortfolioHub" description="Hub de projets rapide avec Astro">
-  <h1 class="text-3xl md:text-4xl font-bold">
-    Salut, je suis <span class="text-brand-400">Gautier</span> — voici mon hub.
-  </h1>
-  <p class="mt-3 text-zinc-400 max-w-2xl">
-    Projets, compétences et certifications — tout au même endroit.
-  </p>
 
-  <div class="mt-8 grid gap-4 sm:grid-cols-2">
-    <a href="/projects" class="rounded-2xl p-5 border border-zinc-800 hover:border-brand-500 transition">
-      <h2 class="font-semibold">Hub de Projets</h2>
-      <p class="text-zinc-400">Cartes, tags, stack…</p>
+<Base
+  title="Accueil — Gautier Playbook"
+  description="Gautier Playbook — projets, compétences, QA et certifications de Gautier Chuinard."
+>
+  <!-- HERO -->
+  <section
+    class="hero-gradient relative mb-10 overflow-hidden rounded-3xl border border-white/5
+           bg-gradient-to-br from-violet-800/40 via-fuchsia-800/35 to-emerald-800/35
+           px-6 py-8 md:px-10 md:py-10"
+  >
+    <div class="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+      <!-- Bloc texte -->
+      <div class="max-w-xl">
+        <p class="mb-2 text-xs uppercase tracking-[0.22em] text-zinc-100/80">
+          GAUTIER PLAYBOOK · GAUTIER CHUINARD
+        </p>
+
+        <h1 class="text-3xl font-bold leading-snug md:text-4xl">
+          Salut, je suis <span class="text-brand-200">Gautier</span> —<br />
+          chef de projet & QA orienté <span class="text-emerald-200">produit</span>.
+        </h1>
+
+        <p class="mt-4 text-sm text-zinc-100/85 md:text-base">
+          Je pilote des projets digitaux, j’organise la qualité (tests auto, monitoring) et
+          je fais le lien entre les équipes techniques et le métier, avec une forte sensibilité
+          utilisateur.
+        </p>
+
+        <!-- CTA -->
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a href="/projects" class="cta-luxe rounded-full px-6 py-2.5 text-sm font-medium text-white">
+            Découvrir mes projets
+          </a>
+
+          <a
+            href="/certifications"
+            class="rounded-full border border-white/25 bg-black/25 px-5 py-2 text-xs font-medium
+                   text-zinc-50/90 hover:border-brand-300 hover:text-white transition"
+          >
+            Certifications & parcours Scrum
+          </a>
+        </div>
+
+        <!-- Infos rapides -->
+        <div class="mt-6 flex flex-wrap gap-6 text-xs text-zinc-100/85">
+          <div class="space-y-1">
+            <p class="font-semibold text-zinc-50">Spécialités</p>
+            <p>QA, tests auto (Postman, Playwright), domotique, self-hosting</p>
+          </div>
+          <div class="space-y-1">
+            <p class="font-semibold text-zinc-50">Stack du hub</p>
+            <p>Astro · Tailwind · Markdown · Docker · Raspberry&nbsp;Pi</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloc photo + badges -->
+      <div class="flex flex-col items-center gap-4 md:w-64">
+        <!-- Photo -->
+        <div class="photo-frame h-40 w-40 md:h-44 md:w-44">
+          <div class="photo-frame-inner flex h-full w-full items-center justify-center text-center text-xs text-zinc-200">
+            Photo à venir
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="w-full space-y-2 text-xs text-zinc-100/90">
+          <div
+            class="flex items-center justify-between rounded-full border border-zinc-300/15
+                   bg-black/35 px-3 py-1.5"
+          >
+            <span class="text-zinc-300">Mode de travail</span>
+            <span class="font-semibold text-emerald-300">Evidence-based</span>
+          </div>
+          <div
+            class="flex items-center justify-between rounded-full border border-zinc-300/15
+                   bg-black/35 px-3 py-1.5"
+          >
+            <span class="text-zinc-300">Focus</span>
+            <span class="font-semibold text-brand-200">Qualité & valeur</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATION RAPIDE -->
+  <section class="mb-10 space-y-4">
+    <h2 class="text-lg font-semibold">Navigation rapide</h2>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      <!-- Projets -->
+      <a href="/projects" class="quick-card">
+        <div class="quick-card-icon bg-brand-500/15 border-brand-400/35 text-brand-200">
+          <LayoutGrid class="h-4 w-4" />
+        </div>
+        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-300">
+          Hub de projets
+        </p>
+        <h3 class="mb-1 text-base font-semibold text-zinc-50">Projets & expériences</h3>
+        <p class="mb-3 text-sm text-zinc-400">
+          Cartes détaillées, stack, tags, liens Demo & Code, filtres avancés.
+        </p>
+        <span class="quick-card-link">Voir les projets →</span>
+      </a>
+
+      <!-- Compétences -->
+      <a href="/skills" class="quick-card">
+        <div class="quick-card-icon bg-emerald-500/15 border-emerald-400/35 text-emerald-200">
+          <BadgeCheck class="h-4 w-4" />
+        </div>
+        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-300">
+          Compétences
+        </p>
+        <h3 class="mb-1 text-base font-semibold text-zinc-50">Compétences & outils</h3>
+        <p class="mb-3 text-sm text-zinc-400">
+          Vue synthétique : techniques, soft skills, frameworks et indicateurs visuels.
+        </p>
+        <span class="quick-card-link">Explorer les compétences →</span>
+      </a>
+
+      <!-- Certifications -->
+      <a href="/certifications" class="quick-card">
+        <div class="quick-card-icon bg-fuchsia-500/15 border-fuchsia-400/35 text-fuchsia-200">
+          <FileText class="h-4 w-4" />
+        </div>
+        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fuchsia-300">
+          Scrum & autres
+        </p>
+        <h3 class="mb-1 text-base font-semibold text-zinc-50">Certifications</h3>
+        <p class="mb-3 text-sm text-zinc-400">
+          Timeline et grille : PAL I, parcours Scrum.org, autres formations structurantes.
+        </p>
+        <span class="quick-card-link">Voir les certifications →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- BLOC TEXTE + TEASER CONTACT -->
+  <section class="mt-6 grid gap-6 md:grid-cols-[2fr,1.3fr]">
+    <div class="quick-card">
+      <div class="quick-card-icon bg-zinc-500/10 border-zinc-400/25 text-zinc-200">
+        <BadgeCheck class="h-4 w-4" />
+      </div>
+      <h2 class="mb-2 text-base font-semibold text-zinc-50">Ce que j’aime faire</h2>
+      <p class="text-sm text-zinc-400">
+        Mettre en place des outils qui rendent les équipes plus efficaces : tests automatisés,
+        dashboards de monitoring, scripts d’industrialisation… Et garder toujours une vision
+        centrée sur l’utilisateur final.
+      </p>
+    </div>
+
+    <a href="/contact" class="quick-card bg-gradient-to-br from-brand-700/25 via-brand-800/30 to-fuchsia-800/25">
+      <div class="quick-card-icon bg-brand-500/20 border-brand-400/50 text-brand-100">
+        <MessageCircle class="h-4 w-4" />
+      </div>
+      <h2 class="mb-1 text-base font-semibold text-zinc-50">Envie d’en discuter ?</h2>
+      <p class="mb-3 text-sm text-zinc-100/90">
+        Un projet, une idée de pipeline de tests, une stack domotique un peu atypique ?
+        Je suis toujours partant pour en parler.
+      </p>
+      <span class="quick-card-link">Accéder au formulaire de contact →</span>
     </a>
-    <a href="/skills" class="rounded-2xl p-5 border border-zinc-800 hover:border-brand-500 transition">
-      <h2 class="font-semibold">Compétences</h2>
-      <p class="text-zinc-400">Tech & soft skills</p>
-    </a>
-  </div>
+  </section>
+
+  <style>
+    /* HERO luxe */
+    .hero-gradient {
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.65),
+        0 0 40px rgba(76, 29, 149, 0.45);
+    }
+
+    .hero-gradient::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.08), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.25), transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .cta-luxe {
+      background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 50%, #a855f7 100%);
+      box-shadow:
+        0 12px 25px rgba(15, 23, 42, 0.9),
+        0 0 20px rgba(139, 92, 246, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.22s cubic-bezier(0.22, 0.8, 0.35, 1);
+    }
+
+    .cta-luxe:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 35px rgba(15, 23, 42, 1),
+        0 0 26px rgba(167, 139, 250, 0.7);
+      filter: saturate(1.08);
+    }
+
+    .photo-frame {
+      border-radius: 9999px;
+      padding: 3px;
+      background: conic-gradient(
+        from 160deg,
+        #a855f7,
+        #22c55e,
+        #38bdf8,
+        #a855f7
+      );
+      box-shadow:
+        0 0 25px rgba(88, 28, 135, 0.6),
+        0 0 60px rgba(56, 189, 248, 0.25);
+    }
+
+    .photo-frame-inner {
+      border-radius: 9999px;
+      background: radial-gradient(circle at 30% 10%, #020617, #020617);
+      border: 1px solid rgba(248, 250, 252, 0.18);
+    }
+
+    /* Cartes navigation rapide */
+    .quick-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.11), rgba(15, 23, 42, 0.9));
+      padding: 1.25rem;
+      transition: all 0.22s ease-out;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .quick-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(167, 139, 250, 0.7);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.85),
+        0 0 30px rgba(129, 140, 248, 0.4);
+    }
+
+    .quick-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.6rem;
+      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.15), transparent 60%);
+    }
+
+    .quick-card-link {
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: #a78bfa;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+
+    .quick-card-link::after {
+      content: "↗";
+      font-size: 0.78rem;
+      opacity: 0.9;
+    }
+
+    .quick-card:hover .quick-card-link {
+      color: #e9d5ff;
+      transform: translateX(2px);
+    }
+  </style>
 </Base>

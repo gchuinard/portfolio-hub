@@ -1,37 +1,100 @@
 ---
-const { title = "Portfolio", description = "Hub de projets" } = Astro.props;
 import "../styles/tailwind.css";
+
+const {
+  title = "Gautier Playbook",
+  description = "Gautier Playbook — projets, compétences, QA et certifications de Gautier Chuinard."
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: "/projects", label: "Projets" },
+  { href: "/skills", label: "Compétences" },
+  { href: "/certifications", label: "Certifications" },
+  { href: "/contact", label: "Contact" }
+];
+
+function isActive(path: string) {
+  if (path === "/" && currentPath === "/") return true;
+  if (path === "/projects") return currentPath.startsWith("/projects");
+  if (path === "/skills") return currentPath.startsWith("/skills");
+  if (path === "/certifications") return currentPath.startsWith("/certifications");
+  if (path === "/contact") return currentPath.startsWith("/contact");
+  return false;
+}
 ---
+
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.svg" />
-    <link rel="stylesheet" href="/src/styles/tailwind.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-  <body>
-    <header class="sticky top-0 z-50 backdrop-blur bg-zinc-950/70 border-b border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-        <a href="/" class="font-semibold tracking-tight">Portfolio<span class="text-brand-400">Hub</span></a>
-        <nav class="flex gap-5 text-sm">
-          <a href="/projects">Projets</a>
-          <a href="/skills">Compétences</a>
-          <a href="/certifications">Certifications</a>
-          <a href="/contact">Contact</a>
-        </nav>
-      </div>
+  <body class="bg-black text-zinc-100">
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-40 border-b border-zinc-800/80
+             bg-black/80 backdrop-blur-sm"
+    >
+      <nav
+        class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3
+               text-sm"
+      >
+        <!-- Logo -->
+        <a href="/" class="font-semibold tracking-tight flex items-baseline gap-1">
+          <span>Gautier</span>
+          <span
+            class="bg-gradient-to-r from-brand-300 via-fuchsia-300 to-emerald-300
+                   bg-clip-text text-transparent"
+          >
+            Playbook
+          </span>
+        </a>
+
+        <!-- Nav links -->
+        <div class="flex items-center gap-5">
+          {links.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <a
+                href={link.href}
+                class={`relative inline-flex items-center justify-center
+                        transition-colors ${
+                          active
+                            ? "text-zinc-50"
+                            : "text-zinc-300 hover:text-zinc-50"
+                        }`}
+              >
+                <span class="px-1">{link.label}</span>
+                <span
+                  class={`pointer-events-none absolute inset-x-1 -bottom-1 h-[2px]
+                           rounded-full bg-gradient-to-r from-brand-400 to-fuchsia-400
+                           transition-opacity duration-200
+                           ${
+                             active
+                               ? "opacity-100"
+                               : "opacity-0 group-hover:opacity-100"
+                           }`}
+                ></span>
+              </a>
+            );
+          })}
+        </div>
+      </nav>
     </header>
 
-    <main class="mx-auto max-w-6xl px-4 py-10">
+    <!-- CONTENU -->
+    <main class="mx-auto max-w-5xl px-4 py-8">
       <slot />
     </main>
 
-    <footer class="border-t border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-zinc-400 flex justify-between">
-        <p>© {new Date().getFullYear()} • PortfolioHub</p>
-        <p><a href="/now">Now</a> · <a href="/posts">Articles</a></p>
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-800 mt-10">
+      <div class="mx-auto max-w-5xl px-4 py-4 text-xs text-zinc-500 flex justify-between">
+        <span>© 2025 • Gautier Playbook</span>
+        <span>Now · Articles</span>
       </div>
     </footer>
   </body>
