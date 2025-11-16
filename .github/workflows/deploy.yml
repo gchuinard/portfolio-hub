@@ -1,4 +1,4 @@
-name: Deploy Gautier Playbook
+name: Deploy Gautier Playbooks
 
 on:
   push:
