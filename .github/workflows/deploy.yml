@@ -2,7 +2,7 @@ name: Deploy Gautier Playbook
 
 on:
   push:
-    branches: [ main ]  # change si ton repo utilise "master"
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -24,13 +24,7 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      - name: Setup SSH
+      - name: Deploy locally
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Deploy via rsync
-        run: |
-          rsync -avz --delete dist/ "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/"
+          rm -rf /var/www/gautier-playbook/*
+          cp -r dist/* /var/www/gautier-playbook/
