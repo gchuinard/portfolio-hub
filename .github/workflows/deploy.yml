@@ -1,4 +1,4 @@
-name: Deploy Gautier Playbooks
+name: Deploy Gautier Playbook
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      - name: Deploy locally
+      - name: Deploy via rsync
         run: |
-          rm -rf /var/www/gautier-playbook/*
-          cp -r dist/* /var/www/gautier-playbook/
+          rsync -avz --delete dist/ "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/pi/sites/portfolio/public/"
+
