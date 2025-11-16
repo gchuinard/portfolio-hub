@@ -2,7 +2,7 @@ name: Deploy Gautier Playbook
 
 on:
   push:
-    branches: [ main ]  # change en "master" si ta branche s'appelle master
+    branches: [ main ]  # change si ton repo utilise "master"
 
 jobs:
   build-and-deploy:
