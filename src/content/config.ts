@@ -17,14 +17,14 @@ const projects = defineCollection({
 
 const certifications = defineCollection({
   schema: z.object({
-    title: z.string(),              // ex: "PAL I – Professional Agile Leadership"
-    issuer: z.string(),             // ex: "Scrum.org"
-    issueDate: z.date(),            // date d’obtention
+    title: z.string(),
+    issuer: z.string(),
+    issueDate: z.date(),
     expiryDate: z.date().optional(),
     credentialId: z.string().optional(),
     credentialUrl: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
-    logo: z.string().optional(),    // /images/certs/pal.png
+    logo: z.string().optional(),
   }),
 });
 
