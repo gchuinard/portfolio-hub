@@ -8,25 +8,32 @@ const certs = (await getCollection("certifications")).sort(
   (a, b) => b.data.issueDate.getTime() - a.data.issueDate.getTime()
 );
 
+// Tags uniques
+const allTags = [
+  ...new Set(certs.flatMap((c) => c.data.tags ?? [])),
+].sort();
+
 // Groupage par année pour la timeline
 const byYear = certs.reduce((acc, c) => {
   const y = c.data.issueDate.getFullYear();
   (acc[y] ||= []).push(c);
   return acc;
 }, /** @type{Record<number, typeof certs>} */ ({}));
+
 const years = Object.keys(byYear)
   .map(Number)
   .sort((a, b) => b - a);
 ---
 
-<Base title="Certifications — PortfolioHub">
+<Base title="Certifications — Gautier Playbook">
   <div class="flex items-end justify-between gap-4 mb-6">
     <h1 class="text-3xl font-bold">Certifications</h1>
 
+    <!-- Toggle vue grille / timeline -->
     <button
       id="viewToggle"
       class="relative w-24 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
-           ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center justify-between px-2"
+             ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center justify-between px-2"
     >
       <span
         id="viewSlider"
@@ -34,13 +41,11 @@ const years = Object.keys(byYear)
                  rounded-full bg-brand-600 shadow-md transition-transform duration-300 ease-out will-change-transform z-0"
       ></span>
 
-      <!-- Icône Grille -->
       <LayoutGrid
         id="iconGrid"
         class="relative z-10 w-4 h-4 mx-1 text-white transition-colors duration-300"
         stroke-width={2}
       />
-      <!-- Icône Liste -->
       <List
         id="iconTimeline"
         class="relative z-10 w-4 h-4 mx-1 text-zinc-400 transition-colors duration-300"
@@ -49,11 +54,66 @@ const years = Object.keys(byYear)
     </button>
   </div>
 
+  <!-- FILTRES PAR TAG -->
+  <div id="certFilters" class="flex flex-wrap gap-2 mb-3 text-sm">
+    <button
+      data-tag="__all"
+      class="px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-200
+             hover:border-brand-500 hover:bg-zinc-800/60 transition
+             aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:border-brand-500 aria-[pressed=true]:text-white"
+      aria-pressed="true"
+    >
+      Tous
+    </button>
+    {
+      allTags.map((t) => (
+        <button
+          data-tag={t}
+          class="px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300
+                 hover:border-brand-500 hover:bg-zinc-800/60 transition
+                 aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:border-brand-500 aria-[pressed=true]:text-white"
+          aria-pressed="false"
+        >
+          {t}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- TOGGLE ET / OU -->
+  <div class="mb-6 flex items-center gap-3">
+    <span class="text-sm text-zinc-400">Mode filtre :</span>
+    <button
+      id="modeToggleCert"
+      class="relative w-32 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
+             ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center"
+    >
+      <span
+        id="modeSlider"
+        class="absolute inset-1 w-[calc(50%-0.25rem)] h-[calc(100%-0.5rem)]
+               rounded-full bg-brand-600 shadow-md transition-transform duration-300 will-change-transform z-0"
+      ></span>
+      <span
+        id="modeLblAnd"
+        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
+        >ET</span
+      >
+      <span
+        id="modeLblOr"
+        class="relative z-10 flex-1 text-center text-xs font-medium select-none text-zinc-400"
+        >OU</span
+      >
+    </button>
+  </div>
+
   <!-- VUE GRILLE -->
   <section id="gridView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {
       certs.map((c) => (
-        <article class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition">
+        <article
+          class="cert-card rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition"
+          data-tags={(c.data.tags ?? []).join(",")}
+        >
           <div class="flex items-center gap-3">
             {c.data.logo ? (
               <img
@@ -100,7 +160,7 @@ const years = Object.keys(byYear)
     }
   </section>
 
-  <!-- VUE TIMELINE (cachée au départ) -->
+  <!-- VUE TIMELINE -->
   <section id="timelineView" class="hidden">
     <div class="relative pl-6">
       <div class="absolute left-2 top-0 bottom-0 w-px bg-zinc-800"></div>
@@ -108,14 +168,19 @@ const years = Object.keys(byYear)
         years.map((year) => (
           <section class="mb-8">
             <div class="relative -left-6 mb-4 flex items-center gap-3">
-              <span class="grid place-items-center h-8 w-8 rounded-full bg-brand-600 text-white text-sm shadow" />
+              <span class="grid place-items-center h-8 w-8 rounded-full bg-brand-600 text-white text-sm shadow">
+                {year.toString().slice(-2)}
+              </span>
               <h2 class="text-xl font-semibold">{year}</h2>
             </div>
             <ul class="space-y-4">
               {byYear[year].map((c) => (
                 <li class="relative">
                   <span class="absolute -left-6 top-2 h-3 w-3 rounded-full bg-brand-500 ring-4 ring-zinc-950" />
-                  <article class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition">
+                  <article
+                    class="cert-card rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition"
+                    data-tags={(c.data.tags ?? []).join(",")}
+                  >
                     <div class="flex items-start gap-3">
                       {c.data.logo ? (
                         <img
@@ -173,10 +238,11 @@ const years = Object.keys(byYear)
     </div>
   </section>
 
-  <!-- Script tout en bas (après le DOM) -->
+  <!-- SCRIPT -->
   <script type="module">
-    const btn = document.getElementById("viewToggle");
-    const slider = document.getElementById("viewSlider");
+    // ----- toggle vue -----
+    const viewBtn = document.getElementById("viewToggle");
+    const viewSlider = document.getElementById("viewSlider");
     const iconGrid = document.getElementById("iconGrid");
     const iconTimeline = document.getElementById("iconTimeline");
     const grid = document.getElementById("gridView");
@@ -184,9 +250,9 @@ const years = Object.keys(byYear)
 
     let view = "GRID";
 
-    function updateUI() {
+    function applyView() {
       const isGrid = view === "GRID";
-      slider.style.transform = isGrid ? "translateX(0)" : "translateX(140%)";
+      viewSlider.style.transform = isGrid ? "translateX(0)" : "translateX(140%)";
       iconGrid.classList.toggle("text-white", isGrid);
       iconGrid.classList.toggle("text-zinc-400", !isGrid);
       iconTimeline.classList.toggle("text-white", !isGrid);
@@ -197,17 +263,112 @@ const years = Object.keys(byYear)
       }
     }
 
-    btn?.addEventListener("click", () => {
+    viewBtn?.addEventListener("click", () => {
       view = view === "GRID" ? "TIMELINE" : "GRID";
-      updateUI();
+      applyView();
     });
 
-    updateUI();
+    // ----- filtres tags + mode AND/OR -----
+    const cards = document.querySelectorAll(".cert-card");
+    const filterButtons = document.querySelectorAll("#certFilters [data-tag]");
+
+    let activeTags = new Set();
+    let mode = "AND"; // AND | OR
+
+    const modeToggle = document.getElementById("modeToggleCert");
+    const modeSlider = document.getElementById("modeSlider");
+    const modeLblAnd = document.getElementById("modeLblAnd");
+    const modeLblOr = document.getElementById("modeLblOr");
+
+    const setPressed = (el, pressed) =>
+      el.setAttribute("aria-pressed", pressed ? "true" : "false");
+
+    function updateModeUI() {
+      const isAnd = mode === "AND";
+      modeSlider.style.transform = isAnd
+        ? "translateX(0)"
+        : "translateX(100%)";
+      modeLblAnd.classList.toggle("text-white", isAnd);
+      modeLblAnd.classList.toggle("text-zinc-400", !isAnd);
+      modeLblOr.classList.toggle("text-white", !isAnd);
+      modeLblOr.classList.toggle("text-zinc-400", isAnd);
+    }
+
+    function applyFilter() {
+      cards.forEach((card) => {
+        const tagsRaw = card.getAttribute("data-tags") || "";
+        const tags = tagsRaw.split(",").filter(Boolean);
+
+        let show = true;
+        if (activeTags.size > 0) {
+          const arr = [...activeTags];
+          show =
+            mode === "AND"
+              ? arr.every((t) => tags.includes(t))
+              : arr.some((t) => tags.includes(t));
+        }
+
+        card.classList.toggle("hidden", !show);
+      });
+    }
+
+    // click sur les tags
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.getAttribute("data-tag");
+
+        if (tag === "__all") {
+          activeTags.clear();
+          filterButtons.forEach((b) =>
+            setPressed(b, b.getAttribute("data-tag") === "__all")
+          );
+        } else {
+          // désactiver bouton "Tous"
+          filterButtons.forEach((b) => {
+            if (b.getAttribute("data-tag") === "__all") setPressed(b, false);
+          });
+
+          if (activeTags.has(tag)) {
+            activeTags.delete(tag);
+            setPressed(btn, false);
+          } else {
+            activeTags.add(tag);
+            setPressed(btn, true);
+          }
+
+          // si plus aucun tag actif -> re-active "Tous"
+          if (activeTags.size === 0) {
+            const allBtn = document.querySelector(
+              '#certFilters [data-tag="__all"]'
+            );
+            if (allBtn) setPressed(allBtn, true);
+          }
+        }
+
+        applyFilter();
+      });
+    });
+
+    // toggle AND / OR
+    modeToggle?.addEventListener("click", () => {
+      mode = mode === "AND" ? "OR" : "AND";
+      updateModeUI();
+      applyFilter();
+    });
+
+    // init
+    applyView();
+    updateModeUI();
+    applyFilter();
   </script>
 
   <style>
-    /* petit rebond du slider */
+    /* petit rebond du slider de vue */
     #viewSlider {
+      transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    /* même easing pour le slider ET/OU */
+    #modeSlider {
       transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
   </style>

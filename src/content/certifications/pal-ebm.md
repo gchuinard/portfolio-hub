@@ -5,9 +5,9 @@ issueDate: 2024-03-12
 credentialId: "EBM-1234"
 credentialUrl: "https://www.scrum.org/certificates/EBM-1234"
 tags:
-  - agile
+  - mesure
   - management
-  - scrum
+  - leadership
 logo: "/src/assets/certifications/pal-ebm.svg"
 ---
 
