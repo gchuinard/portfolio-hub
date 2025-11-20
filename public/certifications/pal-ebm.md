@@ -8,7 +8,7 @@ tags:
   - mesure
   - management
   - leadership
-logo: "/src/assets/certifications/pal-ebm.svg"
+logo: "/certifications/pal-ebm.svg"
 ---
 
 Certification centrée sur la prise de décision basée sur la valeur et les données, permettant d’optimiser les résultats business d’une organisation agile.

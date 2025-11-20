@@ -7,6 +7,6 @@ credentialUrl: "https://www.scrum.org/certificates/1234-ABCD"
 tags: 
     - produit
     - ia
-logo: /src/assets/certifications/pspo-ai.svg
+logo: /certifications/pspo-ai.svg
 ---
 Certification axée sur le leadership agile et la création de valeur.

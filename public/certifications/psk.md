@@ -1,13 +1,13 @@
 ---
-title: "PSM II – Professional Scrum Master II"
+title: "PSK I – Professional Scrum With Kanban I"
 issuer: "Scrum.org"
 issueDate: 2024-06-15
 credentialId: "1234-ABCD"
 credentialUrl: "https://www.scrum.org/certificates/1234-ABCD"
-tags: 
-    - scrum-master
-    - coaching
-    - facilitation
-logo: /src/assets/certifications/psm-ii.svg
+tags:
+    - produit
+    - process
+    - kanban
+logo: /certifications/psk.svg
 ---
 Certification axée sur le leadership agile et la création de valeur.
