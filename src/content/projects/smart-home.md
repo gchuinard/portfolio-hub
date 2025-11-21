@@ -7,6 +7,6 @@ stack: ["Astro", "Home Assistant", "Node-RED"]
 image: "/images/smart-home.webp"
 demo: "https://mon-site-demo.dev"
 repo: "https://github.com/ton-user/smart-home"
-
 ---
+
 Petit descriptif du projet…

@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const project = await getEntry("projects", slug!);
+const project = await getEntry("projects", slug);
 if (!project) return Astro.redirect("/projects");
 
 const { Content } = await project.render();
