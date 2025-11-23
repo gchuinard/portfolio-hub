@@ -5,10 +5,23 @@ const href = `/projects/${entry.data.slug ?? entry.slug}`;
 const tags = entry.data.tags ?? [];
 const stack = entry.data.stack ?? [];
 const img = entry.data.image;
+const status = entry.data.status ?? null;
 
 // normalisation
 const dataTags = tags.map(t => t.toLowerCase()).join(",");
+
+// mapping statut -> label + couleur
+const statusMap = {
+  "new":       { label: "Nouveau !",          color: "bg-brand-600 text-white" },
+  "updated":   { label: "Mise à jour",        color: "bg-blue-600 text-white" },
+  "in-progress": { label: "En cours",         color: "bg-yellow-500 text-black" },
+  "planned":   { label: "Prévu",              color: "bg-zinc-700 text-white" },
+};
+
+const badge = status ? statusMap[status] : null;
 ---
+
+
 
 <a
   href={href}
@@ -29,11 +42,14 @@ const dataTags = tags.map(t => t.toLowerCase()).join(",");
     <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent"></div>
     <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
 
-    {entry.data.featured && (
-      <span class="absolute left-2 top-2 text-[11px] px-2 py-0.5 rounded-full bg-brand-600 text-white shadow">
-        Nouveau !
-      </span>
-    )}
+    {badge && (
+  <span
+    class={`absolute left-2 top-2 text-[11px] px-2 py-0.5 rounded-full shadow ${badge.color}`}
+  >
+    {badge.label}
+  </span>
+)}
+
   </div>
 
   <div class="p-4">

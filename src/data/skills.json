@@ -1,0 +1,60 @@
+{
+  "expertise": [
+    {
+      "title": "Automatisation & Tests E2E",
+      "icon": "🧪",
+      "description": "Suite de tests Playwright, CI/CD, stratégies, reporting."
+    },
+    {
+      "title": "Pilotage produit & QA",
+      "icon": "🧩",
+      "description": "Cadrage, communication équipes externes, validation fonctionnelle."
+    },
+    {
+      "title": "Smart Home & Automations",
+      "icon": "🏡",
+      "description": "Dashboards Home Assistant, automatisations Node-RED."
+    },
+    {
+      "title": "Optimisation & Performance Web",
+      "icon": "⚙️",
+      "description": "Perf, monitoring, stabilité, optimisation continue."
+    }
+  ],
+
+  "sections": {
+    "developpement": [
+      { "label": "Astro", "level": "Avancé" },
+      { "label": "Tailwind CSS", "level": "Avancé" },
+      { "label": "React / Next.js", "level": "Intermédiaire" },
+      { "label": "TypeScript / JavaScript", "level": "Intermédiaire" },
+      { "label": "Python / FastAPI", "level": "Intermédiaire" }
+    ],
+    "qa": [
+      { "label": "Playwright (E2E)", "level": "Avancé" },
+      { "label": "Postman / Newman", "level": "Avancé" },
+      { "label": "CI/CD (GitHub Actions)", "level": "Intermédiaire" },
+      { "label": "Stratégies de tests", "level": "Avancé" },
+      { "label": "Monitoring & Perf", "level": "Intermédiaire" }
+    ],
+    "professionnelles": [
+      { "label": "Pilotage projet", "level": "Avancé" },
+      { "label": "Priorisation", "level": "Avancé" },
+      { "label": "Communication", "level": "Avancé" },
+      { "label": "QA / Validation fonctionnelle", "level": "Avancé" },
+      { "label": "Analyse & cadrage", "level": "Intermédiaire" }
+    ]
+  },
+
+  "tools": {
+    "Développement": ["GitHub", "VS Code", "Node.js", "TypeScript"],
+    "QA & Observabilité": ["Playwright", "Postman", "Plausible", "Sentry"],
+    "DevOps": ["Docker", "GitHub Actions", "Home Assistant"]
+  },
+
+  "metrics": {
+    "performance": "95+",
+    "coverage": "70%",
+    "deployments": "~12"
+  }
+}

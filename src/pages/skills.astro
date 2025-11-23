@@ -1,99 +1,114 @@
 ---
 import Base from "../layouts/Base.astro";
+import skills from "../data/skills.json";
 
-// 👉 Modifie les valeurs comme tu veux (0–100)
-const tech = [
-  { label: "Astro", v: 85 },
-  { label: "React/Next", v: 75 },
-  { label: "Tailwind CSS", v: 80 },
-  { label: "Python/FastAPI", v: 70 },
-  { label: "CI/CD (GH Actions)", v: 65 },
-  { label: "Docker", v: 60 },
-];
-
-const soft = [
-  { label: "Pilotage projet", v: 85 },
-  { label: "Communication", v: 80 },
-  { label: "Priorisation", v: 75 },
-  { label: "QA & tests", v: 70 },
-];
-
-const tools = ["GitHub", "Azure DevOps", "Sentry", "Plausible", "Postman", "Playwright"];
+function badge(level) {
+  const colors = {
+    "Expert": "bg-purple-700 text-white",
+    "Avancé": "bg-purple-600 text-white",
+    "Intermédiaire": "bg-purple-500/40 text-purple-300 border border-purple-600/40",
+    "En apprentissage": "bg-zinc-800 text-zinc-400 border border-zinc-700",
+  };
+  return colors[level] ?? "bg-zinc-800 text-zinc-400";
+}
 ---
-<Base title="Compétences — PortfolioHub">
-  <h1 class="text-3xl font-bold mb-6">Mes Compétences</h1>
 
-  <!-- Tech + Soft -->
-  <div class="grid lg:grid-cols-2 gap-8">
-    <!-- Tech -->
-    <section>
-      <h2 class="text-xl font-semibold mb-3">Techniques</h2>
-      <ul class="space-y-3">
-        {tech.map((s) => (
-          <li>
-            <div class="flex justify-between text-sm mb-1">
-              <span>{s.label}</span><span class="text-zinc-400">{s.v}%</span>
-            </div>
-            <div class="h-2 rounded-full bg-zinc-800 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-brand-600 to-brand-400"
-                   style={`width:${s.v}%`}></div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
+<Base title="Compétences — Gautier Playbook">
 
-    <!-- Soft -->
-    <section>
-      <h2 class="text-xl font-semibold mb-3">Professionnelles</h2>
-      <ul class="space-y-3">
-        {soft.map((s) => (
-          <li>
-            <div class="flex justify-between text-sm mb-1">
-              <span>{s.label}</span><span class="text-zinc-400">{s.v}%</span>
-            </div>
-            <div class="h-2 rounded-full bg-zinc-800 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-brand-600 to-brand-400"
-                   style={`width:${s.v}%`}></div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  </div>
+  <h1 class="text-3xl font-bold mb-8">Mes Compétences</h1>
 
-  <!-- Frameworks & Outils -->
-  <section class="mt-10">
-    <h2 class="text-xl font-semibold mb-3">Frameworks & Outils</h2>
-    <div class="flex flex-wrap gap-2">
-      {tools.map(t => (
-        <span class="px-3 py-1 text-sm rounded-full border border-zinc-700">{t}</span>
+  <!-- 1. Domaines d’expertise -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Domaines d’expertise</h2>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      {skills.expertise.map((e) => (
+        <div class="p-4 rounded-2xl border border-zinc-800 bg-zinc-900/40">
+          <h3 class="font-semibold text-lg mb-1">{e.icon} {e.title}</h3>
+          <p class="text-zinc-400 text-sm">{e.description}</p>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- Mini “indicateurs” (cards) -->
-  <section class="mt-10 grid md:grid-cols-3 gap-4">
-    <div class="rounded-2xl border border-zinc-800 p-4">
-      <p class="text-sm text-zinc-400">Perf moyenne Lighthouse</p>
-      <p class="text-3xl font-semibold mt-1">95+</p>
-      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
-        <div class="h-full w-[95%] bg-brand-600 rounded"></div>
-      </div>
+  <!-- 2. Sections -->
+  <section class="grid lg:grid-cols-3 gap-10">
+
+    <!-- Développement -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">🔧 Développement</h2>
+      <ul class="space-y-3">
+        {skills.sections.developpement.map(s => (
+          <li class="flex items-center justify-between">
+            <span>{s.label}</span>
+            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-    <div class="rounded-2xl border border-zinc-800 p-4">
-      <p class="text-sm text-zinc-400">Couverture tests E2E</p>
-      <p class="text-3xl font-semibold mt-1">70%</p>
-      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
-        <div class="h-full w-[70%] bg-brand-600 rounded"></div>
-      </div>
+
+    <!-- QA -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">🧪 QA & Automatisation</h2>
+      <ul class="space-y-3">
+        {skills.sections.qa.map(s => (
+          <li class="flex items-center justify-between">
+            <span>{s.label}</span>
+            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-    <div class="rounded-2xl border border-zinc-800 p-4">
-      <p class="text-sm text-zinc-400">Déploiements/mois</p>
-      <p class="text-3xl font-semibold mt-1">~12</p>
-      <div class="mt-3 h-1.5 bg-zinc-800 rounded">
-        <div class="h-full w-[80%] bg-brand-600 rounded"></div>
-      </div>
+
+    <!-- Pro -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">🧑‍💼 Professionnelles</h2>
+      <ul class="space-y-3">
+        {skills.sections.professionnelles.map(s => (
+          <li class="flex items-center justify-between">
+            <span>{s.label}</span>
+            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- 3. Tools -->
+  <section class="mt-12">
+    <h2 class="text-xl font-semibold mb-4">🛠 Frameworks & Outils</h2>
+
+    <div class="space-y-6">
+      {Object.entries(skills.tools).map(([cat, items]) => (
+        <div>
+          <p class="text-sm text-zinc-400 mb-2">{cat}</p>
+          <div class="flex flex-wrap gap-2">
+            {items.map(i => (
+              <span class="px-3 py-1.5 rounded-full border border-zinc-700 text-sm bg-zinc-900/40">{i}</span>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </section>
+
+  <!-- 4. Metrics -->
+  <section class="mt-12 grid md:grid-cols-3 gap-6">
+    <div class="rounded-2xl border border-zinc-800 p-5 bg-zinc-900/40">
+      <p class="text-sm text-zinc-400">Perf Web moyenne</p>
+      <p class="text-3xl font-semibold mt-1">{skills.metrics.performance}</p>
+    </div>
+
+    <div class="rounded-2xl border border-zinc-800 p-5 bg-zinc-900/40">
+      <p class="text-sm text-zinc-400">Couverture E2E</p>
+      <p class="text-3xl font-semibold mt-1">{skills.metrics.coverage}</p>
+    </div>
+
+    <div class="rounded-2xl border border-zinc-800 p-5 bg-zinc-900/40">
+      <p class="text-sm text-zinc-400">Déploiements/mois</p>
+      <p class="text-3xl font-semibold mt-1">{skills.metrics.deployments}</p>
+    </div>
+  </section>
+
 </Base>

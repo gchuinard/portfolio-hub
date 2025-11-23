@@ -1,5 +1,5 @@
 ---
-title: "Hub Portfolio"
+title: "Visualisation formule de mathématiques"
 description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
 date: 2025-11-12
 tags: ["astro", "tailwind", "portfolio"]

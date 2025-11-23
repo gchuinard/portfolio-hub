@@ -5,14 +5,17 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    slug: z.string().optional(),
     tags: z.array(z.string()).optional(),
     stack: z.array(z.string()).optional(),
     image: z.string().optional(),
     featured: z.boolean().optional(),
     demo: z.string().url().optional(),
     repo: z.string().url().optional(),
+    status: z.enum(["new", "updated", "in-progress", "planned"]).optional(),
   }),
 });
+
 
 const certifications = defineCollection({
   schema: z.object({
