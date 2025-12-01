@@ -6,8 +6,8 @@ tags: ["astro", "tailwind", "portfolio"]
 status: "planned"
 stack: ["Astro", "TailwindCSS"]
 featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+demo: "https://monitor.gautierchuinard.com/"
+repo: "https://github.com/gchuinard/gotyeah-monitor"
 ---
 
 Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
