@@ -1,9 +1,9 @@
 ---
 title: "PSPO II – Professional Scrum Product Owner II"
 issuer: "Scrum.org"
-issueDate: 2024-06-15
+issueDate: 2026-01-09
 credentialId: "1234-ABCD"
-credentialUrl: "https://www.scrum.org/certificates/1234-ABCD"
+credentialUrl: "https://www.scrum.org/certificates/1284595"
 tags: 
     - produit
     - stratégie
