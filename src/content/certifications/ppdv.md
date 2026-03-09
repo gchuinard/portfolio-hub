@@ -1,5 +1,5 @@
 ---
-title: "PAL I – Professional Agile Leadership I"
+title: "PPDV – Professional Product Discovery and Validation"
 issuer: "Scrum.org"
 issueDate: 2024-02-25
 credentialId: "1193064"
@@ -7,6 +7,6 @@ credentialUrl: "https://www.scrum.org/certificates/1193064"
 tags: 
     - performance
     - leadership
-logo: /certifications/pal-i.svg
+logo: /certifications/ppdv.svg
 ---
 Certification axée sur le leadership agile et la création de valeur.

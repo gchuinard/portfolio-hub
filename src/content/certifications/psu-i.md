@@ -7,6 +7,6 @@ credentialUrl: "https://www.scrum.org/certificates/1193064"
 tags: 
     - performance
     - leadership
-logo: /certifications/pal-i.svg
+logo: /certifications/psu-i.svg
 ---
 Certification axée sur le leadership agile et la création de valeur.
