@@ -185,41 +185,48 @@ import HeroBD from "../components/HeroBD.astro";
   const cta = document.getElementById('hero-cta') as HTMLElement;
   const info = document.getElementById('hero-info') as HTMLElement;
 
-  // Le texte a déjà été injecté par applyLang() dans Base.astro (data-i18n)
-  const fullText = el.textContent || 'Salut, je suis Gautier\nproduct owner & QA orienté produit.';
-  let i = 0;
+  if (el && cursor && body && cta && info) {
+    // Le texte a déjà été injecté par applyLang() dans Base.astro (data-i18n)
+    const fullText = el.textContent || 'Salut, je suis Gautier\nproduct owner & QA orienté produit.';
+    let i = 0;
 
-  el.style.visibility = 'visible';
-  el.style.whiteSpace = 'pre-wrap';
-  el.textContent = ''; // efface le texte statique avant l'animation
+    el.style.visibility = 'visible';
+    el.style.whiteSpace = 'pre-wrap';
+    el.textContent = ''; // efface le texte statique avant l'animation
 
-  function type() {
-    if (i < fullText.length) {
-      el.textContent += fullText[i++];
-      setTimeout(type, i < 22 ? 55 : 40);
-    } else {
-      // After typing done, fade in the rest
-      cursor.style.display = 'none';
-      setTimeout(() => {
-        body.style.opacity = '1';
+    function type() {
+      if (i < fullText.length) {
+        el.textContent += fullText[i++];
+        setTimeout(type, i < 22 ? 55 : 40);
+      } else {
+        // After typing done, fade in the rest
+        cursor.style.display = 'none';
         setTimeout(() => {
-          cta.style.opacity = '1';
+          body.style.opacity = '1';
           setTimeout(() => {
-            info.style.opacity = '1';
+            cta.style.opacity = '1';
+            setTimeout(() => {
+              info.style.opacity = '1';
+            }, 200);
           }, 200);
-        }, 200);
-      }, 300);
+        }, 300);
+      }
     }
-  }
 
-  // Start after a short delay for effect
-  setTimeout(type, 900);
+    // Start after a short delay for effect
+    setTimeout(type, 900);
+  }
 </script>
 
 <script>
   // ── NMAP SCAN ANIMATION ──────────────────────────────────────────
   const output = document.getElementById('nmap-output') as HTMLElement;
   const spinner = document.getElementById('nmap-spinner') as HTMLElement;
+
+  // This block is optional and only runs when matching markup exists.
+  if (!output || !spinner) {
+    // no-op
+  } else {
 
   // Each entry: [delay_ms_after_previous, html_content]
   const lines: [number, string][] = [
@@ -239,17 +246,18 @@ import HeroBD from "../components/HeroBD.astro";
     [200, `<p class="text-[#007a1f]">Nmap done: 1 IP address (1 host up) scanned in 2.34s</p>`],
   ];
 
-  let delay = 800; // initial delay before scan starts
-  lines.forEach(([wait, html], idx) => {
-    delay += wait;
-    setTimeout(() => {
-      const p = document.createElement('div');
-      p.innerHTML = html;
-      output.appendChild(p);
-      // Stop spinner on last line
-      if (idx === lines.length - 1) {
-        spinner.style.display = 'none';
-      }
-    }, delay);
-  });
+    let delay = 800; // initial delay before scan starts
+    lines.forEach(([wait, html], idx) => {
+      delay += wait;
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.innerHTML = html;
+        output.appendChild(p);
+        // Stop spinner on last line
+        if (idx === lines.length - 1) {
+          spinner.style.display = 'none';
+        }
+      }, delay);
+    });
+  }
 </script>

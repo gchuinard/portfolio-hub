@@ -1,5 +1,5 @@
 ---
-title: "PAL I – Professional Agile Leadership I"
+title: "PSU I – Professional Scrum with User Experience I"
 issuer: "Scrum.org"
 issueDate: 2024-02-25
 credentialId: "1193064"
@@ -10,4 +10,4 @@ tags:
     - leadership
 logo: /certifications/psu-i.svg
 ---
-Certification axée sur le leadership agile et la création de valeur.
+Certification axée sur l'intégration de l'UX dans les pratiques Scrum pour maximiser la valeur produit.

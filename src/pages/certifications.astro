@@ -11,13 +11,17 @@ const certs = (await getCollection("certifications")).sort((a, b) => {
 
 const allTags = [...new Set(certs.flatMap((c) => c.data.tags ?? []))].sort();
 
-const byYear = certs.reduce((acc, c) => {
+const byYear: Record<number, typeof certs> = certs.reduce((acc, c) => {
   const y = c.data.issueDate.getFullYear();
   (acc[y] ||= []).push(c);
   return acc;
-}, /** @type{Record<number, typeof certs>} */ ({}));
+}, {} as Record<number, typeof certs>);
 
 const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+
+const certStatus = (c: (typeof certs)[number]) => c.data.status ?? "earned";
+const isEarned = (c: (typeof certs)[number]) => certStatus(c) === "earned";
+const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
 ---
 
 <Base title="Certifications — Gautier Playbook">
@@ -101,8 +105,8 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
     {
       certs.map((c) => (
         <article
-          class={`cert-card cert-card--${c.data.status ?? "earned"} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
-          data-tags={(c.data.tags ?? []).join(",")}
+          class={`cert-card cert-card--${certStatus(c)} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
+          data-tags={certTags(c)}
         >
           <!-- Header -->
           <div class="flex items-start justify-between gap-3 mb-3">
@@ -134,7 +138,7 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
           <!-- Date info -->
           <p class="text-[10px] text-[#007a1f] font-mono mb-2">
-            {(c.data.status ?? "earned") === "earned" && c.data.issueDate ? (
+            {isEarned(c) && c.data.issueDate ? (
               <>
                 <span class="text-[#005c17]">date:</span>{" "}
                 <span class="text-[#00aa2a]">{c.data.issueDate.toLocaleDateString("fr-FR")}</span>
@@ -163,16 +167,16 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
           )}
 
           <!-- Credential link -->
-          {(c.data.status ?? "earned") === "earned" && c.data.credentialUrl ? (
+          {isEarned(c) && c.data.credentialUrl ? (
             <a
               href={c.data.credentialUrl}
               target="_blank"
-              class="inline-block px-3 py-1 border border-[#00ff41]/25 text-[10px] text-[#00aa2a] font-mono hover:border-[#00ff41]/55 hover:text-[#00ff41] transition-colors"
+              class="cert-link cert-link--active"
             >
               <span data-i18n="certs.link">&gt; voir le certificat</span>
             </a>
           ) : (
-            <span class="inline-block px-3 py-1 border border-[#00ff41]/08 text-[10px] text-[#005c17] font-mono cursor-default">
+            <span class="cert-link cert-link--muted">
               <span data-i18n="certs.target.link">// en objectif</span>
             </span>
           )}
@@ -199,14 +203,14 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
             </div>
 
             <ul class="space-y-3">
-              {byYear[year].map((c) => (
+              {byYear[year].map((c: (typeof certs)[number]) => (
                 <li class="relative">
                   <!-- Dot on timeline -->
                   <span class="absolute -left-6 top-3 h-2 w-2 bg-[#00ff41]/60 border border-[#00ff41]" />
 
                   <article
-                    class={`cert-card cert-card--${c.data.status ?? "earned"} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
-                    data-tags={(c.data.tags ?? []).join(",")}
+                    class={`cert-card cert-card--${certStatus(c)} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
+                    data-tags={certTags(c)}
                   >
                     <div class="flex items-start gap-3">
                       {c.data.logo ? (
@@ -237,7 +241,7 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
                         </p>
                         {c.data.tags?.length > 0 && (
                           <div class="mt-1.5 flex flex-wrap gap-1">
-                            {c.data.tags.map((t) => (
+                            {c.data.tags.map((t: string) => (
                               <span class="text-[9px] px-1.5 py-0.5 border border-[#00ff41]/12 bg-[#080808] text-[#007a1f] font-mono">
                                 #{t}
                               </span>
@@ -247,15 +251,21 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
                       </div>
                     </div>
 
-                    {c.data.credentialUrl && (
+                    {isEarned(c) && c.data.credentialUrl ? (
                       <div class="mt-2 pl-12">
                         <a
                           href={c.data.credentialUrl}
                           target="_blank"
-                          class="inline-flex items-center gap-1 px-3 py-1 border border-[#00ff41]/22 text-[10px] text-[#00aa2a] font-mono hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors"
+                          class="cert-link cert-link--active inline-flex items-center gap-1"
                         >
                           <span data-i18n="certs.link">&gt; voir le certificat</span>
                         </a>
+                      </div>
+                    ) : (
+                      <div class="mt-2 pl-12">
+                        <span class="cert-link cert-link--muted">
+                          <span data-i18n="certs.target.link">// en objectif</span>
+                        </span>
                       </div>
                     )}
                   </article>

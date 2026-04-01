@@ -177,16 +177,6 @@ input::placeholder, textarea::placeholder {
   to   { width: 100%; }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes glow {
-  0%, 100% { text-shadow: 0 0 6px rgba(0, 255, 65, 0.5); }
-  50%       { text-shadow: 0 0 14px rgba(0, 255, 65, 0.9), 0 0 30px rgba(0, 255, 65, 0.35); }
-}
-
 /* === COMPONENTS =========================================== */
 
 /* Blinking cursor */
@@ -431,6 +421,31 @@ input::placeholder, textarea::placeholder {
   border: 1px solid rgba(0, 255, 65, 0.15);
   background: transparent;
   color: rgba(0, 255, 65, 0.35);
+}
+
+.cert-link {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid transparent;
+  font-size: 10px;
+  font-family: "Space Mono", "Fira Code", Consolas, "Courier New", monospace;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.cert-link--active {
+  border-color: rgba(0, 255, 65, 0.25);
+  color: #00aa2a;
+}
+
+.cert-link--active:hover {
+  border-color: rgba(0, 255, 65, 0.55);
+  color: #00ff41;
+}
+
+.cert-link--muted {
+  border-color: rgba(0, 255, 65, 0.08);
+  color: #005c17;
+  cursor: default;
 }
 
 /* === TAILWIND UTILITY OVERRIDES =========================== */

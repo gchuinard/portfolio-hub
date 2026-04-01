@@ -2,25 +2,52 @@
 import Base from "../layouts/Base.astro";
 import skills from "../data/skills.json";
 
-function badge(level) {
+function badge(level: string) {
   const map = {
     "Expert":          "border border-[#00ff41] text-[#00ff41] bg-[#003b0f]",
     "Avancé":          "border border-[#00ff41]/60 text-[#00cc35] bg-[#002a0a]",
     "Intermédiaire":   "border border-[#00ff41]/30 text-[#00aa2a] bg-transparent",
     "En apprentissage":"border border-[#00ff41]/15 text-[#007a1f] bg-transparent",
-  };
+  } as Record<string, string>;
   return map[level] ?? "border border-[#00ff41]/15 text-[#007a1f]";
 }
 
-function levelCode(level) {
+function levelCode(level: string) {
   const map = {
     "Expert":          "[EXPERT]",
     "Avancé":          "[ADV]",
     "Intermédiaire":   "[INT]",
     "En apprentissage":"[LRN]",
-  };
+  } as Record<string, string>;
   return map[level] ?? level;
 }
+
+type SectionKey = keyof typeof skills.sections;
+const sectionConfigs: Array<{
+  key: SectionKey;
+  command: string;
+  heading: string;
+  i18n: string;
+}> = [
+  {
+    key: "developpement",
+    command: 'grep -i "dev" skills.json',
+    heading: "// Développement",
+    i18n: "skills.dev.heading",
+  },
+  {
+    key: "qa",
+    command: 'grep -i "qa" skills.json',
+    heading: "// QA & Automatisation",
+    i18n: "skills.qa.heading",
+  },
+  {
+    key: "professionnelles",
+    command: 'grep -i "pro" skills.json',
+    heading: "// Professionnelles",
+    i18n: "skills.pro.heading",
+  },
+];
 ---
 
 <Base title="Compétences — Gautier Playbook">
@@ -50,63 +77,25 @@ function levelCode(level) {
 
   <!-- 2. Skill sections -->
   <section class="grid lg:grid-cols-3 gap-8">
-
-    <!-- Développement -->
-    <div>
-      <p class="term-section-cmd">grep -i "dev" skills.json</p>
-      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
-          data-i18n="skills.dev.heading">
-        // Développement
-      </h2>
-      <ul class="space-y-2.5">
-        {skills.sections.developpement.map(s => (
-          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
-            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
-            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
-              {levelCode(s.level)}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- QA & Automatisation -->
-    <div>
-      <p class="term-section-cmd">grep -i "qa" skills.json</p>
-      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
-          data-i18n="skills.qa.heading">
-        // QA &amp; Automatisation
-      </h2>
-      <ul class="space-y-2.5">
-        {skills.sections.qa.map(s => (
-          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
-            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
-            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
-              {levelCode(s.level)}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- Professionnelles -->
-    <div>
-      <p class="term-section-cmd">grep -i "pro" skills.json</p>
-      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
-          data-i18n="skills.pro.heading">
-        // Professionnelles
-      </h2>
-      <ul class="space-y-2.5">
-        {skills.sections.professionnelles.map(s => (
-          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
-            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
-            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
-              {levelCode(s.level)}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    {sectionConfigs.map((section) => (
+      <div>
+        <p class="term-section-cmd">{section.command}</p>
+        <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
+            data-i18n={section.i18n}>
+          {section.heading}
+        </h2>
+        <ul class="space-y-2.5">
+          {skills.sections[section.key].map((s) => (
+            <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
+              <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
+              <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
+                {levelCode(s.level)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
 
   </section>
 
