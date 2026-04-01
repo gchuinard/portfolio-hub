@@ -26,7 +26,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
 
 <Base title="Certifications — Gautier Playbook">
 
-  <!-- Page header + view toggle -->
+  <!-- Entete de page + bascule de vue -->
   <div class="flex items-end justify-between gap-4 mb-2">
     <div>
       <p class="text-xs text-[#007a1f] font-mono mb-1">
@@ -35,7 +35,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
       <h1 class="text-2xl font-bold text-[#00ff41]">Certifications</h1>
     </div>
 
-    <!-- View toggle: GRID | TIMELINE -->
+    <!-- Bascule de vue: GRID | TIMELINE -->
     <button
       id="viewToggle"
       class="relative w-36 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
@@ -51,7 +51,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
     </button>
   </div>
 
-  <!-- Filters -->
+  <!-- Filtres -->
   <div class="border border-[#00ff41]/12 bg-[#0a0a0a] p-4 mt-4 mb-6">
     <p class="text-[10px] text-[#007a1f] font-mono mb-3">
       <span class="text-[#00aa2a]">$</span> grep --tags
@@ -81,7 +81,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
       }
     </div>
 
-    <!-- Mode AND/OR -->
+    <!-- Mode ET/OU -->
     <div class="mt-3 flex items-center gap-3">
       <span class="text-[10px] text-[#007a1f] font-mono" data-i18n="certs.filter.label">mode_filtre :</span>
       <button
@@ -108,7 +108,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
           class={`cert-card cert-card--${certStatus(c)} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
           data-tags={certTags(c)}
         >
-          <!-- Header -->
+          <!-- En-tete de carte -->
           <div class="flex items-start justify-between gap-3 mb-3">
             <div class="flex items-center gap-3">
               {c.data.logo ? (
@@ -136,7 +136,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
             )}
           </div>
 
-          <!-- Date info -->
+          <!-- Informations de date -->
           <p class="text-[10px] text-[#007a1f] font-mono mb-2">
             {isEarned(c) && c.data.issueDate ? (
               <>
@@ -155,7 +155,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
             )}
           </p>
 
-          <!-- Tags -->
+          <!-- Etiquettes -->
           {c.data.tags?.length > 0 && (
             <div class="flex flex-wrap gap-1.5 mb-3">
               {c.data.tags.map((t) => (
@@ -166,7 +166,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
             </div>
           )}
 
-          <!-- Credential link -->
+          <!-- Lien de certificat -->
           {isEarned(c) && c.data.credentialUrl ? (
             <a
               href={c.data.credentialUrl}
@@ -185,16 +185,16 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
     }
   </section>
 
-  <!-- ── TIMELINE VIEW ──────────────────────────────────────── -->
+  <!-- ── VUE TIMELINE ───────────────────────────────────────── -->
   <section id="timelineView" class="hidden">
     <div class="relative pl-6">
-      <!-- Timeline line -->
+      <!-- Ligne verticale de timeline -->
       <div class="absolute left-2 top-0 bottom-0 w-px bg-[#00ff41]/15"></div>
 
       {
         years.map((year) => (
           <section class="mb-8">
-            <!-- Year label -->
+            <!-- Etiquette d'annee -->
             <div class="relative -left-6 mb-4 flex items-center gap-3">
               <span class="grid place-items-center h-8 w-8 border border-[#00ff41]/40 bg-[#003b0f] text-[#00ff41] text-xs font-bold font-mono">
                 '{year.toString().slice(-2)}
@@ -205,7 +205,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
             <ul class="space-y-3">
               {byYear[year].map((c: (typeof certs)[number]) => (
                 <li class="relative">
-                  <!-- Dot on timeline -->
+                  <!-- Repere sur la timeline -->
                   <span class="absolute -left-6 top-3 h-2 w-2 bg-[#00ff41]/60 border border-[#00ff41]" />
 
                   <article
@@ -278,9 +278,9 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
     </div>
   </section>
 
-  <!-- Scripts -->
+  <!-- Scripts de vue et de filtres -->
   <script type="module">
-    // ----- View toggle -----
+    // ----- Bascule de vue -----
     const viewBtn      = document.getElementById("viewToggle");
     const viewSlider   = document.getElementById("viewSlider");
     const lblGrid      = document.getElementById("lblGrid");
@@ -303,7 +303,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
       applyView();
     });
 
-    // ----- Filters -----
+    // ----- Filtres -----
     const cards         = document.querySelectorAll(".cert-card");
     const filterButtons = document.querySelectorAll("#certFilters [data-tag]");
     let activeTags = new Set();
@@ -365,7 +365,7 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
       applyFilter();
     });
 
-    // Init
+    // Initialisation de l'UI.
     applyView();
     updateModeUI();
     applyFilter();

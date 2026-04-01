@@ -12,13 +12,13 @@ const skills = [
 
 <div class="border border-[#00ff41]/25 bg-[#080808] font-mono flex-shrink-0 self-start min-w-[320px]">
 
-  <!-- Title bar -->
+  <!-- Barre de titre -->
   <div class="border-b border-[#00ff41]/12 px-3 py-1.5 text-[10px] text-[#007a1f] flex items-center gap-2">
     <span class="text-[#00aa2a]">$</span>
     <span>identify --skills gautier.local</span>
   </div>
 
-  <!-- Glitch name -->
+  <!-- Nom avec effet glitch -->
   <div class="px-5 pt-5 pb-3 select-none">
     <h2
       class="glitch-name text-[2.8rem] font-bold leading-none tracking-[0.1em]"
@@ -26,15 +26,16 @@ const skills = [
     >
       GAUTIER
     </h2>
-    <p class="text-[10px] text-[#007a1f] mt-1.5 tracking-[0.18em]">
-      <span id="bd-status"></span>
+    <p class="status-wrap text-[10px] text-[#007a1f] mt-1.5 tracking-[0.18em]">
+      <span class="status-ghost">[ IDENTITÉ CONFIRMÉE ]</span>
+      <span id="bd-status" class="status-live"></span>
     </p>
   </div>
 
-  <!-- Separator -->
+  <!-- Separateur -->
   <div class="mx-5 border-t border-[#00ff41]/12 mb-3"></div>
 
-  <!-- Skill bars -->
+  <!-- Barres de competences -->
   <div class="px-5 pb-5 space-y-2.5">
     <p class="text-[10px] text-[#007a1f] mb-3">
       <span class="text-[#00aa2a]">$</span> cat skills.log
@@ -65,7 +66,7 @@ const skills = [
 </div>
 
 <style>
-  /* ── Glitch name ─────────────────────────────── */
+  /* ── Nom glitch ──────────────────────────────── */
   .glitch-name {
     position: relative;
     color: #00ff41;
@@ -126,17 +127,32 @@ const skills = [
     95% { opacity: 0; }
   }
 
-  /* ── Skill bars ──────────────────────────────── */
+  /* ── Barres de competences ───────────────────── */
   .skill-bar {
     width: 0%;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 2px 0 6px rgba(0, 255, 65, 0.5);
   }
   .skill-bar.animate { width: var(--target); }
+
+  .status-wrap {
+    position: relative;
+    display: inline-block;
+    white-space: pre;
+  }
+
+  .status-ghost {
+    visibility: hidden;
+  }
+
+  .status-live {
+    position: absolute;
+    inset: 0;
+  }
 </style>
 
 <script>
-  // ── Animate bars on visible ──────────────────
+  // ── Anime les barres a l'apparition du bloc ───
   const bars = document.querySelectorAll('.skill-bar') as NodeListOf<HTMLElement>;
   const observer = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
@@ -147,7 +163,7 @@ const skills = [
   const wrap = bars[0]?.closest('[class*="border"]');
   if (wrap) observer.observe(wrap);
 
-  // ── Cycle status text ────────────────────────
+  // ── Fait tourner le texte de statut ───────────
   const statusEl = document.getElementById('bd-status');
   if (statusEl) {
     const _l = (JSON.parse(localStorage.getItem('gh-theme') || '{}').lang) ?? 'fr';
@@ -158,11 +174,11 @@ const skills = [
     function tick() {
       const cur = msgs[mi];
       if (!del) {
-        statusEl.textContent = cur.slice(0, ++ci);
+        statusEl!.textContent = cur.slice(0, ++ci);
         if (ci === cur.length) { del = true; setTimeout(tick, 2200); return; }
         setTimeout(tick, 60);
       } else {
-        statusEl.textContent = cur.slice(0, --ci);
+        statusEl!.textContent = cur.slice(0, --ci);
         if (ci === 0) { del = false; mi = (mi + 1) % msgs.length; setTimeout(tick, 350); return; }
         setTimeout(tick, 28);
       }

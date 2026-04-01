@@ -1,0 +1,202 @@
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes bootDots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
+
+@keyframes powerFlash {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 255, 65, 0);
+  }
+  35% {
+    box-shadow: 0 0 26px rgba(0, 255, 65, 0.22);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(0, 255, 65, 0);
+  }
+}
+
+@keyframes windowBootScan {
+  0% {
+    top: 0;
+    opacity: 0.1;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+#boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  background: #0d0d0d;
+  color: #00ff41;
+  transition: opacity 0.32s ease;
+}
+
+#boot-overlay.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+:root[data-skip-boot] #boot-overlay {
+  display: none !important;
+}
+
+.app-shell {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.app-shell--booting {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+:root[data-skip-boot] .app-shell--booting {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.power-node {
+  opacity: 0;
+  filter: brightness(0.82) blur(0.8px);
+  transform: translateY(3px);
+  transition:
+    opacity 0.14s ease,
+    filter 0.14s ease,
+    transform 0.14s ease;
+  will-change: opacity, filter, transform;
+}
+
+.power-node--on {
+  opacity: 1;
+  filter: brightness(1) blur(0);
+  transform: translateY(0);
+  animation: powerFlash 0.12s ease-out;
+}
+
+:root[data-skip-boot] .power-node {
+  opacity: 1;
+  filter: brightness(1) blur(0);
+  transform: translateY(0);
+  animation: none;
+  transition: none;
+}
+
+.terminal-window {
+  opacity: 0.78;
+  transform: scale(0.992);
+  filter: brightness(0.8);
+}
+
+.terminal-window > * {
+  opacity: 0;
+  transition: opacity 0.14s ease;
+}
+
+.terminal-window::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.75), transparent);
+  pointer-events: none;
+}
+
+.terminal-window.window-boot--on {
+  opacity: 1;
+  transform: scale(1);
+  filter: brightness(1);
+  transition: opacity 0.16s ease, transform 0.16s ease, filter 0.16s ease;
+}
+
+.terminal-window.window-boot--content > * {
+  opacity: 1;
+}
+
+.terminal-window.window-boot--scan::after {
+  animation: windowBootScan 0.26s ease-out;
+}
+
+:root[data-skip-boot] .terminal-window {
+  opacity: 1;
+  transform: scale(1);
+  filter: brightness(1);
+  transition: none;
+}
+
+:root[data-skip-boot] .terminal-window > * {
+  opacity: 1;
+  transition: none;
+}
+
+.boot-box {
+  width: min(92vw, 580px);
+  border: 1px solid rgba(0, 255, 65, 0.25);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1rem 1.1rem;
+  font-family: "Space Mono", "Fira Code", Consolas, "Courier New", monospace;
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+}
+
+.boot-line {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: #00aa2a;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.boot-line:last-child {
+  margin-bottom: 0;
+}
+
+.boot-line--hidden {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.boot-prompt {
+  color: #00ff41;
+}
+
+.boot-dots::after {
+  content: "";
+  display: inline-block;
+  width: 2.2ch;
+  text-align: left;
+  animation: bootDots 1s steps(1, end) infinite;
+}
