@@ -4,6 +4,7 @@ issuer: "Scrum.org"
 issueDate: 2024-02-25
 credentialId: "1193064"
 credentialUrl: "https://www.scrum.org/certificates/1193064"
+status: "earned"
 tags: 
     - performance
     - leadership

@@ -4,14 +4,21 @@ import { getCollection } from "astro:content";
 import { LayoutGrid, List } from "lucide-astro";
 
 // Données
-const certs = (await getCollection("certifications")).sort(
-  (a, b) => b.data.issueDate.getTime() - a.data.issueDate.getTime()
-);
+const certs = (await getCollection("certifications")).sort((a, b) => {
+  const sa = a.data.status ?? "earned";
+  const sb = b.data.status ?? "earned";
+
+  // 1) earned avant target
+  if (sa !== sb) {
+    return sa === "earned" ? -1 : 1;
+  }
+
+  // 2) à statut égal, trier par date décroissante
+  return b.data.issueDate.getTime() - a.data.issueDate.getTime();
+});
 
 // Tags uniques
-const allTags = [
-  ...new Set(certs.flatMap((c) => c.data.tags ?? [])),
-].sort();
+const allTags = [...new Set(certs.flatMap((c) => c.data.tags ?? []))].sort();
 
 // Groupage par année pour la timeline
 const byYear = certs.reduce((acc, c) => {
@@ -111,30 +118,48 @@ const years = Object.keys(byYear)
     {
       certs.map((c) => (
         <article
-          class="cert-card rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition"
+          class={`cert-card cert-card--${c.data.status ?? "earned"} rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 transition`}
           data-tags={(c.data.tags ?? []).join(",")}
         >
-          <div class="flex items-center gap-3">
-            {c.data.logo ? (
-              <img
-                src={c.data.logo}
-                alt={c.data.title}
-                class="h-20 w-20 rounded-md object-contain"
-              />
-            ) : (
-              <div class="h-10 w-10 rounded-md bg-zinc-800" />
-            )}
-            <div>
-              <h2 class="text-base font-semibold leading-tight">
-                {c.data.title}
-              </h2>
-              <p class="text-xs text-zinc-400">{c.data.issuer}</p>
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              {c.data.logo ? (
+                <img
+                  src={c.data.logo}
+                  alt={c.data.title}
+                  class="cert-card-logo h-20 w-20 rounded-md object-contain"
+                />
+              ) : (
+                <div class="h-10 w-10 rounded-md bg-zinc-800" />
+              )}
+              <div>
+                <h2 class="text-base font-semibold leading-tight">
+                  {c.data.title}
+                </h2>
+                <p class="text-xs text-zinc-400">{c.data.issuer}</p>
+              </div>
             </div>
+
+            {c.data.status === "target" && (
+              <span class="cert-badge cert-badge--target">Objectif</span>
+            )}
+            {(c.data.status ?? "earned") === "earned" && (
+              <span class="cert-badge cert-badge--earned">Obtenue</span>
+            )}
           </div>
           <p class="mt-3 text-sm text-zinc-400">
-            Obtenue le {c.data.issueDate.toLocaleDateString("fr-FR")}
-            {c.data.expiryDate && (
-              <> • Expire le {c.data.expiryDate.toLocaleDateString("fr-FR")}</>
+            {(c.data.status ?? "earned") === "earned" && c.data.issueDate ? (
+              <>
+                Obtenue le {c.data.issueDate.toLocaleDateString("fr-FR")}
+                {c.data.expiryDate && (
+                  <>
+                    {" "}
+                    • Expire le {c.data.expiryDate.toLocaleDateString("fr-FR")}
+                  </>
+                )}
+              </>
+            ) : (
+              <>Certification visée</>
             )}
           </p>
           {c.data.tags?.length > 0 && (
@@ -146,7 +171,7 @@ const years = Object.keys(byYear)
               ))}
             </div>
           )}
-          {c.data.credentialUrl && (
+          {(c.data.status ?? "earned") === "earned" && c.data.credentialUrl ? (
             <a
               href={c.data.credentialUrl}
               target="_blank"
@@ -154,6 +179,10 @@ const years = Object.keys(byYear)
             >
               Voir le certificat
             </a>
+          ) : (
+            <span class="mt-4 inline-block px-3 py-1.5 rounded-full border border-zinc-800 text-sm text-zinc-500 cursor-default">
+              En objectif
+            </span>
           )}
         </article>
       ))
@@ -178,7 +207,7 @@ const years = Object.keys(byYear)
                 <li class="relative">
                   <span class="absolute -left-6 top-2 h-3 w-3 rounded-full bg-brand-500 ring-4 ring-zinc-950" />
                   <article
-                    class="cert-card rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 hover:border-brand-500 transition"
+                    class={`cert-card cert-card--${c.data.status ?? "earned"} rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 transition`}
                     data-tags={(c.data.tags ?? []).join(",")}
                   >
                     <div class="flex items-start gap-3">
@@ -252,7 +281,9 @@ const years = Object.keys(byYear)
 
     function applyView() {
       const isGrid = view === "GRID";
-      viewSlider.style.transform = isGrid ? "translateX(0)" : "translateX(140%)";
+      viewSlider.style.transform = isGrid
+        ? "translateX(0)"
+        : "translateX(140%)";
       iconGrid.classList.toggle("text-white", isGrid);
       iconGrid.classList.toggle("text-zinc-400", !isGrid);
       iconTimeline.classList.toggle("text-white", !isGrid);
@@ -285,9 +316,7 @@ const years = Object.keys(byYear)
 
     function updateModeUI() {
       const isAnd = mode === "AND";
-      modeSlider.style.transform = isAnd
-        ? "translateX(0)"
-        : "translateX(100%)";
+      modeSlider.style.transform = isAnd ? "translateX(0)" : "translateX(100%)";
       modeLblAnd.classList.toggle("text-white", isAnd);
       modeLblAnd.classList.toggle("text-zinc-400", !isAnd);
       modeLblOr.classList.toggle("text-white", !isAnd);
@@ -320,7 +349,7 @@ const years = Object.keys(byYear)
         if (tag === "__all") {
           activeTags.clear();
           filterButtons.forEach((b) =>
-            setPressed(b, b.getAttribute("data-tag") === "__all")
+            setPressed(b, b.getAttribute("data-tag") === "__all"),
           );
         } else {
           // désactiver bouton "Tous"
@@ -339,7 +368,7 @@ const years = Object.keys(byYear)
           // si plus aucun tag actif -> re-active "Tous"
           if (activeTags.size === 0) {
             const allBtn = document.querySelector(
-              '#certFilters [data-tag="__all"]'
+              '#certFilters [data-tag="__all"]',
             );
             if (allBtn) setPressed(allBtn, true);
           }

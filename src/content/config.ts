@@ -25,6 +25,7 @@ const certifications = defineCollection({
     expiryDate: z.date().optional(),
     credentialId: z.string().optional(),
     credentialUrl: z.string().url().optional(),
+    status: z.enum(["target", "earned"]).optional(),
     tags: z.array(z.string()).default([]),
     logo: z.string().optional(),
   }),

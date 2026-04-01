@@ -4,6 +4,7 @@ issuer: "Scrum.org"
 issueDate: 2024-03-12
 credentialId: "EBM-1234"
 credentialUrl: "https://www.scrum.org/certificates/EBM-1234"
+status: "target"
 tags:
   - mesure
   - management

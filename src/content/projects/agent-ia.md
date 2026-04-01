@@ -1,10 +1,10 @@
 ---
 title: "Agent IA"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
+description: "Agent IA qui permet d'automatiser une partie des tests automatiques"
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
+tags: ["API", "IA"]
 status: "planned"
-stack: ["Astro", "TailwindCSS"]
+stack: ["Python"]
 featured: true
 demo: "https://mon-site-demo.dev"
 repo: "https://github.com/ton-user/hub-portfolio"

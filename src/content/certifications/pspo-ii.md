@@ -4,6 +4,7 @@ issuer: "Scrum.org"
 issueDate: 2026-01-09
 credentialId: "1284595"
 credentialUrl: "https://www.scrum.org/certificates/1284595"
+status: "earned"
 tags: 
     - produit
     - stratégie

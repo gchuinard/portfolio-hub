@@ -1,13 +1,13 @@
 ---
 title: "Blog"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
+description: "Blog"
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
+tags: ["astro", "tailwind"]
 status: "planned"
-stack: ["Astro", "TailwindCSS"]
+stack: ["Astro"]
 featured: true
 demo: "https://mon-site-demo.dev"
 repo: "https://github.com/ton-user/hub-portfolio"
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+Blog

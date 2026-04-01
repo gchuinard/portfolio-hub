@@ -1,6 +1,6 @@
 ---
 title: "Monitoring"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
+description: "Site pour mettre en place des sondes et recevoir des alertes"
 date: 2025-11-12
 tags: ["tailwind", "portfolio", fastapi]
 status: "in-progress"

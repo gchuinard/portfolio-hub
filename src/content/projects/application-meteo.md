@@ -1,8 +1,8 @@
 ---
 title: "Application météo"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
+description: "Application météo qui tape sur l'API météo France."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
+tags: ["API", "FastAPI", "NextJS"]
 status: "planned"
 stack: ["Astro", "TailwindCSS"]
 featured: true
@@ -10,4 +10,4 @@ demo: "https://mon-site-demo.dev"
 repo: "https://github.com/ton-user/hub-portfolio"
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+Application météo qui tape sur l'API météo France
