@@ -1,0 +1,203 @@
+---
+// Passe src="/ta-photo.jpg" depuis index.astro quand tu l'as
+const { src = "" } = Astro.props;
+const hasPhoto = !!src;
+---
+
+<div class="hero-photo-wrap border border-[#00ff41]/30 flex-shrink-0 self-start" style={hasPhoto ? `--img: url(${src})` : ""}>
+
+  {hasPhoto ? (
+    <!-- Photo avec filtres CRT -->
+    <div class="relative overflow-hidden w-56 md:w-64">
+      <img
+        src={src}
+        alt="Gautier Chuinard"
+        class="glitch-img block w-full"
+      />
+      <!-- Scanlines overlay -->
+      <div class="scanlines" aria-hidden="true"></div>
+      <!-- Color channel ghosts -->
+      <div class="glitch-red"  aria-hidden="true"></div>
+      <div class="glitch-blue" aria-hidden="true"></div>
+    </div>
+  ) : (
+    <!-- Placeholder NO SIGNAL si pas encore de photo -->
+    <div class="no-signal w-56 md:w-64 aspect-[3/4] flex flex-col items-center justify-center gap-3 font-mono relative overflow-hidden">
+      <div class="noise" aria-hidden="true"></div>
+      <p class="text-[#00ff41] text-xs tracking-[0.3em] uppercase z-10 glitch-text" data-text="NO SIGNAL">NO SIGNAL</p>
+      <div class="w-32 h-px bg-[#00ff41]/30 z-10"></div>
+      <div class="text-[10px] text-[#007a1f] z-10 text-center leading-relaxed">
+        <p>// photo à venir</p>
+        <p class="text-[#005c17]">ERR: 404 face not found</p>
+      </div>
+      <!-- Fake scan bar -->
+      <div class="scan-bar" aria-hidden="true"></div>
+    </div>
+  )}
+
+  <!-- Label bas -->
+  <div class="border-t border-[#00ff41]/12 px-3 py-1.5 text-[10px] text-[#007a1f] font-mono flex justify-between">
+    <span>gautier.local</span>
+    <span class="text-[#005c17]">CRT v2.4</span>
+  </div>
+</div>
+
+<style>
+  /* ── Wrapper ─────────────────────────────────────── */
+  .hero-photo-wrap {
+    background: #080808;
+  }
+
+  /* ── Photo filters ───────────────────────────────── */
+  .glitch-img {
+    display: block;
+    filter: sepia(1) hue-rotate(90deg) saturate(1.4) brightness(0.78) contrast(1.15);
+    animation: img-glitch 6s infinite;
+  }
+
+  /* ── Scanlines ───────────────────────────────────── */
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.18) 3px,
+      rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── Color channel ghosts ────────────────────────── */
+  .glitch-red,
+  .glitch-blue {
+    position: absolute;
+    inset: 0;
+    background-image: var(--img);
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+  }
+  .glitch-red  { mix-blend-mode: screen; filter: sepia(1) hue-rotate(310deg) saturate(3) brightness(0.6); }
+  .glitch-blue { mix-blend-mode: screen; filter: sepia(1) hue-rotate(190deg) saturate(3) brightness(0.6); }
+
+  /* ── Glitch animations ───────────────────────────── */
+  @keyframes img-glitch {
+    0%, 89%, 100% {
+      transform: translate(0);
+      clip-path: none;
+    }
+    /* burst 1 */
+    90%  { transform: translateX(-4px); clip-path: inset(10% 0 75% 0); }
+    91%  { transform: translateX( 4px); clip-path: inset(60% 0 15% 0); }
+    92%  { transform: translateX(-2px); clip-path: inset(30% 0 50% 0); }
+    93%  { transform: translate(0);     clip-path: none; }
+    /* burst 2 */
+    95%  { transform: translateX( 6px); clip-path: inset(5%  0 80% 0); }
+    96%  { transform: translateX(-6px); clip-path: inset(70% 0 10% 0); }
+    97%  { transform: translate(0);     clip-path: none; }
+  }
+
+  /* Red/blue channel flicker in sync with glitch */
+  .glitch-img:is([src]) ~ .glitch-red {
+    animation: channel-red 6s infinite;
+  }
+  .glitch-img:is([src]) ~ .glitch-blue {
+    animation: channel-blue 6s infinite;
+  }
+
+  @keyframes channel-red {
+    0%, 89%, 100% { opacity: 0; transform: translate(0); }
+    90%  { opacity: 0.55; transform: translateX(-6px); }
+    91%  { opacity: 0.4;  transform: translateX( 6px); }
+    92%  { opacity: 0;    transform: translate(0); }
+    95%  { opacity: 0.5;  transform: translateX(-8px); }
+    96%  { opacity: 0;    transform: translate(0); }
+  }
+
+  @keyframes channel-blue {
+    0%, 89%, 100% { opacity: 0; transform: translate(0); }
+    90%  { opacity: 0.45; transform: translateX( 6px); }
+    91%  { opacity: 0.35; transform: translateX(-6px); }
+    92%  { opacity: 0;    transform: translate(0); }
+    95%  { opacity: 0.4;  transform: translateX( 8px); }
+    96%  { opacity: 0;    transform: translate(0); }
+  }
+
+  /* ── NO SIGNAL placeholder ───────────────────────── */
+  .no-signal {
+    background: #050505;
+  }
+
+  /* Noise texture */
+  .noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 0;
+    animation: noise-flicker 0.15s infinite;
+  }
+
+  @keyframes noise-flicker {
+    0%   { opacity: 0.45; }
+    50%  { opacity: 0.55; }
+    100% { opacity: 0.45; }
+  }
+
+  /* Glitch text effect */
+  .glitch-text {
+    position: relative;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    animation: text-glitch 4s infinite;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  .glitch-text::before { color: #ff0040; }
+  .glitch-text::after  { color: #00cfff; }
+
+  @keyframes text-glitch {
+    0%, 85%, 100% {
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    }
+    86% {
+      text-shadow: -3px 0 #ff0040, 3px 0 #00cfff;
+    }
+    87% {
+      text-shadow: 3px 0 #ff0040, -3px 0 #00cfff;
+    }
+    88% {
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    }
+    90% {
+      text-shadow: -2px 0 #ff0040, 2px 0 #00cfff;
+    }
+    91% {
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    }
+  }
+
+  /* Horizontal scan bar */
+  .scan-bar {
+    position: absolute;
+    left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.15), transparent);
+    animation: scan 3s linear infinite;
+    z-index: 3;
+  }
+
+  @keyframes scan {
+    0%   { top: -3px; }
+    100% { top: 100%; }
+  }
+</style>

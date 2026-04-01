@@ -3,71 +3,106 @@ import Base from "../layouts/Base.astro";
 import skills from "../data/skills.json";
 
 function badge(level) {
-  const colors = {
-    "Expert": "bg-purple-700 text-white",
-    "Avancé": "bg-purple-600 text-white",
-    "Intermédiaire": "bg-purple-500/40 text-purple-300 border border-purple-600/40",
-    "En apprentissage": "bg-zinc-800 text-zinc-400 border border-zinc-700",
+  const map = {
+    "Expert":          "border border-[#00ff41] text-[#00ff41] bg-[#003b0f]",
+    "Avancé":          "border border-[#00ff41]/60 text-[#00cc35] bg-[#002a0a]",
+    "Intermédiaire":   "border border-[#00ff41]/30 text-[#00aa2a] bg-transparent",
+    "En apprentissage":"border border-[#00ff41]/15 text-[#007a1f] bg-transparent",
   };
-  return colors[level] ?? "bg-zinc-800 text-zinc-400";
+  return map[level] ?? "border border-[#00ff41]/15 text-[#007a1f]";
+}
+
+function levelCode(level) {
+  const map = {
+    "Expert":          "[EXPERT]",
+    "Avancé":          "[ADV]",
+    "Intermédiaire":   "[INT]",
+    "En apprentissage":"[LRN]",
+  };
+  return map[level] ?? level;
 }
 ---
 
 <Base title="Compétences — Gautier Playbook">
 
-  <h1 class="text-3xl font-bold mb-8">Mes Compétences</h1>
+  <!-- Page header -->
+  <div class="mb-2 text-xs text-[#007a1f] font-mono">
+    <span class="text-[#00aa2a]">$</span> cat skills.json <span class="text-[#005c17]">| jq .</span>
+  </div>
+  <h1 class="text-2xl font-bold text-[#00ff41] mb-6" data-i18n="skills.heading">Mes Compétences</h1>
 
-  <!-- 1. Domaines d’expertise -->
-  <section class="mb-12">
-    <h2 class="text-2xl font-semibold mb-4">Domaines d’expertise</h2>
+  <!-- 1. Domaines d'expertise -->
+  <section class="mb-10">
+    <p class="term-section-cmd">jq '.expertise[]' skills.json</p>
 
     <div class="grid md:grid-cols-2 gap-4">
       {skills.expertise.map((e) => (
-        <div class="p-4 rounded-2xl border border-zinc-800 bg-zinc-900/40">
-          <h3 class="font-semibold text-lg mb-1">{e.icon} {e.title}</h3>
-          <p class="text-zinc-400 text-sm">{e.description}</p>
+        <div class="border border-[#00ff41]/18 bg-[#0a0a0a] p-4">
+          <div class="flex items-baseline gap-2 mb-1">
+            <span class="text-[#007a1f] text-xs font-mono">&gt;</span>
+            <h3 class="font-bold text-sm text-[#00ff41]">{e.icon} {e.title}</h3>
+          </div>
+          <p class="text-xs text-[#00aa2a] leading-relaxed pl-4">{e.description}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- 2. Sections -->
-  <section class="grid lg:grid-cols-3 gap-10">
+  <!-- 2. Skill sections -->
+  <section class="grid lg:grid-cols-3 gap-8">
 
     <!-- Développement -->
     <div>
-      <h2 class="text-xl font-semibold mb-4">🔧 Développement</h2>
-      <ul class="space-y-3">
+      <p class="term-section-cmd">grep -i "dev" skills.json</p>
+      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
+          data-i18n="skills.dev.heading">
+        // Développement
+      </h2>
+      <ul class="space-y-2.5">
         {skills.sections.developpement.map(s => (
-          <li class="flex items-center justify-between">
-            <span>{s.label}</span>
-            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
+            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
+            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
+              {levelCode(s.level)}
+            </span>
           </li>
         ))}
       </ul>
     </div>
 
-    <!-- QA -->
+    <!-- QA & Automatisation -->
     <div>
-      <h2 class="text-xl font-semibold mb-4">🧪 QA & Automatisation</h2>
-      <ul class="space-y-3">
+      <p class="term-section-cmd">grep -i "qa" skills.json</p>
+      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
+          data-i18n="skills.qa.heading">
+        // QA &amp; Automatisation
+      </h2>
+      <ul class="space-y-2.5">
         {skills.sections.qa.map(s => (
-          <li class="flex items-center justify-between">
-            <span>{s.label}</span>
-            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
+            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
+            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
+              {levelCode(s.level)}
+            </span>
           </li>
         ))}
       </ul>
     </div>
 
-    <!-- Pro -->
+    <!-- Professionnelles -->
     <div>
-      <h2 class="text-xl font-semibold mb-4">🧑‍💼 Professionnelles</h2>
-      <ul class="space-y-3">
+      <p class="term-section-cmd">grep -i "pro" skills.json</p>
+      <h2 class="text-sm font-bold text-[#00ff41] mb-4 uppercase tracking-[0.18em]"
+          data-i18n="skills.pro.heading">
+        // Professionnelles
+      </h2>
+      <ul class="space-y-2.5">
         {skills.sections.professionnelles.map(s => (
-          <li class="flex items-center justify-between">
-            <span>{s.label}</span>
-            <span class={`px-2 py-0.5 rounded-full text-xs ${badge(s.level)}`}>{s.level}</span>
+          <li class="flex items-center justify-between border-b border-[#00ff41]/06 pb-2">
+            <span class="text-xs text-[#00aa2a] font-mono">{s.label}</span>
+            <span class={`px-2 py-0.5 text-[10px] font-bold font-mono tracking-wide ${badge(s.level)}`}>
+              {levelCode(s.level)}
+            </span>
           </li>
         ))}
       </ul>
@@ -76,20 +111,40 @@ function badge(level) {
   </section>
 
   <!-- 3. Tools -->
-  <section class="mt-12">
-    <h2 class="text-xl font-semibold mb-4">🛠 Outils</h2>
+  <section class="mt-10">
+    <p class="term-section-cmd">jq '.tools' skills.json</p>
+    <h2 class="text-sm font-bold text-[#00ff41] mb-6 uppercase tracking-[0.18em]" data-i18n="skills.tools.heading">// Outils</h2>
 
-    <div class="space-y-6">
+    <div class="space-y-5">
       {Object.entries(skills.tools).map(([cat, items]) => (
         <div>
-          <p class="text-sm text-zinc-400 mb-2">{cat}</p>
+          <p class="text-[10px] text-[#007a1f] mb-2 font-mono uppercase tracking-[0.15em]">
+            <span class="text-[#00aa2a]">&gt;</span> {cat}
+          </p>
           <div class="flex flex-wrap gap-2">
-            {items.map(i => (
-              <span class="px-3 py-1.5 rounded-full border border-zinc-700 text-sm bg-zinc-900/40">{i}</span>
+            {(items as string[]).map(i => (
+              <span class="px-2.5 py-1 border border-[#00ff41]/18 bg-[#080808] text-xs text-[#00aa2a] font-mono hover:border-[#00ff41]/40 hover:text-[#00ff41] transition-colors cursor-default">
+                {i}
+              </span>
             ))}
           </div>
         </div>
       ))}
     </div>
   </section>
+
+  <!-- Legend -->
+  <section class="mt-10 border border-[#00ff41]/10 bg-[#080808] p-4">
+    <p class="text-[10px] text-[#007a1f] font-mono mb-2">
+      <span class="text-[#00aa2a]">$</span> cat legend.txt
+    </p>
+    <div class="flex flex-wrap gap-4 text-[10px] font-mono">
+      <span class="border border-[#00ff41] text-[#00ff41] bg-[#003b0f] px-2 py-0.5">[EXPERT]</span>
+      <span class="border border-[#00ff41]/60 text-[#00cc35] bg-[#002a0a] px-2 py-0.5">[ADV]</span>
+      <span class="border border-[#00ff41]/30 text-[#00aa2a] px-2 py-0.5">[INT]</span>
+      <span class="border border-[#00ff41]/15 text-[#007a1f] px-2 py-0.5">[LRN]</span>
+    </div>
+    <p class="text-[10px] text-[#005c17] mt-2" data-i18n="skills.legend">Expert · Avancé · Intermédiaire · En apprentissage</p>
+  </section>
+
 </Base>

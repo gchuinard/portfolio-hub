@@ -1,0 +1,187 @@
+---
+---
+
+<div class="border border-[#00ff41]/25 bg-[#080808] font-mono flex-shrink-0 self-start">
+
+  <!-- Title bar -->
+  <div class="border-b border-[#00ff41]/12 px-3 py-1.5 text-[10px] text-[#007a1f] flex items-center gap-2">
+    <span class="text-[#00aa2a]">$</span>
+    <span>identify --target gautier.local</span>
+  </div>
+
+  <!-- Main content -->
+  <div class="px-6 py-8 flex flex-col gap-4">
+
+    <!-- Big glitch name -->
+    <div class="relative select-none">
+      <h2
+        class="glitch-name text-[3.2rem] md:text-[3.8rem] font-bold leading-none tracking-[0.08em]"
+        data-text="GAUTIER"
+      >
+        GAUTIER
+      </h2>
+    </div>
+
+    <!-- Divider -->
+    <div class="text-[10px] text-[#007a1f] tracking-widest glitch-line" data-text="────────────────────">
+      ────────────────────
+    </div>
+
+    <!-- Info lines -->
+    <div class="space-y-1.5 text-xs">
+      <p class="text-[#00aa2a]">
+        <span class="text-[#007a1f]">&gt;</span> product owner &amp; qa engineer
+      </p>
+      <p class="text-[#00aa2a]">
+        <span class="text-[#007a1f]">&gt;</span> bordeaux, france
+      </p>
+      <p class="text-[#00aa2a]">
+        <span class="text-[#007a1f]">&gt;</span> evidence-based · qualité &amp; valeur
+      </p>
+    </div>
+
+    <!-- Status -->
+    <p class="text-[10px] text-[#005c17] mt-1">
+      <span id="status-text" class="text-[#00ff41]"></span>
+    </p>
+  </div>
+</div>
+
+<style>
+  /* ── Main name ─────────────────────────────────── */
+  .glitch-name {
+    position: relative;
+    color: #00ff41;
+    text-shadow:
+      0 0 10px rgba(0, 255, 65, 0.7),
+      0 0 30px rgba(0, 255, 65, 0.3);
+    animation: glitch-main 4s infinite;
+  }
+
+  /* Red channel */
+  .glitch-name::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #ff0040;
+    text-shadow: none;
+    animation: glitch-red 4s infinite;
+    opacity: 0;
+  }
+
+  /* Blue channel */
+  .glitch-name::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #00cfff;
+    text-shadow: none;
+    animation: glitch-blue 4s infinite;
+    opacity: 0;
+  }
+
+  /* ── Main name distortion ──────────────────────── */
+  @keyframes glitch-main {
+    0%, 82%, 100% {
+      transform: translate(0);
+      text-shadow:
+        0 0 10px rgba(0, 255, 65, 0.7),
+        0 0 30px rgba(0, 255, 65, 0.3);
+    }
+    /* burst 1 */
+    84%  { transform: translateX(-4px) skewX(-1deg); text-shadow: 4px 0 #ff0040, -4px 0 #00cfff; }
+    85%  { transform: translateX( 4px) skewX( 2deg); text-shadow: -4px 0 #ff0040, 4px 0 #00cfff; }
+    86%  { transform: translateX(-2px); text-shadow: 2px 0 #ff0040, -2px 0 #00cfff; }
+    87%  {
+      transform: translate(0);
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.7), 0 0 30px rgba(0, 255, 65, 0.3);
+    }
+    /* burst 2 */
+    92%  { transform: translateX(6px) skewX(-3deg); text-shadow: -6px 0 #ff0040, 6px 0 #00cfff; }
+    93%  { transform: translateX(-6px); text-shadow: 6px 0 #ff0040, -6px 0 #00cfff; }
+    94%  { transform: translateX(3px) skewX(1deg); text-shadow: -2px 0 #ff0040, 2px 0 #00cfff; }
+    95%  {
+      transform: translate(0);
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.7), 0 0 30px rgba(0, 255, 65, 0.3);
+    }
+  }
+
+  /* ── Red channel ───────────────────────────────── */
+  @keyframes glitch-red {
+    0%, 82%, 100% { opacity: 0; transform: translate(0); }
+
+    84% { opacity: 0.8; transform: translateX(-6px); clip-path: inset(10% 0 60% 0); }
+    85% { opacity: 0.6; transform: translateX( 4px); clip-path: inset(55% 0 10% 0); }
+    86% { opacity: 0; }
+
+    92% { opacity: 0.7; transform: translateX(-8px); clip-path: inset(5%  0 75% 0); }
+    93% { opacity: 0.5; transform: translateX( 6px); clip-path: inset(70% 0 5%  0); }
+    94% { opacity: 0.6; transform: translateX(-4px); clip-path: inset(30% 0 40% 0); }
+    95% { opacity: 0; }
+  }
+
+  /* ── Blue channel ──────────────────────────────── */
+  @keyframes glitch-blue {
+    0%, 82%, 100% { opacity: 0; transform: translate(0); }
+
+    84% { opacity: 0.7; transform: translateX( 6px); clip-path: inset(40% 0 30% 0); }
+    85% { opacity: 0.5; transform: translateX(-4px); clip-path: inset(20% 0 55% 0); }
+    86% { opacity: 0; }
+
+    92% { opacity: 0.6; transform: translateX( 8px); clip-path: inset(60% 0 15% 0); }
+    93% { opacity: 0.5; transform: translateX(-6px); clip-path: inset(10% 0 65% 0); }
+    94% { opacity: 0.4; transform: translateX( 3px); clip-path: inset(45% 0 25% 0); }
+    95% { opacity: 0; }
+  }
+
+  /* ── Divider line glitch ───────────────────────── */
+  .glitch-line {
+    animation: line-glitch 4s infinite;
+  }
+
+  @keyframes line-glitch {
+    0%, 83%, 88%, 91%, 96%, 100% { opacity: 1; transform: translate(0); }
+    84%  { opacity: 0.3; transform: translateX(-3px); }
+    85%  { opacity: 1;   transform: translateX( 2px); }
+    92%  { opacity: 0.2; transform: translateX( 4px); }
+    93%  { opacity: 1;   transform: translate(0); }
+  }
+</style>
+
+<script>
+  // Typewrite the status line
+  const statusEl = document.getElementById('status-text');
+  if (statusEl) {
+    const messages = [
+      '[ IDENTITY CONFIRMED ]',
+      '[ ACCESS GRANTED ]',
+      '[ SYSTEM ONLINE ]',
+    ];
+    let msgIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+
+    function tick() {
+      const current = messages[msgIdx];
+      if (!deleting) {
+        statusEl.textContent = current.slice(0, ++charIdx);
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(tick, 2400);
+          return;
+        }
+        setTimeout(tick, 65);
+      } else {
+        statusEl.textContent = current.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          msgIdx = (msgIdx + 1) % messages.length;
+          setTimeout(tick, 400);
+          return;
+        }
+        setTimeout(tick, 30);
+      }
+    }
+    setTimeout(tick, 1200);
+  }
+</script>

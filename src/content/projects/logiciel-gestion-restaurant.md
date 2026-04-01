@@ -1,6 +1,8 @@
 ---
 title: "Logiciel de gestion de restaurant"
+titleEn: "Restaurant Management Software"
 description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
+descriptionEn: "My personal hub to centralize my projects, skills and certifications."
 date: 2025-11-12
 tags: ["astro", "tailwind", "portfolio"]
 status: "planned"

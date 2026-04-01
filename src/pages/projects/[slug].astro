@@ -14,33 +14,176 @@ if (!project) return Astro.redirect("/projects");
 const { Content } = await project.render();
 const { title, description, tags = [], stack = [], image, date, demo, repo } = project.data;
 ---
+
 <Base title={`${title} — Projet`} description={description}>
-  <a href="/projects" class="text-sm text-zinc-400 hover:text-zinc-200">&larr; Retour aux projets</a>
+
+  <!-- Breadcrumb -->
+  <div class="mb-4 text-xs text-[#007a1f] font-mono">
+    <span class="text-[#00aa2a]">$</span> cd ./projects/{slug}/
+  </div>
+  <a href="/projects" class="text-xs text-[#00aa2a] hover:text-[#00ff41] transition-colors font-mono">
+    &larr; cd ../ (retour aux projets)
+  </a>
 
   <!-- Header -->
-  <header class="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-    <div>
-      <h1 class="text-3xl font-semibold">{title}</h1>
-      <p class="text-zinc-400 mt-1">{description}</p>
-      <p class="text-xs text-zinc-500 mt-1">{date.toLocaleDateString("fr-FR")}</p>
-      <div class="mt-3 flex flex-wrap gap-2">
-        {tags.map(t => <span class="text-[11px] px-2 py-1 bg-zinc-800 rounded-full">{t}</span>)}
-      </div>
-      {stack.length > 0 && <p class="mt-2 text-sm text-zinc-500">{stack.join(" • ")}</p>}
-    </div>
+  <header class="mt-4 terminal-window p-6">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div>
+        <!-- Command prompt -->
+        <p class="text-[10px] text-[#007a1f] font-mono mb-1">
+          <span class="text-[#00aa2a]">$</span> cat {slug}.md
+        </p>
+        <h1 class="text-2xl font-bold text-[#00ff41]">{title}</h1>
+        <p class="text-sm text-[#00aa2a] mt-1">{description}</p>
+        <p class="text-[10px] text-[#007a1f] font-mono mt-1">
+          <span class="text-[#005c17]">date:</span> {date.toLocaleDateString("fr-FR")}
+        </p>
 
-    <!-- Actions -->
-    <div class="flex gap-3">
-      {demo && <a href={demo} target="_blank" class="px-4 py-2 rounded-full bg-brand-600 text-white hover:opacity-90">Demo</a>}
-      {repo && <a href={repo} target="_blank" class="px-4 py-2 rounded-full border border-zinc-700 hover:border-brand-500">Code</a>}
+        <!-- Tags -->
+        <div class="mt-3 flex flex-wrap gap-1.5">
+          {tags.map(t => (
+            <span class="text-[10px] px-2 py-0.5 border border-[#00ff41]/18 bg-[#080808] text-[#007a1f] font-mono">
+              #{t}
+            </span>
+          ))}
+        </div>
+
+        <!-- Stack -->
+        {stack.length > 0 && (
+          <p class="mt-2 text-xs text-[#007a1f] font-mono">
+            <span class="text-[#005c17]">stack:</span>{" "}
+            <span class="text-[#00aa2a]">{stack.join(" · ")}</span>
+          </p>
+        )}
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex gap-3 flex-shrink-0">
+        {demo && (
+          <a
+            href={demo}
+            target="_blank"
+            class="cta-luxe px-4 py-2 text-xs font-bold"
+          >
+            &gt; demo
+          </a>
+        )}
+        {repo && (
+          <a
+            href={repo}
+            target="_blank"
+            class="border border-[#00ff41]/25 bg-transparent px-4 py-2 text-xs text-[#00aa2a] font-mono hover:border-[#00ff41]/55 hover:text-[#00ff41] transition-colors"
+          >
+            &gt; code
+          </a>
+        )}
+      </div>
     </div>
   </header>
 
   <!-- Image -->
-  {image && <img src={image} alt="" class="rounded-2xl mt-6 border border-zinc-800" />}
+  {image && (
+    <div class="mt-5 border border-[#00ff41]/15">
+      <img
+        src={image}
+        alt=""
+        class="w-full"
+        style="filter: sepia(0.2) hue-rotate(80deg) saturate(0.85) brightness(0.9);"
+      />
+    </div>
+  )}
 
-  <!-- Contenu markdown -->
-  <article class="mt-6 prose prose-invert max-w-none">
-    <Content />
+  <!-- Markdown content -->
+  <article class="mt-6 prose-terminal">
+    <div class="mb-2 text-[10px] text-[#007a1f] font-mono">
+      <span class="text-[#00aa2a]">$</span> cat README.md
+    </div>
+    <div class="border border-[#00ff41]/12 bg-[#0a0a0a] p-6">
+      <Content />
+    </div>
   </article>
+
 </Base>
+
+<style>
+  /* Terminal prose styles for markdown content */
+  .prose-terminal :global(h1),
+  .prose-terminal :global(h2),
+  .prose-terminal :global(h3),
+  .prose-terminal :global(h4) {
+    color: #00ff41;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose-terminal :global(h2)::before { content: "## "; color: #007a1f; }
+  .prose-terminal :global(h3)::before { content: "### "; color: #007a1f; }
+
+  .prose-terminal :global(p) {
+    color: #00aa2a;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 1em;
+  }
+
+  .prose-terminal :global(a) {
+    color: #00ff41;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose-terminal :global(a:hover) { color: #39ff14; }
+
+  .prose-terminal :global(ul),
+  .prose-terminal :global(ol) {
+    color: #00aa2a;
+    font-size: 0.875rem;
+    padding-left: 1.5rem;
+    margin-bottom: 1em;
+  }
+
+  .prose-terminal :global(li)::marker { color: #007a1f; }
+
+  .prose-terminal :global(code) {
+    color: #00ff41;
+    background: #080808;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    padding: 0.1em 0.4em;
+    font-size: 0.8rem;
+  }
+
+  .prose-terminal :global(pre) {
+    background: #080808 !important;
+    border: 1px solid rgba(0, 255, 65, 0.18);
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .prose-terminal :global(pre code) {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #00cc35;
+  }
+
+  .prose-terminal :global(blockquote) {
+    border-left: 2px solid rgba(0, 255, 65, 0.4);
+    padding-left: 1rem;
+    color: #007a1f;
+    font-style: normal;
+  }
+
+  .prose-terminal :global(blockquote)::before {
+    content: "// ";
+    color: #005c17;
+  }
+
+  .prose-terminal :global(hr) {
+    border-color: rgba(0, 255, 65, 0.15);
+  }
+
+  .prose-terminal :global(strong) { color: #00ff41; }
+  .prose-terminal :global(em)     { color: #00cc35; font-style: normal; }
+</style>

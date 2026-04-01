@@ -3,7 +3,9 @@ import { defineCollection, z } from "astro:content";
 const projects = defineCollection({
   schema: z.object({
     title: z.string(),
+    titleEn: z.string().optional(),
     description: z.string(),
+    descriptionEn: z.string().optional(),
     date: z.date(),
     slug: z.string().optional(),
     tags: z.array(z.string()).optional(),
@@ -12,7 +14,7 @@ const projects = defineCollection({
     featured: z.boolean().optional(),
     demo: z.string().url().optional(),
     repo: z.string().url().optional(),
-    status: z.enum(["new", "updated", "in-progress", "planned"]).optional(),
+    status: z.enum(["new", "updated", "in-progress", "planned", "beta"]).optional(),
   }),
 });
 

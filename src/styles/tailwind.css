@@ -1,219 +1,554 @@
-/* ===========================
-   Styles globaux "Playbook"
-   =========================== */
+/* ============================================================
+   TERMINAL HACKER AESTHETIC — Global Stylesheet
+   ============================================================ */
 
-/* HERO luxe */
-.hero-gradient {
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.65),
-    0 0 40px rgba(76, 29, 149, 0.45);
+/* === RESET & BASE ========================================== */
+*, *::before, *::after {
+  font-family: 'Space Mono', 'Fira Code', Consolas, 'Courier New', monospace !important;
+  box-sizing: border-box;
+}
+
+/* === THEME VARIABLES ======================================= */
+:root {
+  --hue:    0deg;
+  --c-bg:   #0d0d0d;
+  --c-card: #0a0a0a;
+  --c-card2:#080808;
+  --c-card3:#111111;
+  /* Couleurs de texte — inversées en mode clair */
+  --c-text1: #00ff41;  /* accent principal  */
+  --c-text2: #00cc35;  /* accent secondaire */
+  --c-text3: #00aa2a;  /* texte moyen       */
+  --c-text4: #007a1f;  /* texte dim         */
+  --c-text5: #005c17;  /* texte très dim    */
+}
+
+/* Mode dim (sombre atténué) */
+:root[data-dim] {
+  --c-bg:   #1c1c1c;
+  --c-card: #232323;
+  --c-card2:#1e1e1e;
+  --c-card3:#2a2a2a;
+}
+
+/* Mode clair — fond pâle, texte vert foncé */
+:root[data-light] {
+  --c-bg:    #f4fdf6;
+  --c-card:  #ecf9ee;
+  --c-card2: #e4f5e7;
+  --c-card3: #f0fcf2;
+  --c-text1: #003b0f;
+  --c-text2: #004d12;
+  --c-text3: #005c17;
+  --c-text4: #007a1f;
+  --c-text5: #00aa2a;
+}
+
+/* Mode clair + dim */
+:root[data-light][data-dim] {
+  --c-bg:    #e8f5ea;
+  --c-card:  #dff0e2;
+  --c-card2: #d4ebd8;
+  --c-card3: #eaf6ec;
+}
+
+html {
+  background-color: var(--c-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text1);
   position: relative;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
-.hero-gradient::before {
+/* Applique la rotation de teinte à tout le contenu */
+#theme-root {
+  filter: hue-rotate(var(--hue));
+}
+
+/* Swatches : contre-rotation pour toujours afficher leur vraie couleur */
+.swatch-ph { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +   0deg)); }
+.swatch-am { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +  55deg)); }
+.swatch-cy { filter: hue-rotate(calc(-1 * var(--hue, 0deg) + 130deg)); }
+.swatch-rg { filter: hue-rotate(calc(-1 * var(--hue, 0deg) + -60deg)); }
+.swatch-cr { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +   0deg)); }
+.swatch-ln { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +  30deg)); }
+
+/* CRT Scanline overlay */
+body::after {
   content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.08), transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.25), transparent 55%);
-  mix-blend-mode: screen;
-  opacity: 0.85;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
   pointer-events: none;
+  z-index: 9999;
 }
 
-/* CTA premium */
+/* Subtle vignette */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Mode clair : scanlines et vignette adoucies */
+:root[data-light] body::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 59, 15, 0.035) 2px,
+    rgba(0, 59, 15, 0.035) 4px
+  );
+}
+:root[data-light] body::before {
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 59, 15, 0.1) 100%);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 255, 65, 0.2);
+  color: var(--c-text1);
+}
+
+/* Links */
+a { color: var(--c-text1); text-decoration: none; }
+a:hover { color: var(--c-text2); }
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 { color: var(--c-text1); }
+
+/* Inputs & Textarea */
+input, textarea, select {
+  background: var(--c-card2) !important;
+  color: var(--c-text1) !important;
+  border-color: rgba(0, 255, 65, 0.25) !important;
+  border-radius: 0 !important;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.5) !important;
+  border-color: rgba(0, 255, 65, 0.5) !important;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--c-text4) !important;
+  opacity: 1;
+}
+
+/* ASCII portrait */
+.ascii-portrait {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.38rem;
+  line-height: 1.1;
+  color: #00ff41;
+  opacity: 0.9;
+  white-space: pre;
+  overflow: hidden;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb { background: rgba(0, 255, 65, 0.2); }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 65, 0.45); }
+
+/* === ANIMATIONS =========================================== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 6px rgba(0, 255, 65, 0.5); }
+  50%       { text-shadow: 0 0 14px rgba(0, 255, 65, 0.9), 0 0 30px rgba(0, 255, 65, 0.35); }
+}
+
+/* === COMPONENTS =========================================== */
+
+/* Blinking cursor */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  background: var(--c-text1);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+/* Terminal window chrome */
+.terminal-window {
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  background: var(--c-card);
+  box-shadow: 0 0 40px rgba(0, 255, 65, 0.05), 0 0 80px rgba(0, 255, 65, 0.02);
+  position: relative;
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+  background: rgba(0, 255, 65, 0.03);
+}
+
+.terminal-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 65, 0.35);
+}
+
+.terminal-title {
+  font-size: 0.67rem;
+  color: rgba(0, 255, 65, 0.45);
+  letter-spacing: 0.1em;
+  margin: 0 auto;
+}
+
+/* Prompt elements */
+.term-prompt { color: var(--c-text3); user-select: none; }
+.term-cmd    { color: var(--c-text1); }
+.term-output { color: var(--c-text2); }
+.term-comment{ color: var(--c-text4); }
+.term-dim    { color: var(--c-text5); }
+
+/* Section "command" header line */
+.term-section-cmd {
+  font-size: 0.78rem;
+  color: var(--c-text4);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+  letter-spacing: 0.04em;
+}
+.term-section-cmd::before { content: "$ "; color: var(--c-text3); }
+
+/* === CTA BUTTON =========================================== */
 .cta-luxe {
-  background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 50%, #a855f7 100%);
-  box-shadow:
-    0 12px 25px rgba(15, 23, 42, 0.9),
-    0 0 20px rgba(139, 92, 246, 0.5);
-  border: 1px solid rgba(200, 200, 200, 0.8);
-  transition: all 0.22s cubic-bezier(0.22, 0.8, 0.35, 1);
+  background: transparent;
+  border: 1px solid #00ff41 !important;
+  color: #00ff41 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.18), inset 0 0 10px rgba(0, 255, 65, 0.03);
+  transition: all 0.15s ease;
+  letter-spacing: 0.05em;
+  border-radius: 0 !important;
 }
 
 .cta-luxe:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 18px 35px rgba(15, 23, 42, 1),
-    0 0 26px rgba(167, 139, 250, 0.7);
-  filter: saturate(1.28);
+  background: rgba(0, 255, 65, 0.08) !important;
+  box-shadow: 0 0 22px rgba(0, 255, 65, 0.38), inset 0 0 14px rgba(0, 255, 65, 0.06);
+  transform: none;
+  filter: none;
+  color: #39ff14 !important;
 }
 
-/* Cadre photo */
-.photo-frame {
-  border-radius: 9999px;
-  padding: 3px;
-  background: conic-gradient(from 160deg, #a855f7, #22c55e, #38bdf8, #a855f7);
-  box-shadow:
-    0 0 25px rgba(88, 28, 135, 0.6),
-    0 0 60px rgba(56, 189, 248, 0.25);
-}
-
-.photo-frame-inner {
-  border-radius: 9999px;
-  background: radial-gradient(circle at 30% 10%, #020617, #020617);
-  border: 1px solid rgba(248, 250, 252, 0.18);
-}
-
-/* Cartes "Playbook" */
+/* === QUICK CARD (terminal panel) ========================== */
 .quick-card {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  background: radial-gradient(
-    circle at top left,
-    rgba(148, 163, 184, 0.11),
-    rgba(15, 23, 42, 0.9)
-  );
+  border-radius: 0 !important;
+  border: 1px solid rgba(0, 255, 65, 0.18);
+  background: var(--c-card);
   padding: 1.25rem;
-  transition: all 0.22s ease-out;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: none;
+}
+
+.quick-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #00ff41, rgba(0, 255, 65, 0.2) 70%, transparent);
 }
 
 .quick-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(167, 139, 250, 0.7);
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.85),
-    0 0 30px rgba(129, 140, 248, 0.4);
+  transform: none;
+  border-color: rgba(0, 255, 65, 0.45);
+  box-shadow: 0 0 24px rgba(0, 255, 65, 0.06), inset 0 0 30px rgba(0, 255, 65, 0.015);
 }
 
 .quick-card-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 9999px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  width: 34px;
+  height: 34px;
+  border-radius: 0;
+  border: 1px solid rgba(0, 255, 65, 0.3);
   display: grid;
   place-items: center;
-  margin-bottom: 0.6rem;
-  background: radial-gradient(
-    circle at 30% 20%,
-    rgba(248, 250, 252, 0.15),
-    transparent 60%
-  );
+  margin-bottom: 0.75rem;
+  background: rgba(0, 255, 65, 0.04);
+  color: #00ff41;
 }
 
 .quick-card-link {
   margin-top: auto;
-  font-size: 0.85rem;
-  color: #a78bfa;
+  font-size: 0.78rem;
+  color: var(--c-text3);
   display: inline-flex;
   align-items: center;
-  gap: 0.2rem;
-  transition: color 0.18s ease, transform 0.18s ease;
+  gap: 0.25rem;
+  transition: color 0.12s ease;
+  letter-spacing: 0.03em;
 }
 
-.quick-card-link::after {
-  content: "↗";
-  font-size: 0.78rem;
-  opacity: 0.9;
+.quick-card-link::before {
+  content: "> ";
+  color: var(--c-text1);
 }
 
-.quick-card:hover .quick-card-link {
-  color: #e9d5ff;
-  transform: translateX(2px);
+.quick-card-link::after { content: none; }
+
+.quick-card:hover .quick-card-link { color: var(--c-text1); }
+
+/* === PHOTO FRAME ========================================== */
+.photo-frame {
+  border-radius: 0 !important;
+  padding: 2px;
+  background: #00ff41;
+  box-shadow: 0 0 18px rgba(0, 255, 65, 0.5), 0 0 50px rgba(0, 255, 65, 0.18);
 }
 
-/* ===========================
-   Certifications : statuts
-   =========================== */
+.photo-frame-inner {
+  border-radius: 0 !important;
+  background: var(--c-card);
+  border: none;
+  color: #007a1f;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
 
-   .cert-card {
-    position: relative;
-    overflow: hidden;
-    transition:
-      transform 0.22s ease-out,
-      border-color 0.22s ease-out,
-      box-shadow 0.22s ease-out,
-      opacity 0.22s ease-out,
-      filter 0.22s ease-out;
-  }
-  
-  .cert-card--earned:hover {
-    transform: translateY(-3px);
-    border-color: rgba(167, 139, 250, 0.7);
-    box-shadow:
-      0 18px 40px rgba(0, 0, 0, 0.85),
-      0 0 30px rgba(129, 140, 248, 0.25);
-  }
-  
-  .cert-card--target {
-    border-color: rgba(113, 113, 122, 0.8);
-    background:
-      linear-gradient(rgba(24, 24, 27, 0.72), rgba(24, 24, 27, 0.72)),
-      radial-gradient(circle at top left, rgba(148, 163, 184, 0.08), rgba(15, 23, 42, 0.8));
-    opacity: 0.82;
-    filter: saturate(0.55);
-  }
-  
-  .cert-card--target::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      rgba(255, 255, 255, 0.02) 35%,
-      rgba(255, 255, 255, 0.06) 50%,
-      rgba(255, 255, 255, 0.02) 65%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    pointer-events: none;
-  }
-  
-  .cert-card--target:hover {
-    transform: translateY(-1px);
-    border-color: rgba(161, 161, 170, 0.95);
-    box-shadow:
-      0 12px 28px rgba(0, 0, 0, 0.55),
-      0 0 18px rgba(113, 113, 122, 0.2);
-    filter: saturate(0.65);
-  }
-  
-  .cert-card--target .cert-card-logo {
-    filter: grayscale(1) brightness(0.92) contrast(0.95);
-    opacity: 0.9;
-  }
-  
-  .cert-card--target h2,
-  .cert-card--target h3 {
-    color: rgba(244, 244, 245, 0.9);
-  }
-  
-  .cert-card--target .text-zinc-400 {
-    color: rgba(161, 161, 170, 0.9);
-  }
-  
-  .cert-card--target span[class*="bg-zinc-800"] {
-    background: rgba(39, 39, 42, 0.8);
-    color: rgba(212, 212, 216, 0.85);
-  }
-  
-  /* Badges */
-  .cert-badge {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 9999px;
-    padding: 0.3rem 0.65rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-  }
-  
-  .cert-badge--earned {
-    border: 1px solid rgba(34, 197, 94, 0.35);
-    background: rgba(34, 197, 94, 0.12);
-    color: rgb(134, 239, 172);
-  }
-  
-  .cert-badge--target {
-    border: 1px solid rgba(161, 161, 170, 0.35);
-    background: rgba(113, 113, 122, 0.16);
-    color: rgb(212, 212, 216);
-  }
+/* === HERO SECTION ========================================= */
+.hero-gradient {
+  box-shadow: 0 0 50px rgba(0, 255, 65, 0.04) !important;
+  background: var(--c-card) !important;
+  border-radius: 0 !important;
+  border: 1px solid rgba(0, 255, 65, 0.28) !important;
+}
+
+.hero-gradient::before { display: none !important; }
+
+/* === CERT CARDS =========================================== */
+.cert-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.cert-card--earned:hover {
+  transform: none;
+  border-color: rgba(0, 255, 65, 0.5) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.07) !important;
+}
+
+.cert-card--target {
+  border-color: rgba(0, 255, 65, 0.08) !important;
+  background: var(--c-card2) !important;
+  opacity: 0.55;
+  filter: none !important;
+}
+
+.cert-card--target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 7px,
+    rgba(0, 255, 65, 0.018) 7px,
+    rgba(0, 255, 65, 0.018) 8px
+  );
+  pointer-events: none;
+}
+
+.cert-card--target:hover {
+  transform: none !important;
+  opacity: 0.68;
+  filter: none !important;
+}
+
+.cert-card--target .cert-card-logo {
+  filter: grayscale(1) brightness(0.5) contrast(0.8);
+  opacity: 0.7;
+}
+
+.cert-card--target h2,
+.cert-card--target h3 { color: rgba(0, 255, 65, 0.5) !important; }
+
+.cert-card--target .text-zinc-400,
+.cert-card--target [class*="text-[#00aa2a]"] { color: rgba(0, 170, 42, 0.5) !important; }
+
+/* === CERT BADGES ========================================== */
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0 !important;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.cert-badge--earned {
+  border: 1px solid rgba(0, 255, 65, 0.5);
+  background: rgba(0, 255, 65, 0.08);
+  color: #00ff41;
+}
+
+.cert-badge--target {
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  background: transparent;
+  color: rgba(0, 255, 65, 0.35);
+}
+
+/* === TAILWIND UTILITY OVERRIDES =========================== */
+/* Text color remapping to terminal green palette */
+.text-white,
+.text-zinc-50,
+.text-zinc-100          { color: #00ff41 !important; }
+.text-zinc-200,
+.text-zinc-300          { color: #00cc35 !important; }
+.text-zinc-400          { color: #00aa2a !important; }
+.text-zinc-500          { color: #007a1f !important; }
+.text-zinc-600          { color: #005c17 !important; }
+
+.text-brand-100,
+.text-brand-200,
+.text-brand-300         { color: #00ff41 !important; }
+.text-brand-400,
+.text-brand-500         { color: #00cc35 !important; }
+.text-emerald-200,
+.text-emerald-300       { color: #00ff41 !important; }
+.text-fuchsia-200,
+.text-fuchsia-300       { color: #00cc35 !important; }
+.text-purple-300        { color: #00cc35 !important; }
+
+/* Background remapping — utilise les variables CSS pour suivre le mode dim */
+.bg-black               { background-color: var(--c-bg)    !important; }
+.bg-zinc-950\/70        { background-color: var(--c-card2) !important; }
+.bg-zinc-900\/40,
+.bg-zinc-900\/60,
+.bg-zinc-900\/70,
+.bg-zinc-900            { background-color: var(--c-card)  !important; }
+.bg-zinc-800            { background-color: var(--c-card3) !important; }
+.bg-black\/25,
+.bg-black\/35           { background-color: rgba(0, 0, 0, 0.5) !important; }
+
+/* Override des valeurs hex arbitraires Tailwind utilisées dans les pages */
+.bg-\[\#0d0d0d\]        { background-color: var(--c-bg)    !important; }
+.bg-\[\#0a0a0a\]        { background-color: var(--c-card)  !important; }
+.bg-\[\#080808\]        { background-color: var(--c-card2) !important; }
+.bg-\[\#111111\]        { background-color: var(--c-card3) !important; }
+
+/* Active states: brand slider/pressed */
+.bg-brand-600,
+.bg-brand-500           { background-color: rgba(0, 255, 65, 0.18) !important; }
+
+/* Border remapping */
+.border-zinc-800,
+.border-zinc-800\/80    { border-color: rgba(0, 255, 65, 0.14) !important; }
+.border-zinc-700,
+.border-zinc-700\/80    { border-color: rgba(0, 255, 65, 0.2) !important; }
+.border-white\/5,
+.border-white\/25       { border-color: rgba(0, 255, 65, 0.15) !important; }
+.border-zinc-300\/15    { border-color: rgba(0, 255, 65, 0.12) !important; }
+
+/* Hover border overrides */
+.hover\:border-brand-500:hover  { border-color: rgba(0, 255, 65, 0.55) !important; }
+.hover\:border-brand-400:hover  { border-color: rgba(0, 255, 65, 0.5) !important; }
+.hover\:border-brand-300:hover  { border-color: rgba(0, 255, 65, 0.45) !important; }
+.hover\:bg-zinc-800\/60:hover   { background-color: rgba(0, 255, 65, 0.05) !important; }
+.hover\:text-brand-200:hover,
+.hover\:text-brand-300:hover    { color: #00ff41 !important; }
+.hover\:text-white:hover        { color: #39ff14 !important; }
+
+/* aria-pressed active states for filter buttons */
+[aria-pressed="true"].aria-\[pressed\=true\]\:bg-brand-600 {
+  background-color: rgba(0, 255, 65, 0.12) !important;
+}
+[aria-pressed="true"].aria-\[pressed\=true\]\:border-brand-500 {
+  border-color: rgba(0, 255, 65, 0.55) !important;
+}
+[aria-pressed="true"].aria-\[pressed\=true\]\:text-white {
+  color: #00ff41 !important;
+}
+
+/* Focus ring */
+.focus\:ring-brand-500:focus    { --tw-ring-color: rgba(0, 255, 65, 0.4); }
+.focus\:ring-2:focus            { box-shadow: 0 0 0 2px rgba(0, 255, 65, 0.4) !important; }
+
+/* Kill all gradient text */
+.bg-clip-text.text-transparent,
+[class*="bg-gradient"][class*="text-transparent"] {
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  color: #00ff41 !important;
+  background-image: none !important;
+}
+
+/* Remove hero gradient background */
+.from-violet-800\/40,
+[class*="from-violet-"],
+[class*="via-fuchsia-"],
+[class*="to-emerald-"] {
+  --tw-gradient-stops: none !important;
+}
+
+/* Border radius: flatten everything */
+.rounded-full   { border-radius: 2px !important; }
+.rounded-3xl,
+.rounded-2xl,
+.rounded-xl,
+.rounded-lg,
+.rounded-md,
+.rounded-sm     { border-radius: 0 !important; }
+
+/* Remove any purple/brand glow shadows */
+.shadow-lg,
+.shadow-sm      { box-shadow: none !important; }
+
+/* Icon colors */
+.text-brand-100 svg,
+.text-brand-200 svg,
+.text-emerald-200 svg,
+.text-fuchsia-200 svg { color: var(--c-text1) !important; }
+
+/* Override des valeurs hex arbitraires Tailwind pour couleurs texte (mode clair/sombre) */
+.text-\[\#00ff41\] { color: var(--c-text1) !important; }
+.text-\[\#00cc35\] { color: var(--c-text2) !important; }
+.text-\[\#00aa2a\] { color: var(--c-text3) !important; }
+.text-\[\#007a1f\] { color: var(--c-text4) !important; }
+.text-\[\#005c17\] { color: var(--c-text5) !important; }
+.text-\[\#39ff14\] { color: var(--c-text1) !important; }

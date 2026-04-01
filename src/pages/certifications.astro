@@ -1,187 +1,179 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
-import { LayoutGrid, List } from "lucide-astro";
 
-// Données
 const certs = (await getCollection("certifications")).sort((a, b) => {
   const sa = a.data.status ?? "earned";
   const sb = b.data.status ?? "earned";
-
-  // 1) earned avant target
-  if (sa !== sb) {
-    return sa === "earned" ? -1 : 1;
-  }
-
-  // 2) à statut égal, trier par date décroissante
+  if (sa !== sb) return sa === "earned" ? -1 : 1;
   return b.data.issueDate.getTime() - a.data.issueDate.getTime();
 });
 
-// Tags uniques
 const allTags = [...new Set(certs.flatMap((c) => c.data.tags ?? []))].sort();
 
-// Groupage par année pour la timeline
 const byYear = certs.reduce((acc, c) => {
   const y = c.data.issueDate.getFullYear();
   (acc[y] ||= []).push(c);
   return acc;
 }, /** @type{Record<number, typeof certs>} */ ({}));
 
-const years = Object.keys(byYear)
-  .map(Number)
-  .sort((a, b) => b - a);
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 ---
 
 <Base title="Certifications — Gautier Playbook">
-  <div class="flex items-end justify-between gap-4 mb-6">
-    <h1 class="text-3xl font-bold">Certifications</h1>
 
-    <!-- Toggle vue grille / timeline -->
+  <!-- Page header + view toggle -->
+  <div class="flex items-end justify-between gap-4 mb-2">
+    <div>
+      <p class="text-xs text-[#007a1f] font-mono mb-1">
+        <span class="text-[#00aa2a]">$</span> ls ./certifications/ <span class="text-[#005c17]">--sort=date</span>
+      </p>
+      <h1 class="text-2xl font-bold text-[#00ff41]">Certifications</h1>
+    </div>
+
+    <!-- View toggle: GRID | TIMELINE -->
     <button
       id="viewToggle"
-      class="relative w-24 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
-             ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center justify-between px-2"
+      class="relative w-36 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
+             focus:outline-none focus:border-[#00ff41]/50 transition inline-flex items-center font-mono text-[10px] font-bold"
     >
       <span
         id="viewSlider"
-        class="absolute inset-y-1 left-1 w-9 h-7
-                 rounded-full bg-brand-600 shadow-md transition-transform duration-300 ease-out will-change-transform z-0"
+        class="absolute inset-1 w-[calc(50%-0.2rem)] h-[calc(100%-0.5rem)]
+               bg-[#00ff41]/15 border border-[#00ff41]/35 transition-transform duration-200 z-0"
       ></span>
-
-      <LayoutGrid
-        id="iconGrid"
-        class="relative z-10 w-4 h-4 mx-1 text-white transition-colors duration-300"
-        stroke-width={2}
-      />
-      <List
-        id="iconTimeline"
-        class="relative z-10 w-4 h-4 mx-1 text-zinc-400 transition-colors duration-300"
-        stroke-width={2}
-      />
+      <span id="lblGrid"     class="relative z-10 flex-1 text-center select-none text-[#00ff41]">GRID</span>
+      <span id="lblTimeline" class="relative z-10 flex-1 text-center select-none text-[#007a1f]">TIMELINE</span>
     </button>
   </div>
 
-  <!-- FILTRES PAR TAG -->
-  <div id="certFilters" class="flex flex-wrap gap-2 mb-3 text-sm">
-    <button
-      data-tag="__all"
-      class="px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-200
-             hover:border-brand-500 hover:bg-zinc-800/60 transition
-             aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:border-brand-500 aria-[pressed=true]:text-white"
-      aria-pressed="true"
-    >
-      Tous
-    </button>
-    {
-      allTags.map((t) => (
-        <button
-          data-tag={t}
-          class="px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300
-                 hover:border-brand-500 hover:bg-zinc-800/60 transition
-                 aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:border-brand-500 aria-[pressed=true]:text-white"
-          aria-pressed="false"
-        >
-          {t}
-        </button>
-      ))
-    }
-  </div>
-
-  <!-- TOGGLE ET / OU -->
-  <div class="mb-6 flex items-center gap-3">
-    <span class="text-sm text-zinc-400">Mode filtre :</span>
-    <button
-      id="modeToggleCert"
-      class="relative w-32 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
-             ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center"
-    >
-      <span
-        id="modeSlider"
-        class="absolute inset-1 w-[calc(50%-0.25rem)] h-[calc(100%-0.5rem)]
-               rounded-full bg-brand-600 shadow-md transition-transform duration-300 will-change-transform z-0"
-      ></span>
-      <span
-        id="modeLblAnd"
-        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
-        >ET</span
+  <!-- Filters -->
+  <div class="border border-[#00ff41]/12 bg-[#0a0a0a] p-4 mt-4 mb-6">
+    <p class="text-[10px] text-[#007a1f] font-mono mb-3">
+      <span class="text-[#00aa2a]">$</span> grep --tags
+    </p>
+    <div id="certFilters" class="flex flex-wrap gap-2 text-xs">
+      <button
+        data-tag="__all"
+        class="px-3 py-1 border border-[#00ff41]/25 text-[#00aa2a] font-mono transition-colors
+               hover:border-[#00ff41]/55 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+               aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+        aria-pressed="true"
       >
-      <span
-        id="modeLblOr"
-        class="relative z-10 flex-1 text-center text-xs font-medium select-none text-zinc-400"
-        >OU</span
+        [ ALL ]
+      </button>
+      {
+        allTags.map((t) => (
+          <button
+            data-tag={t}
+            class="px-3 py-1 border border-[#00ff41]/20 text-[#00aa2a] font-mono transition-colors
+                   hover:border-[#00ff41]/50 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+                   aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+            aria-pressed="false"
+          >
+            {t}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Mode AND/OR -->
+    <div class="mt-3 flex items-center gap-3">
+      <span class="text-[10px] text-[#007a1f] font-mono" data-i18n="certs.filter.label">mode_filtre :</span>
+      <button
+        id="modeToggleCert"
+        class="relative w-28 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
+               focus:outline-none focus:border-[#00ff41]/50 transition inline-flex items-center font-mono"
       >
-    </button>
+        <span
+          id="modeSlider"
+          class="absolute inset-1 w-[calc(50%-0.2rem)] h-[calc(100%-0.5rem)]
+                 bg-[#00ff41]/15 border border-[#00ff41]/35 transition-transform duration-200 z-0"
+        ></span>
+        <span id="modeLblAnd" class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#00ff41]" data-i18n="certs.filter.and">ET</span>
+        <span id="modeLblOr"  class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#007a1f]" data-i18n="certs.filter.or">OU</span>
+      </button>
+    </div>
   </div>
 
-  <!-- VUE GRILLE -->
-  <section id="gridView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- ── GRID VIEW ─────────────────────────────────────────── -->
+  <section id="gridView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {
       certs.map((c) => (
         <article
-          class={`cert-card cert-card--${c.data.status ?? "earned"} rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 transition`}
+          class={`cert-card cert-card--${c.data.status ?? "earned"} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
           data-tags={(c.data.tags ?? []).join(",")}
         >
-          <div class="flex items-start justify-between gap-3">
+          <!-- Header -->
+          <div class="flex items-start justify-between gap-3 mb-3">
             <div class="flex items-center gap-3">
               {c.data.logo ? (
                 <img
                   src={c.data.logo}
                   alt={c.data.title}
-                  class="cert-card-logo h-20 w-20 rounded-md object-contain"
+                  class="cert-card-logo h-12 w-12 object-contain"
+                  style="filter: sepia(0.4) hue-rotate(80deg) saturate(0.7);"
                 />
               ) : (
-                <div class="h-10 w-10 rounded-md bg-zinc-800" />
+                <div class="h-10 w-10 border border-[#00ff41]/20 bg-[#080808] grid place-items-center">
+                  <span class="text-[10px] text-[#007a1f] font-mono">cert</span>
+                </div>
               )}
               <div>
-                <h2 class="text-base font-semibold leading-tight">
-                  {c.data.title}
-                </h2>
-                <p class="text-xs text-zinc-400">{c.data.issuer}</p>
+                <h2 class="text-sm font-bold text-[#00ff41] leading-tight">{c.data.title}</h2>
+                <p class="text-[10px] text-[#007a1f] font-mono mt-0.5">{c.data.issuer}</p>
               </div>
             </div>
 
-            {c.data.status === "target" && (
-              <span class="cert-badge cert-badge--target">Objectif</span>
-            )}
-            {(c.data.status ?? "earned") === "earned" && (
-              <span class="cert-badge cert-badge--earned">Obtenue</span>
+            {c.data.status === "target" ? (
+              <span class="cert-badge cert-badge--target" data-i18n="certs.badge.target">OBJECTIF</span>
+            ) : (
+              <span class="cert-badge cert-badge--earned" data-i18n="certs.badge.earned">[OK]</span>
             )}
           </div>
-          <p class="mt-3 text-sm text-zinc-400">
+
+          <!-- Date info -->
+          <p class="text-[10px] text-[#007a1f] font-mono mb-2">
             {(c.data.status ?? "earned") === "earned" && c.data.issueDate ? (
               <>
-                Obtenue le {c.data.issueDate.toLocaleDateString("fr-FR")}
+                <span class="text-[#005c17]">date:</span>{" "}
+                <span class="text-[#00aa2a]">{c.data.issueDate.toLocaleDateString("fr-FR")}</span>
                 {c.data.expiryDate && (
                   <>
                     {" "}
-                    • Expire le {c.data.expiryDate.toLocaleDateString("fr-FR")}
+                    <span class="text-[#005c17]">· expire:</span>{" "}
+                    {c.data.expiryDate.toLocaleDateString("fr-FR")}
                   </>
                 )}
               </>
             ) : (
-              <>Certification visée</>
+              <span class="text-[#005c17]" data-i18n="certs.target.label">// certification visée</span>
             )}
           </p>
+
+          <!-- Tags -->
           {c.data.tags?.length > 0 && (
-            <div class="mt-3 flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-1.5 mb-3">
               {c.data.tags.map((t) => (
-                <span class="text-[11px] px-2 py-1 bg-zinc-800 rounded-full">
-                  {t}
+                <span class="text-[10px] px-2 py-0.5 border border-[#00ff41]/15 bg-[#080808] text-[#007a1f] font-mono">
+                  #{t}
                 </span>
               ))}
             </div>
           )}
+
+          <!-- Credential link -->
           {(c.data.status ?? "earned") === "earned" && c.data.credentialUrl ? (
             <a
               href={c.data.credentialUrl}
               target="_blank"
-              class="mt-4 inline-block px-3 py-1.5 rounded-full border border-zinc-700 hover:border-brand-500 text-sm"
+              class="inline-block px-3 py-1 border border-[#00ff41]/25 text-[10px] text-[#00aa2a] font-mono hover:border-[#00ff41]/55 hover:text-[#00ff41] transition-colors"
             >
-              Voir le certificat
+              <span data-i18n="certs.link">&gt; voir le certificat</span>
             </a>
           ) : (
-            <span class="mt-4 inline-block px-3 py-1.5 rounded-full border border-zinc-800 text-sm text-zinc-500 cursor-default">
-              En objectif
+            <span class="inline-block px-3 py-1 border border-[#00ff41]/08 text-[10px] text-[#005c17] font-mono cursor-default">
+              <span data-i18n="certs.target.link">// en objectif</span>
             </span>
           )}
         </article>
@@ -189,25 +181,31 @@ const years = Object.keys(byYear)
     }
   </section>
 
-  <!-- VUE TIMELINE -->
+  <!-- ── TIMELINE VIEW ──────────────────────────────────────── -->
   <section id="timelineView" class="hidden">
     <div class="relative pl-6">
-      <div class="absolute left-2 top-0 bottom-0 w-px bg-zinc-800"></div>
+      <!-- Timeline line -->
+      <div class="absolute left-2 top-0 bottom-0 w-px bg-[#00ff41]/15"></div>
+
       {
         years.map((year) => (
           <section class="mb-8">
+            <!-- Year label -->
             <div class="relative -left-6 mb-4 flex items-center gap-3">
-              <span class="grid place-items-center h-8 w-8 rounded-full bg-brand-600 text-white text-sm shadow">
-                {year.toString().slice(-2)}
+              <span class="grid place-items-center h-8 w-8 border border-[#00ff41]/40 bg-[#003b0f] text-[#00ff41] text-xs font-bold font-mono">
+                '{year.toString().slice(-2)}
               </span>
-              <h2 class="text-xl font-semibold">{year}</h2>
+              <h2 class="text-base font-bold text-[#00ff41] font-mono">{year}</h2>
             </div>
-            <ul class="space-y-4">
+
+            <ul class="space-y-3">
               {byYear[year].map((c) => (
                 <li class="relative">
-                  <span class="absolute -left-6 top-2 h-3 w-3 rounded-full bg-brand-500 ring-4 ring-zinc-950" />
+                  <!-- Dot on timeline -->
+                  <span class="absolute -left-6 top-3 h-2 w-2 bg-[#00ff41]/60 border border-[#00ff41]" />
+
                   <article
-                    class={`cert-card cert-card--${c.data.status ?? "earned"} rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 transition`}
+                    class={`cert-card cert-card--${c.data.status ?? "earned"} border border-[#00ff41]/18 bg-[#0a0a0a] p-4 transition`}
                     data-tags={(c.data.tags ?? []).join(",")}
                   >
                     <div class="flex items-start gap-3">
@@ -215,45 +213,48 @@ const years = Object.keys(byYear)
                         <img
                           src={c.data.logo}
                           alt=""
-                          class="h-10 w-10 rounded-md object-contain bg-zinc-800 p-1"
+                          class="h-9 w-9 object-contain"
+                          style="filter: sepia(0.4) hue-rotate(80deg) saturate(0.7);"
                         />
                       ) : (
-                        <div class="h-10 w-10 rounded-md bg-zinc-800" />
+                        <div class="h-9 w-9 border border-[#00ff41]/18 bg-[#080808] grid place-items-center flex-shrink-0">
+                          <span class="text-[9px] text-[#007a1f] font-mono">cert</span>
+                        </div>
                       )}
                       <div class="min-w-0">
-                        <h3 class="text-base font-semibold leading-tight">
-                          {c.data.title}
-                        </h3>
-                        <p class="text-xs text-zinc-400">
-                          {c.data.issuer} •{" "}
+                        <h3 class="text-sm font-bold text-[#00ff41]">{c.data.title}</h3>
+                        <p class="text-[10px] text-[#007a1f] font-mono">
+                          {c.data.issuer}{" "}
+                          <span class="text-[#005c17]">·</span>{" "}
                           {c.data.issueDate.toLocaleDateString("fr-FR")}
                           {c.data.expiryDate && (
                             <>
                               {" "}
-                              · expire le{" "}
+                              <span class="text-[#005c17]">· expire</span>{" "}
                               {c.data.expiryDate.toLocaleDateString("fr-FR")}
                             </>
                           )}
                         </p>
                         {c.data.tags?.length > 0 && (
-                          <div class="mt-2 flex flex-wrap gap-2">
+                          <div class="mt-1.5 flex flex-wrap gap-1">
                             {c.data.tags.map((t) => (
-                              <span class="text-[11px] px-2 py-1 bg-zinc-800 rounded-full">
-                                {t}
+                              <span class="text-[9px] px-1.5 py-0.5 border border-[#00ff41]/12 bg-[#080808] text-[#007a1f] font-mono">
+                                #{t}
                               </span>
                             ))}
                           </div>
                         )}
                       </div>
                     </div>
+
                     {c.data.credentialUrl && (
-                      <div class="mt-3">
+                      <div class="mt-2 pl-12">
                         <a
                           href={c.data.credentialUrl}
                           target="_blank"
-                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 hover:border-brand-500 text-sm"
+                          class="inline-flex items-center gap-1 px-3 py-1 border border-[#00ff41]/22 text-[10px] text-[#00aa2a] font-mono hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors"
                         >
-                          Voir le certificat
+                          <span data-i18n="certs.link">&gt; voir le certificat</span>
                         </a>
                       </div>
                     )}
@@ -267,31 +268,24 @@ const years = Object.keys(byYear)
     </div>
   </section>
 
-  <!-- SCRIPT -->
+  <!-- Scripts -->
   <script type="module">
-    // ----- toggle vue -----
-    const viewBtn = document.getElementById("viewToggle");
-    const viewSlider = document.getElementById("viewSlider");
-    const iconGrid = document.getElementById("iconGrid");
-    const iconTimeline = document.getElementById("iconTimeline");
-    const grid = document.getElementById("gridView");
-    const timeline = document.getElementById("timelineView");
-
+    // ----- View toggle -----
+    const viewBtn      = document.getElementById("viewToggle");
+    const viewSlider   = document.getElementById("viewSlider");
+    const lblGrid      = document.getElementById("lblGrid");
+    const lblTimeline  = document.getElementById("lblTimeline");
+    const gridEl       = document.getElementById("gridView");
+    const timelineEl   = document.getElementById("timelineView");
     let view = "GRID";
 
     function applyView() {
       const isGrid = view === "GRID";
-      viewSlider.style.transform = isGrid
-        ? "translateX(0)"
-        : "translateX(140%)";
-      iconGrid.classList.toggle("text-white", isGrid);
-      iconGrid.classList.toggle("text-zinc-400", !isGrid);
-      iconTimeline.classList.toggle("text-white", !isGrid);
-      iconTimeline.classList.toggle("text-zinc-400", isGrid);
-      if (grid && timeline) {
-        grid.classList.toggle("hidden", !isGrid);
-        timeline.classList.toggle("hidden", isGrid);
-      }
+      viewSlider.style.transform = isGrid ? "translateX(0)" : "translateX(100%)";
+      lblGrid.style.color     = isGrid ? "#00ff41" : "#007a1f";
+      lblTimeline.style.color = isGrid ? "#007a1f" : "#00ff41";
+      gridEl?.classList.toggle("hidden", !isGrid);
+      timelineEl?.classList.toggle("hidden", isGrid);
     }
 
     viewBtn?.addEventListener("click", () => {
@@ -299,17 +293,16 @@ const years = Object.keys(byYear)
       applyView();
     });
 
-    // ----- filtres tags + mode AND/OR -----
-    const cards = document.querySelectorAll(".cert-card");
+    // ----- Filters -----
+    const cards         = document.querySelectorAll(".cert-card");
     const filterButtons = document.querySelectorAll("#certFilters [data-tag]");
-
     let activeTags = new Set();
-    let mode = "AND"; // AND | OR
+    let mode = "AND";
 
-    const modeToggle = document.getElementById("modeToggleCert");
-    const modeSlider = document.getElementById("modeSlider");
-    const modeLblAnd = document.getElementById("modeLblAnd");
-    const modeLblOr = document.getElementById("modeLblOr");
+    const modeToggle  = document.getElementById("modeToggleCert");
+    const modeSlider  = document.getElementById("modeSlider");
+    const modeLblAnd  = document.getElementById("modeLblAnd");
+    const modeLblOr   = document.getElementById("modeLblOr");
 
     const setPressed = (el, pressed) =>
       el.setAttribute("aria-pressed", pressed ? "true" : "false");
@@ -317,88 +310,61 @@ const years = Object.keys(byYear)
     function updateModeUI() {
       const isAnd = mode === "AND";
       modeSlider.style.transform = isAnd ? "translateX(0)" : "translateX(100%)";
-      modeLblAnd.classList.toggle("text-white", isAnd);
-      modeLblAnd.classList.toggle("text-zinc-400", !isAnd);
-      modeLblOr.classList.toggle("text-white", !isAnd);
-      modeLblOr.classList.toggle("text-zinc-400", isAnd);
+      modeLblAnd.style.color = isAnd ? "#00ff41" : "#007a1f";
+      modeLblOr.style.color  = isAnd ? "#007a1f" : "#00ff41";
     }
 
     function applyFilter() {
       cards.forEach((card) => {
-        const tagsRaw = card.getAttribute("data-tags") || "";
-        const tags = tagsRaw.split(",").filter(Boolean);
-
+        const tags = (card.getAttribute("data-tags") || "").split(",").filter(Boolean);
         let show = true;
         if (activeTags.size > 0) {
           const arr = [...activeTags];
-          show =
-            mode === "AND"
-              ? arr.every((t) => tags.includes(t))
-              : arr.some((t) => tags.includes(t));
+          show = mode === "AND"
+            ? arr.every((t) => tags.includes(t))
+            : arr.some((t) => tags.includes(t));
         }
-
         card.classList.toggle("hidden", !show);
       });
     }
 
-    // click sur les tags
     filterButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const tag = btn.getAttribute("data-tag");
-
         if (tag === "__all") {
           activeTags.clear();
-          filterButtons.forEach((b) =>
-            setPressed(b, b.getAttribute("data-tag") === "__all"),
-          );
+          filterButtons.forEach((b) => setPressed(b, b.getAttribute("data-tag") === "__all"));
         } else {
-          // désactiver bouton "Tous"
           filterButtons.forEach((b) => {
             if (b.getAttribute("data-tag") === "__all") setPressed(b, false);
           });
-
-          if (activeTags.has(tag)) {
-            activeTags.delete(tag);
-            setPressed(btn, false);
-          } else {
-            activeTags.add(tag);
-            setPressed(btn, true);
-          }
-
-          // si plus aucun tag actif -> re-active "Tous"
+          if (activeTags.has(tag)) { activeTags.delete(tag); setPressed(btn, false); }
+          else { activeTags.add(tag); setPressed(btn, true); }
           if (activeTags.size === 0) {
-            const allBtn = document.querySelector(
-              '#certFilters [data-tag="__all"]',
-            );
+            const allBtn = document.querySelector('#certFilters [data-tag="__all"]');
             if (allBtn) setPressed(allBtn, true);
           }
         }
-
         applyFilter();
       });
     });
 
-    // toggle AND / OR
     modeToggle?.addEventListener("click", () => {
       mode = mode === "AND" ? "OR" : "AND";
       updateModeUI();
       applyFilter();
     });
 
-    // init
+    // Init
     applyView();
     updateModeUI();
     applyFilter();
   </script>
 
   <style>
-    /* petit rebond du slider de vue */
-    #viewSlider {
-      transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    /* même easing pour le slider ET/OU */
-    #modeSlider {
+    #viewSlider, #modeSlider {
       transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
   </style>
+
 </Base>

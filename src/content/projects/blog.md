@@ -1,6 +1,8 @@
 ---
 title: "Blog"
+titleEn: "Blog"
 description: "Blog"
+descriptionEn: "Blog"
 date: 2025-11-12
 tags: ["astro", "tailwind"]
 status: "planned"

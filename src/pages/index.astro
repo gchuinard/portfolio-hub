@@ -1,170 +1,255 @@
 ---
 import Base from "../layouts/Base.astro";
-import { LayoutGrid, BadgeCheck, FileText, MessageCircle } from "lucide-astro";
+import HeroSkillBars from "../components/HeroSkillBars.astro";
+import HeroPhoto from "../components/HeroPhoto.astro";
+import HeroGlitch from "../components/HeroGlitch.astro";
+import HeroBD from "../components/HeroBD.astro";
 ---
 
 <Base
   title="Accueil — Gautier Playbook"
   description="Gautier Playbook — projets, compétences, QA et certifications de Gautier Chuinard."
 >
-  <!-- HERO -->
-  <section
-    class="hero-gradient relative mb-10 overflow-hidden rounded-3xl border border-white/5
-           bg-gradient-to-br from-violet-800/40 via-fuchsia-800/35 to-emerald-800/35
-           px-6 py-8 md:px-10 md:py-10"
-  >
-    <div class="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-      <!-- Bloc texte -->
-      <div class="max-w-xl">
-        <p class="mb-2 text-xs uppercase tracking-[0.22em] text-zinc-100/80">
-          GAUTIER PLAYBOOK · GAUTIER CHUINARD
-        </p>
 
-        <h1 class="text-3xl font-bold leading-snug md:text-4xl">
-          Salut, je suis <span class="text-brand-200">Gautier</span><br />
-          product owner & QA orienté <span class="text-emerald-200">produit</span>.
+  <!-- ══ HERO : TERMINAL WINDOW ══════════════════════════════════ -->
+  <section class="hero-gradient terminal-window mb-10">
+
+    <!-- Title bar -->
+    <div class="terminal-titlebar">
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="terminal-title">gautier@playbook:~ — bash</span>
+    </div>
+
+    <!-- Body -->
+    <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between px-6 py-8 md:px-10 md:py-10">
+
+      <!-- Text block -->
+      <div class="max-w-xl">
+
+        <!-- Boot sequence -->
+        <div class="mb-4 text-xs text-[#007a1f] space-y-0.5 font-mono">
+          <p><span class="text-[#00aa2a]">$</span> whoami</p>
+          <p class="text-[#00cc35]">gautier chuinard</p>
+          <p class="mt-1"><span class="text-[#00aa2a]">$</span> cat about.txt</p>
+        </div>
+
+        <!-- Typewriter heading -->
+        <h1 class="text-2xl font-bold leading-snug md:text-3xl min-h-[4rem]">
+          <span id="typewriter-text" style="visibility:hidden;" data-i18n="index.typewriter"></span><span class="cursor" id="hero-cursor"></span>
         </h1>
 
-        <p class="mt-4 text-sm text-zinc-100/85 md:text-base">
-          Je pilote des projets digitaux, j’organise la qualité (tests auto, monitoring) et
+        <p id="hero-body" class="mt-4 text-sm text-[#00aa2a] md:text-base opacity-0 transition-opacity duration-500"
+           data-i18n="index.hero.body">
+          Je pilote des projets digitaux, j'organise la qualité (tests auto, monitoring) et
           je fais le lien entre les équipes techniques et le métier, avec une forte sensibilité
           utilisateur.
         </p>
 
-        <!-- CTA -->
-        <div class="mt-6 flex flex-wrap items-center gap-3">
-          <a href="/projects" class="cta-luxe rounded-full px-6 py-2.5 text-sm font-medium text-white">
-            Découvrir mes projets
+        <!-- CTA buttons -->
+        <div id="hero-cta" class="mt-6 flex flex-wrap items-center gap-3 opacity-0 transition-opacity duration-500">
+          <a href="/projects" class="cta-luxe px-5 py-2 text-sm font-medium"
+             data-i18n="index.hero.cta1">
+            &gt; découvrir mes projets
           </a>
-
           <a
             href="/certifications"
-            class="rounded-full border border-white/25 bg-black/25 px-5 py-2 text-xs font-medium
-                   text-zinc-50/90 hover:border-brand-300 hover:text-white transition"
+            class="border border-[#00ff41]/25 bg-transparent px-4 py-2 text-xs font-medium
+                   text-[#00aa2a] hover:border-[#00ff41]/55 hover:text-[#00ff41] transition-colors"
+            data-i18n="index.hero.cta2"
           >
-            Certifications & parcours Scrum
+            certifications &amp; parcours scrum →
           </a>
         </div>
 
-        <!-- Infos rapides -->
-        <div class="mt-6 flex flex-wrap gap-6 text-xs text-zinc-100/85">
-          <div class="space-y-1">
-            <p class="font-semibold text-zinc-50">Spécialités</p>
-            <p>Valeur, KPI, QA, tests auto (Postman, Playwright)</p>
-          </div>
-          <div class="space-y-1">
-            <p class="font-semibold text-zinc-50">Stack du hub</p>
-            <p>Astro · Tailwind · Markdown · Docker · GitHub Actions</p>
-          </div>
+        <!-- Quick info output -->
+        <div id="hero-info" class="mt-5 text-xs text-[#007a1f] space-y-1 font-mono opacity-0 transition-opacity duration-500">
+          <p><span class="text-[#00aa2a]">$</span> grep -E "specialties|stack" config.yaml</p>
+          <p><span class="text-[#005c17]">specialties:</span> <span class="text-[#00aa2a]">Valeur, KPI, QA, tests auto (Postman, Playwright)</span></p>
+          <p><span class="text-[#005c17]">stack:</span> <span class="text-[#00aa2a]">Astro · Tailwind · Markdown · Docker · GitHub Actions</span></p>
         </div>
       </div>
 
-      <!-- Bloc photo + badges -->
-      <div class="flex flex-col items-center gap-4 md:w-64">
-        <!-- Photo -->
-        <div class="photo-frame h-40 w-40 md:h-44 md:w-44">
-          <div class="photo-frame-inner flex h-full w-full items-center justify-center text-center text-xs text-zinc-200">
-            Photo à venir
-          </div>
-        </div>
-
-        <!-- Badges -->
-        <div class="w-full space-y-2 text-xs text-zinc-100/90">
-          <div
-            class="flex items-center justify-between rounded-full border border-zinc-300/15
-                   bg-black/35 px-3 py-1.5"
-          >
-            <span class="text-zinc-300">Mode de travail</span>
-            <span class="font-semibold text-emerald-300">Evidence-based</span>
-          </div>
-          <div
-            class="flex items-center justify-between rounded-full border border-zinc-300/15
-                   bg-black/35 px-3 py-1.5"
-          >
-            <span class="text-zinc-300">Focus</span>
-            <span class="font-semibold text-brand-200">Qualité & valeur</span>
-          </div>
-        </div>
-      </div>
+      <HeroBD />
     </div>
   </section>
 
-  <!-- NAVIGATION RAPIDE -->
+  <!-- ══ QUICK NAV ════════════════════════════════════════════════ -->
   <section class="mb-10 space-y-4">
-    <h2 class="text-lg font-semibold">Navigation rapide</h2>
+    <p class="term-section-cmd">ls ./navigation/</p>
 
     <div class="grid gap-4 md:grid-cols-3">
+
       <!-- Projets -->
-      <a href="/projects" class="quick-card">
-        <div class="quick-card-icon bg-brand-500/15 border-brand-400/35 text-brand-200">
-          <LayoutGrid class="h-4 w-4" />
+      <a href="/projects" class="quick-card group">
+        <div class="quick-card-icon">
+          <span class="text-[#00ff41] text-sm font-bold">/p</span>
         </div>
-        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-300">
-          Hub de projets
+        <p class="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#007a1f]"
+           data-i18n="index.nav.projects.label">
+          hub de projets
         </p>
-        <h3 class="mb-1 text-base font-semibold text-zinc-50">Projets & expériences</h3>
-        <p class="mb-3 text-sm text-zinc-400">
-          Cartes détaillées, stack, tags, liens Demo & Code, filtres avancés.
+        <h3 class="mb-1 text-sm font-bold text-[#00ff41]"
+            data-i18n="index.nav.projects.heading">Projets &amp; expériences</h3>
+        <p class="mb-3 text-xs text-[#00aa2a]"
+           data-i18n="index.nav.projects.desc">
+          Cartes détaillées, stack, tags, liens Demo &amp; Code, filtres avancés.
         </p>
-        <span class="quick-card-link">Voir les projets →</span>
+        <span class="quick-card-link" data-i18n="index.nav.projects.link">voir les projets</span>
       </a>
 
       <!-- Compétences -->
-      <a href="/skills" class="quick-card">
-        <div class="quick-card-icon bg-emerald-500/15 border-emerald-400/35 text-emerald-200">
-          <BadgeCheck class="h-4 w-4" />
+      <a href="/skills" class="quick-card group">
+        <div class="quick-card-icon">
+          <span class="text-[#00ff41] text-sm font-bold">/s</span>
         </div>
-        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-300">
-          Compétences
+        <p class="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#007a1f]"
+           data-i18n="index.nav.skills.label">
+          compétences
         </p>
-        <h3 class="mb-1 text-base font-semibold text-zinc-50">Compétences & outils</h3>
-        <p class="mb-3 text-sm text-zinc-400">
+        <h3 class="mb-1 text-sm font-bold text-[#00ff41]"
+            data-i18n="index.nav.skills.heading">Compétences &amp; outils</h3>
+        <p class="mb-3 text-xs text-[#00aa2a]"
+           data-i18n="index.nav.skills.desc">
           Vue synthétique : techniques, soft skills, frameworks et indicateurs visuels.
         </p>
-        <span class="quick-card-link">Explorer les compétences →</span>
+        <span class="quick-card-link" data-i18n="index.nav.skills.link">explorer les compétences</span>
       </a>
 
       <!-- Certifications -->
-      <a href="/certifications" class="quick-card">
-        <div class="quick-card-icon bg-fuchsia-500/15 border-fuchsia-400/35 text-fuchsia-200">
-          <FileText class="h-4 w-4" />
+      <a href="/certifications" class="quick-card group">
+        <div class="quick-card-icon">
+          <span class="text-[#00ff41] text-sm font-bold">/c</span>
         </div>
-        <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fuchsia-300">
-          Scrum & autres
+        <p class="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#007a1f]"
+           data-i18n="index.nav.certs.label">
+          scrum &amp; autres
         </p>
-        <h3 class="mb-1 text-base font-semibold text-zinc-50">Certifications</h3>
-        <p class="mb-3 text-sm text-zinc-400">
+        <h3 class="mb-1 text-sm font-bold text-[#00ff41]"
+            data-i18n="index.nav.certs.heading">Certifications</h3>
+        <p class="mb-3 text-xs text-[#00aa2a]"
+           data-i18n="index.nav.certs.desc">
           Timeline et grille : PAL I, parcours Scrum.org, autres formations structurantes.
         </p>
-        <span class="quick-card-link">Voir les certifications →</span>
+        <span class="quick-card-link" data-i18n="index.nav.certs.link">voir les certifications</span>
       </a>
     </div>
   </section>
 
-  <!-- BLOC TEXTE + TEASER CONTACT -->
+  <!-- ══ ABOUT + CONTACT TEASER ══════════════════════════════════ -->
   <section class="mt-6 grid gap-6 md:grid-cols-[2fr,1.3fr]">
+
     <div class="quick-card">
-      <div class="quick-card-icon bg-zinc-500/10 border-zinc-400/25 text-zinc-200">
-        <BadgeCheck class="h-4 w-4" />
+      <div class="quick-card-icon">
+        <span class="text-[#00ff41] text-xs">cat</span>
       </div>
-      <h2 class="mb-2 text-base font-semibold text-zinc-50">Ce que j’aime faire</h2>
-      <p class="text-sm text-zinc-400">
+      <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#007a1f] mb-1">
+        <span class="text-[#00aa2a]">$</span> cat what-i-do.txt
+      </p>
+      <h2 class="mb-2 text-sm font-bold text-[#00ff41]"
+          data-i18n="index.about.heading">Ce que j'aime faire</h2>
+      <p class="text-xs text-[#00aa2a] leading-relaxed"
+         data-i18n="index.about.body">
         Guider les équipes pour garantir la production de valeur, mettre en place des outils qui rendent les équipes plus efficaces : tests automatisés,
-        dashboards de monitoring, scripts d’industrialisation… Et garder toujours une vision
-        centrée sur l’utilisateur final.
+        dashboards de monitoring, scripts d'industrialisation… Et garder toujours une vision
+        centrée sur l'utilisateur final.
       </p>
     </div>
 
-    <a href="/contact" class="quick-card bg-gradient-to-br from-brand-700/25 via-brand-800/30 to-fuchsia-800/25">
-      <div class="quick-card-icon bg-brand-500/20 border-brand-400/50 text-brand-100">
-        <MessageCircle class="h-4 w-4" />
+    <a href="/contact" class="quick-card">
+      <div class="quick-card-icon">
+        <span class="text-[#00ff41] text-xs">msg</span>
       </div>
-      <h2 class="mb-1 text-base font-semibold text-zinc-50">Envie d’en discuter ?</h2>
-      <p class="mb-3 text-sm text-zinc-100/90">
+      <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#007a1f] mb-1">
+        <span class="text-[#00aa2a]">$</span> ./contact --init
+      </p>
+      <h2 class="mb-1 text-sm font-bold text-[#00ff41]"
+          data-i18n="index.contact.heading">Envie d'en discuter ?</h2>
+      <p class="mb-3 text-xs text-[#00aa2a] leading-relaxed"
+         data-i18n="index.contact.body">
         Un projet, une idée de pipeline de tests, un projet utilisateur peu atypique ?
         Je suis toujours partant pour en parler.
       </p>
-      <span class="quick-card-link">Accéder au formulaire de contact →</span>
+      <span class="quick-card-link" data-i18n="index.contact.link">accéder au formulaire de contact</span>
     </a>
   </section>
+
 </Base>
+
+<script>
+  // Typewriter effect
+  const el = document.getElementById('typewriter-text') as HTMLElement;
+  const cursor = document.getElementById('hero-cursor') as HTMLElement;
+  const body = document.getElementById('hero-body') as HTMLElement;
+  const cta = document.getElementById('hero-cta') as HTMLElement;
+  const info = document.getElementById('hero-info') as HTMLElement;
+
+  // Le texte a déjà été injecté par applyLang() dans Base.astro (data-i18n)
+  const fullText = el.textContent || 'Salut, je suis Gautier\nproduct owner & QA orienté produit.';
+  let i = 0;
+
+  el.style.visibility = 'visible';
+  el.style.whiteSpace = 'pre-wrap';
+  el.textContent = ''; // efface le texte statique avant l'animation
+
+  function type() {
+    if (i < fullText.length) {
+      el.textContent += fullText[i++];
+      setTimeout(type, i < 22 ? 55 : 40);
+    } else {
+      // After typing done, fade in the rest
+      cursor.style.display = 'none';
+      setTimeout(() => {
+        body.style.opacity = '1';
+        setTimeout(() => {
+          cta.style.opacity = '1';
+          setTimeout(() => {
+            info.style.opacity = '1';
+          }, 200);
+        }, 200);
+      }, 300);
+    }
+  }
+
+  // Start after a short delay for effect
+  setTimeout(type, 900);
+</script>
+
+<script>
+  // ── NMAP SCAN ANIMATION ──────────────────────────────────────────
+  const output = document.getElementById('nmap-output') as HTMLElement;
+  const spinner = document.getElementById('nmap-spinner') as HTMLElement;
+
+  // Each entry: [delay_ms_after_previous, html_content]
+  const lines: [number, string][] = [
+    [120, `<p class="text-[#007a1f]">Starting Nmap 7.94 ( https://nmap.org )</p>`],
+    [180, `<p class="text-[#007a1f]">Scan report for <span class="text-[#00aa2a]">gautier.local</span> (192.168.1.42)</p>`],
+    [120, `<p class="text-[#007a1f]">Host is up (0.0012s latency).</p>`],
+    [200, `<p class="text-[#005c17]">&nbsp;</p>`],
+    [100, `<p class="text-[#00aa2a]">PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATE&nbsp;&nbsp;SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VERSION</p>`],
+    [80,  `<p class="text-[#005c17]">──────────────────────────────────────────────</p>`],
+    [350, `<p><span class="text-[#00ff41]">80/tcp&nbsp;&nbsp;&nbsp;</span><span class="text-[#00aa2a]">&nbsp;open&nbsp;&nbsp;</span><span class="text-[#00cc35]">product-owner&nbsp;&nbsp;</span><span class="text-[#007a1f]">v3.2.1</span></p>`],
+    [420, `<p><span class="text-[#00ff41]">443/tcp&nbsp;&nbsp;</span><span class="text-[#00aa2a]">&nbsp;open&nbsp;&nbsp;</span><span class="text-[#00cc35]">qa-engineer&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text-[#007a1f]">Playwright 1.x</span></p>`],
+    [380, `<p><span class="text-[#00ff41]">3000/tcp&nbsp;</span><span class="text-[#00aa2a]">&nbsp;open&nbsp;&nbsp;</span><span class="text-[#00cc35]">automation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text-[#007a1f]">Postman / Newman</span></p>`],
+    [450, `<p><span class="text-[#00ff41]">8080/tcp&nbsp;</span><span class="text-[#00aa2a]">&nbsp;open&nbsp;&nbsp;</span><span class="text-[#00cc35]">scrum-master&nbsp;&nbsp;&nbsp;</span><span class="text-[#007a1f]">Scrum.org certified</span></p>`],
+    [400, `<p><span class="text-[#00ff41]">9090/tcp&nbsp;</span><span class="text-[#00aa2a]">&nbsp;open&nbsp;&nbsp;</span><span class="text-[#00cc35]">monitoring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text-[#007a1f]">Grafana OSS</span></p>`],
+    [200, `<p class="text-[#005c17]">&nbsp;</p>`],
+    [150, `<p class="text-[#00aa2a]">5 open ports &mdash; host: <span class="text-[#00ff41]">gautier.local</span> (Bordeaux, FR)</p>`],
+    [200, `<p class="text-[#007a1f]">Nmap done: 1 IP address (1 host up) scanned in 2.34s</p>`],
+  ];
+
+  let delay = 800; // initial delay before scan starts
+  lines.forEach(([wait, html], idx) => {
+    delay += wait;
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.innerHTML = html;
+      output.appendChild(p);
+      // Stop spinner on last line
+      if (idx === lines.length - 1) {
+        spinner.style.display = 'none';
+      }
+    }, delay);
+  });
+</script>

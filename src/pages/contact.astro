@@ -1,179 +1,172 @@
 ---
 import Base from "../layouts/Base.astro";
-import { Mail, MapPin, Github, Linkedin, MessageCircle } from "lucide-astro";
 ---
 
 <Base
   title="Contact — Gautier Playbook"
   description="Me contacter pour parler de projets, QA, tests automatisés ou domotique."
 >
-  <section class="mb-8 flex items-center gap-3">
-    <div
-      class="inline-flex h-10 w-10 items-center justify-center rounded-full
-             bg-gradient-to-br from-brand-500/70 to-fuchsia-500/70 text-white shadow-lg"
-    >
-      <MessageCircle class="h-5 w-5" />
-    </div>
-    <div>
-      <h1 class="text-2xl font-bold">Contact</h1>
-      <p class="text-sm text-zinc-400">
-        Tu veux parler d’un projet, de QA, de tests auto ou juste geekery domotique ? Écris-moi.
-      </p>
-    </div>
-  </section>
 
-  <section class="grid gap-8 md:grid-cols-[1.2fr,1.8fr]">
-    <!-- Infos de contact -->
+  <!-- Page header -->
+  <div class="mb-2 text-xs text-[#007a1f] font-mono">
+    <span class="text-[#00aa2a]">$</span> ./contact.sh --init
+  </div>
+  <h1 class="text-2xl font-bold text-[#00ff41] mb-1" data-i18n="contact.heading">Contact</h1>
+  <p class="text-xs text-[#00aa2a] mb-8 font-mono" data-i18n="contact.intro">
+    // Tu veux parler d'un projet, de QA, de tests auto ou juste geekery domotique ? Écris-moi.
+  </p>
+
+  <section class="grid gap-6 md:grid-cols-[1.2fr,1.8fr]">
+
+    <!-- Info card -->
     <div class="quick-card">
-      <div class="quick-card-icon bg-brand-500/15 border-brand-400/35 text-brand-100">
-        <Mail class="h-4 w-4" />
-      </div>
+      <p class="text-[10px] text-[#007a1f] font-mono mb-3">
+        <span class="text-[#00aa2a]">$</span> cat contact-info.txt
+      </p>
 
-      <h2 class="mb-2 text-base font-semibold text-zinc-50">Mes infos</h2>
-      <p class="mb-4 text-sm text-zinc-400">
-        Le plus simple pour me joindre reste l’email. Je réponds dès que possible, surtout si le sujet
+      <h2 class="mb-3 text-sm font-bold text-[#00ff41]" data-i18n="contact.info.heading">// Mes infos</h2>
+      <p class="mb-4 text-xs text-[#00aa2a] leading-relaxed" data-i18n="contact.info.body">
+        Le plus simple pour me joindre reste l'email. Je réponds dès que possible, surtout si le sujet
         touche aux tests auto, au monitoring ou à la chelou-tech auto-hébergée.
       </p>
 
-      <div class="space-y-3 text-sm text-zinc-300">
-        <div class="flex items-center gap-3">
-          <Mail class="h-4 w-4 text-brand-200" />
-          <span>
-            <span class="text-zinc-400">Email :</span>
-            <br />
-            <a
-              href="mailto:gautier.chuinard@lilo.org"
-              class="font-medium text-zinc-100 hover:text-brand-200"
-            >
-              gautier.chuinard@lilo.org
-            </a>
-          </span>
+      <div class="space-y-3 text-xs font-mono">
+        <div class="border-l-2 border-[#00ff41]/40 pl-3">
+          <p class="text-[#007a1f]">email:</p>
+          <a
+            href="mailto:gautier.chuinard@lilo.org"
+            class="text-[#00ff41] hover:text-[#39ff14] transition-colors"
+          >
+            gautier.chuinard@lilo.org
+          </a>
         </div>
 
-        <div class="flex items-center gap-3">
-          <MapPin class="h-4 w-4 text-emerald-200" />
-          <span>
-            <span class="text-zinc-400">Basé à :</span>
-            <br />
-            Bordeaux / métropole (France)
-          </span>
+        <div class="border-l-2 border-[#00ff41]/20 pl-3">
+          <p class="text-[#007a1f]">location:</p>
+          <span class="text-[#00aa2a]">Bordeaux / métropole (France)</span>
         </div>
       </div>
 
-      <div class="mt-5 space-y-2 text-sm text-zinc-300">
-        <p class="text-zinc-400 text-xs uppercase tracking-[0.18em] mb-1">
-          Réseaux
+      <div class="mt-5">
+        <p class="text-[10px] uppercase tracking-[0.18em] text-[#007a1f] mb-2 font-mono">
+          <span class="text-[#00aa2a]">$</span> <span data-i18n="contact.networks.label">ls ./réseaux/</span>
         </p>
-        <div class="flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-2">
           <a
             href="https://github.com/ton-compte"
             target="_blank"
-            class="inline-flex items-center gap-2 rounded-full border border-zinc-700/80
-                   bg-zinc-900/70 px-3 py-1.5 text-xs text-zinc-200 hover:border-brand-400 hover:text-white transition"
+            class="inline-flex items-center gap-1.5 border border-[#00ff41]/20 bg-[#080808] px-3 py-1.5 text-xs text-[#00aa2a] hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors font-mono"
           >
-            <Github class="h-3.5 w-3.5" />
-            GitHub
+            <span class="text-[#007a1f]">&gt;</span> GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/ton-profil"
             target="_blank"
-            class="inline-flex items-center gap-2 rounded-full border border-zinc-700/80
-                   bg-zinc-900/70 px-3 py-1.5 text-xs text-zinc-200 hover:border-brand-400 hover:text-white transition"
+            class="inline-flex items-center gap-1.5 border border-[#00ff41]/20 bg-[#080808] px-3 py-1.5 text-xs text-[#00aa2a] hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors font-mono"
           >
-            <Linkedin class="h-3.5 w-3.5" />
-            LinkedIn
+            <span class="text-[#007a1f]">&gt;</span> LinkedIn
           </a>
         </div>
       </div>
 
-      <p class="mt-5 text-[11px] text-zinc-500">
-        PS : la techno derrière peut évoluer (n8n, webhook, etc.), mais l’idée reste simple :
-        un canal clair pour discuter.
+      <p class="mt-5 text-[10px] text-[#005c17] font-mono leading-relaxed">
+        # PS : la techno derrière peut évoluer (n8n, webhook, etc.),<br/>
+        # mais l'idée reste simple : un canal clair pour discuter.
       </p>
     </div>
 
-    <!-- Formulaire -->
+    <!-- Form card -->
     <div class="quick-card">
-      <div class="quick-card-icon bg-emerald-500/15 border-emerald-400/35 text-emerald-100">
-        <MessageCircle class="h-4 w-4" />
-      </div>
-
-      <h2 class="mb-2 text-base font-semibold text-zinc-50">M’envoyer un message</h2>
-      <p class="mb-4 text-sm text-zinc-400">
-        Ce formulaire est pour l’instant une maquette côté front. Tu peux l’utiliser comme brouillon
-        avant d’envoyer un mail, ou on le branchera plus tard sur une vraie API (n8n, serveur, etc.).
+      <p class="text-[10px] text-[#007a1f] font-mono mb-3">
+        <span class="text-[#00aa2a]">$</span> ./send-message.sh
+      </p>
+      <h2 class="mb-1 text-sm font-bold text-[#00ff41]" data-i18n="contact.form.heading">// M'envoyer un message</h2>
+      <p class="mb-5 text-xs text-[#007a1f] font-mono leading-relaxed">
+        # Ce formulaire est pour l'instant une maquette côté front.<br/>
+        # Utilisable comme brouillon avant d'envoyer un mail.
       </p>
 
       <form class="space-y-4">
+
         <div>
-          <label class="mb-1 block text-xs font-medium text-zinc-300" for="name">
-            Nom / Prénom
+          <label class="mb-1 block text-[10px] font-bold text-[#007a1f] font-mono uppercase tracking-[0.15em]"
+                 for="name" data-i18n="contact.form.name">
+            nom / prénom:
           </label>
           <input
             id="name"
             type="text"
-            class="w-full rounded-xl border border-zinc-700 bg-zinc-950/70 px-3 py-2 text-sm
-                   focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="Qui m’écrit ?"
+            class="w-full border border-[#00ff41]/25 bg-[#080808] px-3 py-2 text-xs text-[#00ff41]
+                   focus:outline-none focus:border-[#00ff41]/55 font-mono"
+            placeholder="_ qui m'écrit ?"
+            data-i18n-placeholder="contact.form.name.ph"
           />
         </div>
 
         <div>
-          <label class="mb-1 block text-xs font-medium text-zinc-300" for="email">
-            Email
+          <label class="mb-1 block text-[10px] font-bold text-[#007a1f] font-mono uppercase tracking-[0.15em]" for="email">
+            email:
           </label>
           <input
             id="email"
             type="email"
-            class="w-full rounded-xl border border-zinc-700 bg-zinc-950/70 px-3 py-2 text-sm
-                   focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="vous@exemple.fr"
+            class="w-full border border-[#00ff41]/25 bg-[#080808] px-3 py-2 text-xs text-[#00ff41]
+                   focus:outline-none focus:border-[#00ff41]/55 font-mono"
+            placeholder="_ vous@exemple.fr"
+            data-i18n-placeholder="contact.form.email.ph"
           />
         </div>
 
         <div>
-          <label class="mb-1 block text-xs font-medium text-zinc-300" for="subject">
-            Sujet
+          <label class="mb-1 block text-[10px] font-bold text-[#007a1f] font-mono uppercase tracking-[0.15em]"
+                 for="subject" data-i18n="contact.form.subject">
+            sujet:
           </label>
           <input
             id="subject"
             type="text"
-            class="w-full rounded-xl border border-zinc-700 bg-zinc-950/70 px-3 py-2 text-sm
-                   focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="De quoi allons-nous parler ?"
+            class="w-full border border-[#00ff41]/25 bg-[#080808] px-3 py-2 text-xs text-[#00ff41]
+                   focus:outline-none focus:border-[#00ff41]/55 font-mono"
+            placeholder="_ de quoi allons-nous parler ?"
+            data-i18n-placeholder="contact.form.subject.ph"
           />
         </div>
 
         <div>
-          <label class="mb-1 block text-xs font-medium text-zinc-300" for="message">
-            Message
+          <label class="mb-1 block text-[10px] font-bold text-[#007a1f] font-mono uppercase tracking-[0.15em]"
+                 for="message" data-i18n="contact.form.message">
+            message:
           </label>
           <textarea
             id="message"
             rows="4"
-            class="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-950/70 px-3 py-2 text-sm
-                   focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="Quel est le contexte, c’est toujours utile 🙂"
+            class="w-full resize-none border border-[#00ff41]/25 bg-[#080808] px-3 py-2 text-xs text-[#00ff41]
+                   focus:outline-none focus:border-[#00ff41]/55 font-mono"
+            placeholder="_ quel est le contexte, c'est toujours utile"
+            data-i18n-placeholder="contact.form.message.ph"
           ></textarea>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3 pt-2">
+        <div class="flex flex-wrap items-center gap-4 pt-1">
           <button
             type="button"
-            class="cta-luxe rounded-full px-5 py-2 text-xs font-medium text-white"
-            onclick="alert('Pour l’instant, ce formulaire est une maquette. Envoie-moi plutôt un email directement 😊');"
+            class="cta-luxe px-5 py-2 text-xs font-bold"
+            data-i18n="contact.form.submit"
+            onclick="alert('Pour l\'instant, ce formulaire est une maquette. Envoie-moi plutôt un email directement 😊');"
           >
-            Envoyer (maquette)
+            &gt; envoyer (maquette)
           </button>
 
           <a
             href="mailto:gautier.chuinard@lilo.org"
-            class="text-xs text-zinc-400 hover:text-brand-300"
+            class="text-xs text-[#007a1f] hover:text-[#00ff41] transition-colors font-mono"
+            data-i18n="contact.form.email.link"
           >
-            Ou m’écrire directement par email →
+            // ou écrire directement par email →
           </a>
         </div>
       </form>
     </div>
   </section>
+
 </Base>

@@ -3,125 +3,118 @@ import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import ProjectCard from "../components/ProjectCard.astro";
 
-// Récup projets triés (du + récent au + ancien)
 const projects = (await getCollection("projects")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
 
-// Liste unique des tags
 const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
 <Base title="Projets — PortfolioHub">
-  <h1 class="text-3xl font-bold mb-6">Hub de Projets</h1>
 
-  <!-- Filtres -->
-  <div id="filters" class="flex flex-wrap gap-2">
-    <button
-      data-tag="__all"
-      class="px-3 py-1 rounded-full border border-zinc-700 text-sm transition
-             hover:border-brand-500 hover:bg-zinc-800/60
-             aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:text-white
-             aria-[pressed=true]:border-brand-500"
-      aria-pressed="true"
-    >
-      Tous
-    </button>
-    {
-      allTags.map((t) => (
-        <button
-          data-tag={t}
-          class="px-3 py-1 rounded-full border border-zinc-700 text-sm transition
-                 hover:border-brand-500 hover:bg-zinc-800/60
-                 aria-[pressed=true]:bg-brand-600 aria-[pressed=true]:text-white
-                 aria-[pressed=true]:border-brand-500"
-          aria-pressed="false"
-        >
-          {t}
-        </button>
-      ))
-    }
+  <!-- Page header -->
+  <div class="mb-2 text-xs text-[#007a1f] font-mono">
+    <span class="text-[#00aa2a]">$</span> ls -la ./projects/ <span class="text-[#005c17]">| sort -r</span>
+  </div>
+  <h1 class="text-2xl font-bold text-[#00ff41] mb-1" data-i18n="projects.heading">Hub de Projets</h1>
+  <p class="text-xs text-[#007a1f] mb-6">
+    <span class="text-[#00aa2a]">{projects.length} <span data-i18n="projects.entries">entrées trouvées</span></span>
+    <span class="text-[#005c17]" data-i18n="projects.filter.hint"> — utilisez les filtres pour affiner</span>
+  </p>
+
+  <!-- Filter section -->
+  <div class="border border-[#00ff41]/15 bg-[#0a0a0a] p-4 mb-6">
+    <p class="text-[10px] uppercase tracking-[0.2em] text-[#007a1f] mb-3 font-bold">
+      <span class="text-[#00aa2a]">$</span> grep --tags
+    </p>
+
+    <!-- Tags -->
+    <div id="filters" class="flex flex-wrap gap-2">
+      <button
+        data-tag="__all"
+        class="px-3 py-1 border border-[#00ff41]/25 text-xs text-[#00aa2a] transition-colors font-mono
+               hover:border-[#00ff41]/55 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+               aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+        aria-pressed="true"
+      >
+        [ ALL ]
+      </button>
+      {
+        allTags.map((t) => (
+          <button
+            data-tag={t}
+            class="px-3 py-1 border border-[#00ff41]/20 text-xs text-[#00aa2a] transition-colors font-mono
+                   hover:border-[#00ff41]/50 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+                   aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+            aria-pressed="false"
+          >
+            {t}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- AND/OR toggle -->
+    <div class="mt-3 flex items-center gap-3">
+      <span class="text-xs text-[#007a1f] font-mono" data-i18n="projects.filter.label">mode_filtre :</span>
+      <button
+        id="modeToggle"
+        class="relative w-28 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
+               focus:outline-none focus:border-[#00ff41]/50 transition inline-flex items-center font-mono"
+      >
+        <span
+          id="slider"
+          class="absolute inset-1 w-[calc(50%-0.2rem)] h-[calc(100%-0.5rem)]
+                 bg-[#00ff41]/15 border border-[#00ff41]/35 transition-transform duration-200 z-0"
+        ></span>
+        <span id="lblAnd" class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#00ff41]" data-i18n="projects.filter.and">ET</span>
+        <span id="lblOr"  class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#007a1f]" data-i18n="projects.filter.or">OU</span>
+      </button>
+    </div>
   </div>
 
-  <!-- Toggle AND/OR -->
-  <div class="mt-3 flex items-center gap-3">
-    <span class="text-sm text-zinc-400">Mode filtre : </span>
-    <button
-      id="modeToggle"
-      class="relative w-32 h-9 rounded-full border border-zinc-700 bg-zinc-900/60 overflow-hidden
-         ring-0 focus:outline-none focus:ring-2 focus:ring-brand-500 transition inline-flex items-center"
-    >
-      <!-- slider dessous -->
-      <span
-        id="slider"
-        class="absolute inset-1 w-[calc(50%-0.25rem)] h-[calc(100%-0.5rem)]
-               rounded-full bg-brand-600 shadow-md transition-transform duration-300 will-change-transform z-0"
-      ></span>
-      <!-- labels au-dessus, en flex -->
-      <span
-        id="lblAnd"
-        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
-        >ET</span
-      >
-      <span
-        id="lblOr"
-        class="relative z-10 flex-1 text-center text-xs font-medium select-none"
-        >OU</span
-      >
-    </button>
-  </div>
-
-  <!-- Grille -->
-  <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+  <!-- Project grid -->
+  <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 mt-2">
     {projects.map((p) => <ProjectCard entry={p} />)}
   </div>
 
-  <!-- Script de filtre (vanilla) -->
+  <!-- Filter script -->
   <script type="module">
     const grid = document.getElementById("grid");
     const btns = document.querySelectorAll("#filters [data-tag]");
     let active = new Set();
-    let mode = "AND"; // AND | OR
+    let mode = "AND";
 
     const toggle = document.getElementById("modeToggle");
     const slider = document.getElementById("slider");
     const lblAnd = document.getElementById("lblAnd");
-    const lblOr = document.getElementById("lblOr");
+    const lblOr  = document.getElementById("lblOr");
 
-    // Helpers UI
     const setPressed = (el, pressed) =>
       el.setAttribute("aria-pressed", pressed ? "true" : "false");
+
     const updateSlider = () => {
-      slider.style.transform =
-        mode === "AND" ? "translateX(0)" : "translateX(100%)";
-      const etActif = mode === "AND";
-      lblAnd.classList.toggle("text-white", etActif);
-      lblAnd.classList.toggle("text-zinc-400", !etActif);
-      lblOr.classList.toggle("text-white", !etActif);
-      lblOr.classList.toggle("text-zinc-400", etActif);
-      // slider
-      slider.style.transform = etActif ? "translateX(0)" : "translateX(100%)";
+      const isAnd = mode === "AND";
+      slider.style.transform = isAnd ? "translateX(0)" : "translateX(100%)";
+      lblAnd.classList.toggle("text-[#00ff41]", isAnd);
+      lblAnd.classList.toggle("text-[#007a1f]", !isAnd);
+      lblOr.classList.toggle("text-[#00ff41]", !isAnd);
+      lblOr.classList.toggle("text-[#007a1f]", isAnd);
     };
 
-    // Applique le filtre
     function apply() {
-      const cards = grid.children;
-      for (const el of cards) {
-        const tags = (el.getAttribute("data-tags") || "")
-          .split(",")
-          .filter(Boolean);
+      for (const el of grid.children) {
+        const tags = (el.getAttribute("data-tags") || "").split(",").filter(Boolean);
         let show = true;
         if (active.size > 0) {
-          show =
-            mode === "AND"
-              ? [...active].every((t) => tags.includes(t))
-              : [...active].some((t) => tags.includes(t));
+          show = mode === "AND"
+            ? [...active].every((t) => tags.includes(t))
+            : [...active].some((t) => tags.includes(t));
         }
         el.classList.toggle("hidden", !show);
       }
     }
 
-    // Click sur tags
     for (const btn of btns) {
       btn.addEventListener("click", () => {
         const tag = btn.dataset.tag;
@@ -129,19 +122,9 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
           active.clear();
           btns.forEach((b) => setPressed(b, b.dataset.tag === "__all"));
         } else {
-          // désactive "Tous"
-          btns.forEach((b) => {
-            if (b.dataset.tag === "__all") setPressed(b, false);
-          });
-          // toggle du tag
-          if (active.has(tag)) {
-            active.delete(tag);
-            setPressed(btn, false);
-          } else {
-            active.add(tag);
-            setPressed(btn, true);
-          }
-          // si plus aucun tag => réactive "Tous"
+          btns.forEach((b) => { if (b.dataset.tag === "__all") setPressed(b, false); });
+          if (active.has(tag)) { active.delete(tag); setPressed(btn, false); }
+          else { active.add(tag); setPressed(btn, true); }
           if (active.size === 0) {
             const all = document.querySelector('#filters [data-tag="__all"]');
             setPressed(all, true);
@@ -151,14 +134,12 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
       });
     }
 
-    // Toggle AND/OR
     toggle.addEventListener("click", () => {
       mode = mode === "AND" ? "OR" : "AND";
       updateSlider();
       apply();
     });
 
-    // init
     updateSlider();
   </script>
 </Base>
