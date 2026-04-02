@@ -55,7 +55,13 @@ Le thème est switchable (hue CSS variable `--hue`, mode clair/sombre) via `loca
 
 ## Internationalisation (FR/EN)
 
-Géré **côté client uniquement** via `data-i18n`, `data-lang-fr`, `data-lang-en` dans le HTML. Le dictionnaire EN est inliné dans `Base.astro` (script `is:inline`). Pour les composants dynamiques (ProjectCard), utiliser `data-lang-fr={title}` et `data-lang-en={titleEn}`.
+Géré **côté client uniquement** via `data-i18n`, `data-lang-fr`, `data-lang-en` dans le HTML. **Le i18n est réparti sur trois fichiers — toujours mettre à jour les trois :**
+
+1. `src/pages/index.astro` — fallback JS du typewriter (texte FR par défaut)
+2. `src/layouts/Base.astro` — dictionnaire EN inliné (`script is:inline`)
+3. `src/scripts/base-client.ts` — dictionnaire FR complet (rechargement dynamique SPA)
+
+Pour les composants dynamiques (ProjectCard), utiliser `data-lang-fr={title}` et `data-lang-en={titleEn}`.
 
 ## Ajouter un projet
 
