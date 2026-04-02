@@ -42,7 +42,7 @@ const translations: Record<string, Record<string, string>> = {
     "index.contact.body":
       "Un projet, une idée de pipeline de tests, un projet utilisateur peu atypique ? Je suis toujours partant pour en parler.",
     "index.contact.link": "accéder au formulaire de contact",
-    "index.typewriter": "Salut, je suis Gautier\nproduct owner & QA orienté produit.",
+    "index.typewriter": "404: excuses not found.\nPO by day, QA by night — [defining] → [shipping] → [breaking] → [fixing]",
     "projects.heading": "Hub de Projets",
     "projects.entries": "entrées trouvées",
     "projects.filter.hint": " — utilisez les filtres pour affiner",
