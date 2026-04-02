@@ -1,7 +1,7 @@
 ---
 import "../styles/tailwind.css";
 import "../styles/base-boot.css";
-import baseClientScript from "../scripts/base-client.ts?url";
+import TerminalOverlay from "../components/TerminalOverlay.astro";
 
 const {
   title = "Gautier Playbook",
@@ -176,6 +176,18 @@ const swatchesLight = [
             >
               EN
             </button>
+
+            <!-- Séparateur -->
+            <span class="text-[#007a1f]/40 text-xs">|</span>
+
+            <!-- Terminal trigger -->
+            <button
+              id="term-trigger"
+              title="Terminal (` ou Ctrl+K)"
+              aria-label="Ouvrir le terminal"
+              class="text-[9px] text-[#007a1f] border border-[#00ff41]/15 px-1.5 py-0.5
+                     hover:text-[#00ff41] hover:border-[#00ff41]/40 transition-colors font-mono"
+            >&gt;_</button>
           </div>
 
         </nav>
@@ -193,6 +205,8 @@ const swatchesLight = [
           <span class="text-[#005c17]">// built with astro + tailwind</span>
         </div>
       </footer>
+
+      <TerminalOverlay />
 
     </div><!-- #theme-root -->
 
@@ -285,4 +299,6 @@ const swatchesLight = [
 
   </body>
 </html>
-<script type="module" src={baseClientScript}></script>
+<script>
+  import "../scripts/base-client.ts";
+</script>
