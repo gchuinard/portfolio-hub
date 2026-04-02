@@ -1,0 +1,356 @@
+---
+// Terminal overlay — floating window, toggled by backtick or Ctrl+K
+// The trigger button lives in Base.astro's nav (#term-trigger)
+---
+
+<!-- Backdrop -->
+<div
+  id="term-backdrop"
+  class="fixed inset-0 z-[90] bg-black/60 backdrop-blur-[2px] hidden"
+  aria-hidden="true"
+></div>
+
+<!-- Terminal window -->
+<div
+  id="term-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Terminal interactif"
+  class="fixed z-[100] hidden
+         top-[10%] left-1/2 -translate-x-1/2
+         w-[min(680px,92vw)]
+         border border-[#00ff41]/40 bg-[#0a0a0a] shadow-[0_0_40px_rgba(0,255,65,0.12)]
+         flex flex-col"
+  style="max-height: 70vh;"
+>
+  <!-- Title bar -->
+  <div class="flex items-center justify-between px-3 py-2 border-b border-[#00ff41]/15 bg-[#0d0d0d] flex-shrink-0">
+    <div class="flex items-center gap-1.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+    </div>
+    <span class="text-[10px] text-[#007a1f] font-mono">gautier@playbook:~$ — terminal</span>
+    <button
+      id="term-close"
+      class="text-[#007a1f] hover:text-[#00ff41] text-xs font-mono transition-colors"
+      aria-label="Fermer"
+    >✕</button>
+  </div>
+
+  <!-- Output area -->
+  <div
+    id="term-output"
+    class="flex-1 overflow-y-auto px-4 py-3 font-mono text-xs text-[#00aa2a] space-y-0.5"
+    style="min-height: 120px;"
+  ></div>
+
+  <!-- Input line -->
+  <div class="flex items-center gap-2 px-4 py-2 border-t border-[#00ff41]/10 bg-[#0a0a0a] flex-shrink-0">
+    <span class="text-[#00aa2a] font-mono text-xs select-none">gautier@playbook:~$</span>
+    <input
+      id="term-input"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      class="flex-1 bg-transparent outline-none font-mono text-xs text-[#00ff41] caret-[#00ff41]
+             placeholder-[#005c17]"
+      placeholder="type 'help' for available commands…"
+    />
+  </div>
+</div>
+
+<script>
+// ── Terminal overlay logic ──────────────────────────────────────────────────
+
+const overlay   = document.getElementById('term-overlay') as HTMLElement;
+const backdrop  = document.getElementById('term-backdrop') as HTMLElement;
+const trigger   = document.getElementById('term-trigger') as HTMLButtonElement;
+const closeBtn  = document.getElementById('term-close') as HTMLButtonElement;
+const input     = document.getElementById('term-input') as HTMLInputElement;
+const output    = document.getElementById('term-output') as HTMLElement;
+
+if (!overlay || !backdrop || !trigger || !closeBtn || !input || !output) {
+  // guard — should never happen
+} else {
+
+// ── State ──────────────────────────────────────────────────────────────────
+let history: string[] = [];
+let historyIdx = -1;
+let isOpen = false;
+
+// ── Open / Close ───────────────────────────────────────────────────────────
+function open() {
+  isOpen = true;
+  overlay.classList.remove('hidden');
+  overlay.classList.add('flex');
+  backdrop.classList.remove('hidden');
+  input.value = '';
+  input.focus();
+  if (output.children.length === 0) {
+    printWelcome();
+  }
+}
+
+function close() {
+  isOpen = false;
+  overlay.classList.add('hidden');
+  overlay.classList.remove('flex');
+  backdrop.classList.add('hidden');
+}
+
+function toggle() { isOpen ? close() : open(); }
+
+// ── Keyboard shortcuts ─────────────────────────────────────────────────────
+document.addEventListener('keydown', (e: KeyboardEvent) => {
+  const tag = (e.target as HTMLElement).tagName;
+  const inFormField = ['INPUT','TEXTAREA','SELECT'].includes(tag);
+
+  if ((e.key === '`' && !inFormField) || (e.ctrlKey && e.key === 'k')) {
+    e.preventDefault();
+    toggle();
+    return;
+  }
+  if (isOpen && e.key === 'Escape') {
+    close();
+  }
+});
+
+trigger.addEventListener('click', toggle);
+closeBtn.addEventListener('click', close);
+backdrop.addEventListener('click', close);
+
+// ── Output helpers ─────────────────────────────────────────────────────────
+function line(html: string, cls = 'text-[#00aa2a]') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = html;
+  output.appendChild(p);
+  output.scrollTop = output.scrollHeight;
+}
+
+function blank() { line('&nbsp;'); }
+
+function printWelcome() {
+  line('<span class="text-[#007a1f]">Initializing terminal session…</span>');
+  line('<span class="text-[#00ff41]">gautier@playbook v1.0</span> — <span class="text-[#007a1f]">interactive navigation shell</span>');
+  blank();
+  line('Type <span class="text-[#00ff41]">help</span> to list available commands.');
+  blank();
+}
+
+// ── Commands ───────────────────────────────────────────────────────────────
+type Cmd = { desc: string; run: (args: string[]) => void };
+
+const commands: Record<string, Cmd> = {
+
+  help: {
+    desc: 'list all commands',
+    run() {
+      blank();
+      line('<span class="text-[#00ff41]">// available commands</span>');
+      blank();
+      for (const [name, cmd] of Object.entries(commands)) {
+        line(`  <span class="text-[#00ff41]">${name.padEnd(14)}</span><span class="text-[#007a1f]">${cmd.desc}</span>`);
+      }
+      blank();
+    },
+  },
+
+  ls: {
+    desc: 'list available pages',
+    run() {
+      blank();
+      line('<span class="text-[#007a1f]">total 4</span>');
+      line('drwxr-xr-x  <span class="text-[#00ff41]">projects/</span>       <span class="text-[#007a1f]">— hub de projets</span>');
+      line('drwxr-xr-x  <span class="text-[#00ff41]">skills/</span>         <span class="text-[#007a1f]">— compétences & outils</span>');
+      line('drwxr-xr-x  <span class="text-[#00ff41]">certifications/</span> <span class="text-[#007a1f]">— formations & certifications</span>');
+      line('drwxr-xr-x  <span class="text-[#00ff41]">contact/</span>        <span class="text-[#007a1f]">— formulaire de contact</span>');
+      blank();
+    },
+  },
+
+  cd: {
+    desc: 'navigate to a page  (e.g. cd projects)',
+    run(args) {
+      const dest = args[0]?.replace(/^\//, '').toLowerCase();
+      const routes: Record<string, string> = {
+        '':               '/',
+        '~':              '/',
+        'home':           '/',
+        'projects':       '/projects',
+        'skills':         '/skills',
+        'competences':    '/skills',
+        'certifications': '/certifications',
+        'certs':          '/certifications',
+        'contact':        '/contact',
+      };
+      if (dest === undefined || dest === '' || dest === '~') {
+        line('<span class="text-[#007a1f]">navigating to → </span><span class="text-[#00ff41]">/</span>');
+        setTimeout(() => { window.location.href = '/'; }, 500);
+        return;
+      }
+      if (dest in routes) {
+        line(`<span class="text-[#007a1f]">navigating to → </span><span class="text-[#00ff41]">${routes[dest]}</span>`);
+        setTimeout(() => { window.location.href = routes[dest]; }, 500);
+      } else {
+        line(`<span class="text-[#ff5f57]">cd: ${dest}: no such directory</span>`);
+        line('<span class="text-[#007a1f]">run <span class="text-[#00ff41]">ls</span> to list available pages.</span>');
+      }
+    },
+  },
+
+  pwd: {
+    desc: 'print current page path',
+    run() {
+      line(`<span class="text-[#00ff41]">${window.location.pathname || '/'}</span>`);
+    },
+  },
+
+  whoami: {
+    desc: 'who is this site about?',
+    run() {
+      blank();
+      line('<span class="text-[#00ff41]">gautier chuinard</span>');
+      line('<span class="text-[#007a1f]">product owner · qa engineer · scrum enthusiast</span>');
+      line('<span class="text-[#007a1f]">location: bordeaux, fr</span>');
+      blank();
+    },
+  },
+
+  cat: {
+    desc: 'read a file  (try: cat about.txt, cat stack.txt)',
+    run(args) {
+      const file = args[0]?.toLowerCase();
+      if (file === 'about.txt' || file === 'about') {
+        blank();
+        line('<span class="text-[#007a1f]">// about.txt</span>');
+        line('Je pilote des projets digitaux, j\'organise la qualité (tests auto,');
+        line('monitoring) et je fais le lien entre les équipes techniques et le');
+        line('métier — avec une forte sensibilité utilisateur.');
+        blank();
+      } else if (file === 'stack.txt' || file === 'stack') {
+        blank();
+        line('<span class="text-[#007a1f]">// stack.txt</span>');
+        line('<span class="text-[#00ff41]">stack:</span>      Astro · Tailwind · TypeScript · Docker');
+        line('<span class="text-[#00ff41]">testing:</span>   Playwright · Postman · Newman');
+        line('<span class="text-[#00ff41]">monitoring:</span> Grafana · Prometheus');
+        line('<span class="text-[#00ff41]">ci/cd:</span>     GitHub Actions');
+        blank();
+      } else if (file === 'contact.txt' || file === 'contact') {
+        blank();
+        line('<span class="text-[#007a1f]">// contact.txt</span>');
+        line('→ <a href="/contact" class="text-[#00ff41] hover:underline">/contact</a> — formulaire de contact');
+        blank();
+      } else {
+        line(`<span class="text-[#ff5f57]">cat: ${file ?? '(no file)'}: no such file</span>`);
+        line('<span class="text-[#007a1f]">try: about.txt · stack.txt · contact.txt</span>');
+      }
+    },
+  },
+
+  clear: {
+    desc: 'clear the terminal',
+    run() {
+      output.innerHTML = '';
+    },
+  },
+
+  exit: {
+    desc: 'close this terminal',
+    run() {
+      close();
+    },
+  },
+};
+
+// ── Input handling ─────────────────────────────────────────────────────────
+input.addEventListener('keydown', (e: KeyboardEvent) => {
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx < history.length - 1) {
+      historyIdx++;
+      input.value = history[history.length - 1 - historyIdx];
+    }
+    return;
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx > 0) {
+      historyIdx--;
+      input.value = history[history.length - 1 - historyIdx];
+    } else {
+      historyIdx = -1;
+      input.value = '';
+    }
+    return;
+  }
+
+  if (e.key !== 'Enter') return;
+
+  const raw = input.value.trim();
+  input.value = '';
+  historyIdx = -1;
+
+  if (!raw) return;
+
+  // Echo the command
+  line(`<span class="text-[#00aa2a]">gautier@playbook:~$</span> <span class="text-[#00ff41]">${raw.replace(/</g,'&lt;')}</span>`);
+
+  history.push(raw);
+
+  const [cmd, ...args] = raw.split(/\s+/);
+  const handler = commands[cmd.toLowerCase()];
+
+  if (handler) {
+    handler.run(args);
+  } else {
+    line(`<span class="text-[#ff5f57]">${cmd}: command not found</span>`);
+    line('<span class="text-[#007a1f]">type <span class="text-[#00ff41]">help</span> for available commands.</span>');
+  }
+});
+
+// ── Tab completion ─────────────────────────────────────────────────────────
+
+// Argument completions per command
+const argCompletions: Record<string, string[]> = {
+  cd:  ['projects', 'skills', 'certifications', 'contact', '~'],
+  cat: ['about.txt', 'stack.txt', 'contact.txt'],
+};
+
+input.addEventListener('keydown', (e: KeyboardEvent) => {
+  if (e.key !== 'Tab') return;
+  e.preventDefault();
+
+  const val = input.value;
+  const parts = val.split(/\s+/);
+
+  // No space yet → complete the command name
+  if (parts.length <= 1) {
+    const prefix = parts[0] ?? '';
+    const matches = Object.keys(commands).filter(k => k.startsWith(prefix));
+    if (matches.length === 1) {
+      input.value = matches[0] + ' ';
+    } else if (matches.length > 1) {
+      line(`<span class="text-[#007a1f]">${matches.join('  ')}</span>`);
+    }
+    return;
+  }
+
+  // Space present → complete the argument
+  const cmd = parts[0].toLowerCase();
+  const argPrefix = parts[parts.length - 1] ?? '';
+  const candidates = argCompletions[cmd] ?? [];
+  const matches = candidates.filter(c => c.startsWith(argPrefix));
+
+  if (matches.length === 1) {
+    // Replace last token with the completed arg
+    parts[parts.length - 1] = matches[0];
+    input.value = parts.join(' ') + ' ';
+  } else if (matches.length > 1) {
+    line(`<span class="text-[#007a1f]">${matches.join('  ')}</span>`);
+  }
+});
+
+} // end guard
+</script>
