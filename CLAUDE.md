@@ -75,7 +75,9 @@ description: "Description FR"
 descriptionEn: "Description EN"  # optionnel
 date: YYYY-MM-DD
 tags: ["tag1", "tag2"]        # minuscules, servent aux filtres
-status: "new"                 # new | updated | in-progress | planned | beta
+status: "new"                 # valeur unique : online | offline | new | updated | in-progress | planned | beta
+# ou plusieurs statuts en tableau (ex: online + état de dev) :
+# status: ["online", "new"]  — toujours online/offline en premier si présent
 stack: ["Tech1", "Tech2"]
 featured: true
 demo: "https://..."           # optionnel

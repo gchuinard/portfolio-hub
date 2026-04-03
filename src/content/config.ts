@@ -14,7 +14,10 @@ const projects = defineCollection({
     featured: z.boolean().optional(),
     demo: z.string().url().optional(),
     repo: z.string().url().optional(),
-    status: z.enum(["new", "updated", "in-progress", "planned", "beta"]).optional(),
+    status: z.union([
+      z.enum(["online", "offline", "new", "updated", "in-progress", "planned", "beta"]),
+      z.array(z.enum(["online", "offline", "new", "updated", "in-progress", "planned", "beta"])),
+    ]).optional().transform(v => v ? (Array.isArray(v) ? v : [v]) : []),
   }),
 });
 
