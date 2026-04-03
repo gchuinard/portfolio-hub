@@ -5,7 +5,7 @@ description: "Agent IA qui permet d'automatiser une partie des tests automatique
 descriptionEn: "AI agent that automates part of the automated testing process."
 date: 2025-11-12
 tags: ["API", "IA"]
-status: "planned"
+status: ["offline", "planned"]
 stack: ["Python"]
 featured: true
 demo: "https://mon-site-demo.dev"

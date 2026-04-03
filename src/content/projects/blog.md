@@ -5,7 +5,7 @@ description: "Blog"
 descriptionEn: "Blog"
 date: 2025-11-12
 tags: ["astro", "tailwind"]
-status: "planned"
+status: ["offline", "planned"]
 stack: ["Astro"]
 featured: true
 demo: "https://mon-site-demo.dev"

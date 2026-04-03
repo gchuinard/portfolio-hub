@@ -5,7 +5,7 @@ description: "Site pour mettre en place des sondes et recevoir des alertes"
 descriptionEn: "Platform for setting up monitoring probes and receiving alerts."
 date: 2025-11-12
 tags: ["tailwind", "portfolio", fastapi]
-status: "beta"
+status: ["online", "beta"]
 stack: ["Svelte", "Vite", "TailwindCSS", "FastAPI"]
 featured: true
 demo: "https://monitor.gautierchuinard.com/"

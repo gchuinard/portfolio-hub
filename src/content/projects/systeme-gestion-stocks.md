@@ -5,7 +5,7 @@ description: "Mon hub personnel pour centraliser mes projets, mes compétences e
 descriptionEn: "My personal hub to centralize my projects, skills and certifications."
 date: 2025-11-12
 tags: ["React", "NestJS", "portfolio"]
-status: "planned"
+status: ["offline", "planned"]
 stack: ["React", "NestJS", PostgreSQL]
 featured: true
 demo: "https://mon-site-demo.dev"

@@ -5,7 +5,7 @@ description: "Refonte complète du site vitrine d'une école de danse fondée en
 descriptionEn: "Complete redesign of the showcase website for a dance school founded in 1949 in Bergerac. Static one-page site, deployed on Raspberry Pi via Docker."
 date: 2026-04-02
 tags: ["html", "css", "docker", "raspberry-pi"]
-status: "new"
+status: ["online", "new"]
 stack: ["HTML", "CSS", "JS Vanilla", "Docker", "Nginx"]
 featured: true
 demo: "https://cours-danse-bergerac.fr"
