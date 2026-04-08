@@ -137,6 +137,81 @@ import HeroBD from "../components/HeroBD.astro";
     </div>
   </section>
 
+  <!-- ══ OUTSIDE ══════════════════════════════════════════════════ -->
+  <section class="mt-10">
+
+    <p class="term-section-cmd">cat hors-scope.txt</p>
+
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">hors-scope.txt — read only</span>
+      </div>
+
+      <div class="px-6 py-7 md:px-10 md:py-8">
+
+        <!-- Intro -->
+        <p class="mb-7 text-sm text-[#00aa2a] leading-relaxed max-w-2xl" data-i18n="outside.intro">
+          Il y a une ligne qui traverse la plupart de mes intérêts hors travail : je ne consomme pas vraiment, j'apprends. Ce n'est pas une posture — c'est simplement ce qui me retient : comprendre comment quelque chose fonctionne, puis le faire mieux.
+        </p>
+
+        <!-- Grid entries -->
+        <div class="outside-grid">
+
+          <div class="outside-entry">
+            <p class="outside-entry-key">
+              <span class="text-[#005c17]">01/</span>
+              <span class="text-[#00ff41]" data-i18n="outside.item1.key">cuisine</span>
+            </p>
+            <p class="outside-entry-val" data-i18n="outside.item1.val">
+              Pas pour l'effet — pour la méthode. Apprendre les gestes, les réactions, la logique derrière chaque technique. Répéter jusqu'à ce que ce soit maîtrisé.
+            </p>
+          </div>
+
+          <div class="outside-entry">
+            <p class="outside-entry-key">
+              <span class="text-[#005c17]">02/</span>
+              <span class="text-[#00ff41]" data-i18n="outside.item2.key">ingénierie &amp; F1</span>
+            </p>
+            <p class="outside-entry-val" data-i18n="outside.item2.val">
+              La F1 m'intéresse moins pour le spectacle que pour ce qu'elle révèle : des systèmes complexes poussés à l'extrême, où chaque milliseconde est le produit d'une décision d'ingénierie. Une façon de lire la compétition autrement.
+            </p>
+          </div>
+
+          <div class="outside-entry">
+            <p class="outside-entry-key">
+              <span class="text-[#005c17]">03/</span>
+              <span class="text-[#00ff41]" data-i18n="outside.item3.key">infrastructure</span>
+            </p>
+            <p class="outside-entry-val" data-i18n="outside.item3.val">
+              Self-hosting, domotique, monitoring — un environnement que j'entretiens et améliore. Ce n'est pas du bricolage : c'est de l'ingénierie à petite échelle, avec les mêmes exigences qu'en prod.
+            </p>
+          </div>
+
+          <div class="outside-entry">
+            <p class="outside-entry-key">
+              <span class="text-[#005c17]">04/</span>
+              <span class="text-[#00ff41]" data-i18n="outside.item4.key">esthétique &amp; systèmes</span>
+            </p>
+            <p class="outside-entry-val" data-i18n="outside.item4.val">
+              Des outils, de l'IA, des projets numériques. Et une sensibilité pour les univers visuels cohérents — cinéma, jeux, interfaces — dès qu'ils ont une vraie intention.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Closing note -->
+        <p class="mt-6 pt-4 text-xs text-[#005c17] font-mono border-t border-[#00ff41]/10" data-i18n="outside.note">
+          // Ce n'est pas une liste de hobbies. C'est à peu près la même personne qu'au bureau.
+        </p>
+
+      </div>
+    </div>
+
+  </section>
+
   <!-- ══ ABOUT + CONTACT TEASER ══════════════════════════════════ -->
   <section class="mt-6 grid gap-6 md:grid-cols-[2fr,1.3fr]">
 
@@ -258,6 +333,30 @@ import HeroBD from "../components/HeroBD.astro";
           spinner.style.display = 'none';
         }
       }, delay);
+    });
+  }
+</script>
+
+<script>
+  // ── OUTSIDE SECTION — STAGGERED REVEAL ──────────────────────────
+  const outsideEntries = document.querySelectorAll<HTMLElement>('.outside-entry');
+  if (outsideEntries.length) {
+    const observer = new IntersectionObserver(
+      (records) => {
+        records.forEach((rec) => {
+          if (rec.isIntersecting) {
+            const el = rec.target as HTMLElement;
+            const idx = parseInt(el.dataset.entryIdx || '0', 10);
+            setTimeout(() => el.classList.add('outside-entry--visible'), idx * 90);
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    outsideEntries.forEach((el, i) => {
+      el.dataset.entryIdx = String(i);
+      observer.observe(el);
     });
   }
 </script>

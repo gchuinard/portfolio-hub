@@ -360,14 +360,24 @@ input::placeholder, textarea::placeholder {
   box-shadow: 0 0 20px rgba(0, 255, 65, 0.07) !important;
 }
 
-.cert-card--target {
+.cert-card--in-progress {
+  border-color: rgba(0, 255, 65, 0.22) !important;
+}
+
+.cert-card--in-progress:hover {
+  transform: none;
+  border-color: rgba(0, 255, 65, 0.42) !important;
+  box-shadow: 0 0 16px rgba(0, 255, 65, 0.05) !important;
+}
+
+.cert-card--planned {
   border-color: rgba(0, 255, 65, 0.08) !important;
   background: var(--c-card2) !important;
   opacity: 0.55;
   filter: none !important;
 }
 
-.cert-card--target::after {
+.cert-card--planned::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -381,22 +391,22 @@ input::placeholder, textarea::placeholder {
   pointer-events: none;
 }
 
-.cert-card--target:hover {
+.cert-card--planned:hover {
   transform: none !important;
   opacity: 0.68;
   filter: none !important;
 }
 
-.cert-card--target .cert-card-logo {
+.cert-card--planned .cert-card-logo {
   filter: grayscale(1) brightness(0.5) contrast(0.8);
   opacity: 0.7;
 }
 
-.cert-card--target h2,
-.cert-card--target h3 { color: rgba(0, 255, 65, 0.5) !important; }
+.cert-card--planned h2,
+.cert-card--planned h3 { color: rgba(0, 255, 65, 0.5) !important; }
 
-.cert-card--target .text-zinc-400,
-.cert-card--target [class*="text-[#00aa2a]"] { color: rgba(0, 170, 42, 0.5) !important; }
+.cert-card--planned .text-zinc-400,
+.cert-card--planned [class*="text-[#00aa2a]"] { color: rgba(0, 170, 42, 0.5) !important; }
 
 /* === CERT BADGES ========================================== */
 .cert-badge {
@@ -417,10 +427,16 @@ input::placeholder, textarea::placeholder {
   color: #00ff41;
 }
 
-.cert-badge--target {
-  border: 1px solid rgba(0, 255, 65, 0.15);
+.cert-badge--in-progress {
+  border: 1px solid rgba(0, 255, 65, 0.25);
   background: transparent;
-  color: rgba(0, 255, 65, 0.35);
+  color: #00aa2a;
+}
+
+.cert-badge--planned {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #007a1f;
 }
 
 .cert-link {
@@ -567,3 +583,54 @@ input::placeholder, textarea::placeholder {
 .text-\[\#007a1f\] { color: var(--c-text4) !important; }
 .text-\[\#005c17\] { color: var(--c-text5) !important; }
 .text-\[\#39ff14\] { color: var(--c-text1) !important; }
+
+/* === OUTSIDE SECTION ====================================== */
+.outside-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .outside-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.outside-entry {
+  padding: 1.1rem 0;
+  border-top: 1px solid rgba(0, 255, 65, 0.1);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.outside-entry--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .outside-entry:nth-child(odd) {
+    padding-right: 2rem;
+  }
+  .outside-entry:nth-child(even) {
+    padding-left: 2rem;
+    border-left: 1px solid rgba(0, 255, 65, 0.1);
+  }
+}
+
+.outside-entry-key {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+}
+
+.outside-entry-val {
+  font-size: 0.78rem;
+  color: var(--c-text4);
+  line-height: 1.75;
+}

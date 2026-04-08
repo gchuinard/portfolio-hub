@@ -1,0 +1,151 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const experiences = (await getCollection("experiences")).sort((a, b) =>
+  b.data.startDate.getTime() - a.data.startDate.getTime()
+);
+
+const typeMap: Record<string, { label: string; color: string }> = {
+  "CDI":         { label: "CDI",         color: "border-[#00ff41]/50 text-[#00ff41] bg-[#00ff41]/08" },
+  "CDD":         { label: "CDD",         color: "border-[#00ff41]/30 text-[#00cc35] bg-transparent"  },
+  "alternance":  { label: "ALTERNANCE",  color: "border-[#00ff41]/25 text-[#00aa2a] bg-transparent"  },
+  "stage":       { label: "STAGE",       color: "border-[#00ff41]/15 text-[#007a1f] bg-transparent"  },
+  "freelance":   { label: "FREELANCE",   color: "border-[#00ff41]/40 text-[#00cc35] bg-transparent"  },
+};
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString("fr-FR", { month: "short", year: "numeric" });
+}
+
+function duration(start: Date, end?: Date) {
+  const to = end ?? new Date();
+  const months = (to.getFullYear() - start.getFullYear()) * 12 + (to.getMonth() - start.getMonth());
+  if (months < 12) return `${months} mois`;
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  return m > 0 ? `${y} an${y > 1 ? "s" : ""} ${m} mois` : `${y} an${y > 1 ? "s" : ""}`;
+}
+
+// Regroupement par année de début
+const byYear: Record<number, typeof experiences> = experiences.reduce((acc, e) => {
+  const y = e.data.startDate.getFullYear();
+  (acc[y] ||= []).push(e);
+  return acc;
+}, {} as Record<number, typeof experiences>);
+
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+---
+
+<Base title="Expérience — Gautier Playbook" description="Parcours professionnel de Gautier Chuinard — Product Owner, QA, projets digitaux.">
+
+  <!-- En-tête -->
+  <div class="mb-8">
+    <p class="text-xs text-[#007a1f] font-mono mb-1">
+      <span class="text-[#00aa2a]">$</span> cat experience.log <span class="text-[#005c17]">--format=timeline</span>
+    </p>
+    <h1 class="text-2xl font-bold text-[#00ff41]">Expérience professionnelle</h1>
+    <p class="text-xs text-[#00aa2a] mt-1 font-mono">
+      // {experiences.length} poste{experiences.length > 1 ? "s" : ""} · trié par date décroissante
+    </p>
+  </div>
+
+  <!-- Timeline -->
+  <div class="relative pl-6">
+    <!-- Ligne verticale -->
+    <div class="absolute left-2 top-0 bottom-0 w-px bg-[#00ff41]/15"></div>
+
+    {years.map((year) => (
+      <section class="mb-10">
+
+        <!-- Marqueur d'année -->
+        <div class="relative -left-6 mb-5 flex items-center gap-3">
+          <span class="grid place-items-center h-8 w-8 border border-[#00ff41]/40 bg-[#003b0f] text-[#00ff41] text-xs font-bold font-mono">
+            '{year.toString().slice(-2)}
+          </span>
+          <h2 class="text-base font-bold text-[#00ff41] font-mono">{year}</h2>
+        </div>
+
+        <ul class="space-y-4">
+          {byYear[year].map((e) => {
+            const type = typeMap[e.data.type] ?? typeMap["CDI"];
+            return (
+              <li class="relative">
+                <!-- Point sur la timeline -->
+                <span class={`absolute -left-6 top-4 h-2 w-2 border border-[#00ff41] ${e.data.current ? "bg-[#00ff41] animate-pulse" : "bg-[#00ff41]/60"}`} />
+
+                <article class="border border-[#00ff41]/18 bg-[#0a0a0a] p-5 transition hover:border-[#00ff41]/40">
+
+                  <!-- En-tête de carte -->
+                  <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                    <div>
+                      <div class="flex items-center gap-2 mb-0.5">
+                        <h3 class="text-sm font-bold text-[#00ff41]"
+                            data-lang-fr={e.data.title}
+                            data-lang-en={e.data.titleEn ?? e.data.title}>
+                          {e.data.title}
+                        </h3>
+                        {e.data.current && (
+                          <span class="text-[9px] font-bold border border-[#00ff41]/50 text-[#00ff41] bg-[#00ff41]/08 px-1.5 py-0.5 font-mono">
+                            ACTUEL
+                          </span>
+                        )}
+                      </div>
+                      <p class="text-xs text-[#00aa2a] font-mono">{e.data.company}</p>
+                    </div>
+
+                    <span class={`text-[10px] font-bold px-2 py-0.5 border font-mono tracking-wider ${type.color}`}>
+                      {type.label}
+                    </span>
+                  </div>
+
+                  <!-- Méta : dates, durée, lieu -->
+                  <p class="text-[10px] text-[#007a1f] font-mono mb-3 flex flex-wrap gap-x-3 gap-y-1">
+                    <span>
+                      <span class="text-[#005c17]">période:</span>{" "}
+                      <span class="text-[#00aa2a]">
+                        {formatDate(e.data.startDate)} → {e.data.current ? "présent" : (e.data.endDate ? formatDate(e.data.endDate) : "?")}
+                      </span>
+                    </span>
+                    <span>
+                      <span class="text-[#005c17]">durée:</span>{" "}
+                      {duration(e.data.startDate, e.data.endDate)}
+                    </span>
+                    {e.data.location && (
+                      <span>
+                        <span class="text-[#005c17]">lieu:</span>{" "}
+                        {e.data.location}
+                      </span>
+                    )}
+                  </p>
+
+                  <!-- Description -->
+                  {e.data.description && (
+                    <p class="text-xs text-[#00aa2a] leading-relaxed mb-3"
+                       data-lang-fr={e.data.description}
+                       data-lang-en={e.data.descriptionEn ?? e.data.description}>
+                      {e.data.description}
+                    </p>
+                  )}
+
+                  <!-- Tags -->
+                  {e.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-1.5">
+                      {e.data.tags.map((t) => (
+                        <span class="text-[10px] px-2 py-0.5 border border-[#00ff41]/15 bg-[#080808] text-[#007a1f] font-mono">
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+</Base>

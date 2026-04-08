@@ -12,6 +12,7 @@ const currentPath = Astro.url.pathname;
 
 const links = [
   { href: "/projects",       label: "projets",        i18n: "nav.projects" },
+  { href: "/experience",     label: "expérience",     i18n: "nav.experience" },
   { href: "/skills",         label: "compétences",    i18n: "nav.skills" },
   { href: "/certifications", label: "certifications", i18n: "nav.certifications" },
   { href: "/contact",        label: "contact",        i18n: "nav.contact" },
@@ -21,6 +22,7 @@ function isActive(path: string) {
   if (path === "/" && currentPath === "/") return true;
   if (path === "/projects")       return currentPath.startsWith("/projects");
   if (path === "/skills")         return currentPath.startsWith("/skills");
+  if (path === "/experience")     return currentPath.startsWith("/experience");
   if (path === "/certifications") return currentPath.startsWith("/certifications");
   if (path === "/contact")        return currentPath.startsWith("/contact");
   return false;
@@ -217,8 +219,18 @@ const swatchesLight = [
       var lang = (JSON.parse(localStorage.getItem('gh-theme') || '{}').lang) || 'fr';
       if (lang !== 'fr') {
         var d = {
-          'nav.projects':'projects','nav.skills':'skills','nav.certifications':'certifications','nav.contact':'contact',
+          'nav.projects':'projects','nav.experience':'experience','nav.skills':'skills','nav.certifications':'certifications','nav.contact':'contact',
           'index.typewriter':"404: excuses not found.\nPO by day, QA by night — [defining] → [shipping] → [breaking] → [fixing]",
+          'outside.intro':"There's a thread running through most of my interests outside work: I don't really consume \u2014 I learn. Not a stance \u2014 just what holds my attention: understanding how something works, then doing it better.",
+          'outside.item1.key':'cooking',
+          'outside.item1.val':"Not for the effect \u2014 for the method. Learning the gestures, the reactions, the logic behind each technique. Repeating until it's mastered.",
+          'outside.item2.key':'engineering & F1',
+          'outside.item2.val':"F1 interests me less for the spectacle than for what it reveals: complex systems pushed to the extreme, where every millisecond is the product of an engineering decision. A different way of reading competition.",
+          'outside.item3.key':'infrastructure',
+          'outside.item3.val':"Self-hosting, home automation, monitoring \u2014 an environment I maintain and improve. Not tinkering: small-scale engineering, with the same standards as production.",
+          'outside.item4.key':'aesthetics & systems',
+          'outside.item4.val':"Tools, AI, side projects. And a sensitivity for visual worlds with real identity \u2014 cinema, games, interfaces \u2014 whenever there's a visible, deliberate intent.",
+          'outside.note':'// Not a list of hobbies. Roughly the same person as at the office.',
           'index.hero.body':"I drive digital projects, organize quality (automated testing, monitoring) and bridge the gap between technical teams and the business, with a strong user-focused mindset.",
           'index.hero.cta1':'> discover my projects',
           'index.hero.cta2':'certifications & scrum path \u2192',

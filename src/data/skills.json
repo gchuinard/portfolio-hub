@@ -11,9 +11,9 @@
       "description": "Suite de tests Playwright, CI/CD, stratégies, reporting."
     },
     {
-      "title": "Pilotage produit & IA",
+      "title": "IA appliquée au delivery",
       "icon": "🧩",
-      "description": "Cadrage, communication équipes externes, validation fonctionnelle."
+      "description": "Intégration de l'IA sur l'ensemble de la chaîne : discovery, specs fonctionnelles, UX/UI, génération et exécution de tests API & E2E."
     },
     {
       "title": "Monitoring & Performance Web",
@@ -38,11 +38,12 @@
       { "label": "Grafana", "level": "Intermédiaire" }
     ],
     "professionnelles": [
-      { "label": "Pilotage produit", "level": "Avancé" },
-      { "label": "Priorisation", "level": "Avancé" },
+      { "label": "Pilotage produit", "level": "Expert" },
+      { "label": "Priorisation", "level": "Expert" },
       { "label": "Communication", "level": "Avancé" },
       { "label": "QA / Validation fonctionnelle", "level": "Avancé" },
-      { "label": "Analyse & cadrage", "level": "Intermédiaire" }
+      { "label": "Analyse & cadrage", "level": "Intermédiaire" },
+      { "label": "IA appliquée aux flux produit", "level": "Avancé" }
     ]
   },
 
@@ -50,6 +51,7 @@
     "Product Owner": ["Kanban", "Azure DevOps", "Jira", "Trello", "Notion", "Confluence"],
     "Développement": ["GitHub", "VS Code", "IntelliJ", "Cursor"],
     "QA & Observabilité": ["Playwright", "Postman", "Grafana", "Sentry"],
-    "DevOps": ["Docker", "GitHub Actions", "Terminal"]
+    "DevOps": ["Docker", "GitHub Actions", "Terminal"],
+    "IA & Assistants": ["Claude", "ChatGPT", "Cursor", "Copilot"]
   }
 }
