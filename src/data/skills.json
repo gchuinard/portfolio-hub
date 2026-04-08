@@ -33,7 +33,7 @@
     "qa": [
       { "label": "Playwright (E2E)", "level": "Avancé" },
       { "label": "Postman", "level": "Avancé" },
-      { "label": "CI/CD (GitHub Actions)", "level": "Intermédiaire" },
+      { "label": "CI/CD (GitHub Actions)", "level": "Avancé" },
       { "label": "Stratégies de tests", "level": "Avancé" },
       { "label": "Grafana", "level": "Intermédiaire" }
     ],
