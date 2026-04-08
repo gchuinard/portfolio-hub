@@ -30,10 +30,26 @@ const certifications = defineCollection({
     expiryDate: z.date().optional(),
     credentialId: z.string().optional(),
     credentialUrl: z.string().url().optional(),
-    status: z.enum(["target", "earned"]).optional(),
+    status: z.enum(["earned", "in-progress", "planned"]).optional().default("earned"),
     tags: z.array(z.string()).default([]),
     logo: z.string().optional(),
   }),
 });
 
-export const collections = { projects, certifications };
+const experiences = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    titleEn: z.string().optional(),
+    company: z.string(),
+    location: z.string().optional(),
+    type: z.enum(["CDI", "CDD", "alternance", "stage", "freelance"]),
+    startDate: z.date(),
+    endDate: z.date().optional(),
+    current: z.boolean().optional().default(false),
+    tags: z.array(z.string()).default([]),
+    description: z.string().optional(),
+    descriptionEn: z.string().optional(),
+  }),
+});
+
+export const collections = { projects, certifications, experiences };

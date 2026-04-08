@@ -2,10 +2,13 @@
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
+const statusOrder: Record<string, number> = { earned: 0, "in-progress": 1, planned: 2 };
 const certs = (await getCollection("certifications")).sort((a, b) => {
   const sa = a.data.status ?? "earned";
   const sb = b.data.status ?? "earned";
-  if (sa !== sb) return sa === "earned" ? -1 : 1;
+  const oa = statusOrder[sa] ?? 3;
+  const ob = statusOrder[sb] ?? 3;
+  if (oa !== ob) return oa - ob;
   return b.data.issueDate.getTime() - a.data.issueDate.getTime();
 });
 
@@ -20,7 +23,12 @@ const byYear: Record<number, typeof certs> = certs.reduce((acc, c) => {
 const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
 const certStatus = (c: (typeof certs)[number]) => c.data.status ?? "earned";
-const isEarned = (c: (typeof certs)[number]) => certStatus(c) === "earned";
+const isEarned   = (c: (typeof certs)[number]) => certStatus(c) === "earned";
+const badgeLabel: Record<string, string> = {
+  "earned":      "[OBTENU]",
+  "in-progress": "[EN COURS]",
+  "planned":     "[PLANIFIÉ]",
+};
 const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
 ---
 
@@ -129,16 +137,14 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
               </div>
             </div>
 
-            {c.data.status === "target" ? (
-              <span class="cert-badge cert-badge--target" data-i18n="certs.badge.target">OBJECTIF</span>
-            ) : (
-              <span class="cert-badge cert-badge--earned" data-i18n="certs.badge.earned">[OK]</span>
-            )}
+            <span class={`cert-badge cert-badge--${certStatus(c)}`}>
+              {badgeLabel[certStatus(c)] ?? "[OBTENU]"}
+            </span>
           </div>
 
           <!-- Informations de date -->
           <p class="text-[10px] text-[#007a1f] font-mono mb-2">
-            {isEarned(c) && c.data.issueDate ? (
+            {isEarned(c) ? (
               <>
                 <span class="text-[#005c17]">date:</span>{" "}
                 <span class="text-[#00aa2a]">{c.data.issueDate.toLocaleDateString("fr-FR")}</span>
@@ -150,8 +156,10 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
                   </>
                 )}
               </>
+            ) : certStatus(c) === "in-progress" ? (
+              <span class="text-[#005c17]">// en cours de préparation</span>
             ) : (
-              <span class="text-[#005c17]" data-i18n="certs.target.label">// certification visée</span>
+              <span class="text-[#005c17]">// planifié</span>
             )}
           </p>
 
@@ -175,10 +183,10 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
             >
               <span data-i18n="certs.link">&gt; voir le certificat</span>
             </a>
+          ) : certStatus(c) === "in-progress" ? (
+            <span class="cert-link cert-link--muted">// en cours</span>
           ) : (
-            <span class="cert-link cert-link--muted">
-              <span data-i18n="certs.target.link">// en objectif</span>
-            </span>
+            <span class="cert-link cert-link--muted">// planifié</span>
           )}
         </article>
       ))
@@ -261,11 +269,13 @@ const certTags = (c: (typeof certs)[number]) => (c.data.tags ?? []).join(",");
                           <span data-i18n="certs.link">&gt; voir le certificat</span>
                         </a>
                       </div>
+                    ) : certStatus(c) === "in-progress" ? (
+                      <div class="mt-2 pl-12">
+                        <span class="cert-link cert-link--muted">// en cours</span>
+                      </div>
                     ) : (
                       <div class="mt-2 pl-12">
-                        <span class="cert-link cert-link--muted">
-                          <span data-i18n="certs.target.link">// en objectif</span>
-                        </span>
+                        <span class="cert-link cert-link--muted">// planifié</span>
                       </div>
                     )}
                   </article>

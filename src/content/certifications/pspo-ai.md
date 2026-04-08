@@ -4,7 +4,7 @@ issuer: "Scrum.org"
 issueDate: 2024-06-15
 credentialId: "1234-ABCD"
 credentialUrl: "https://www.scrum.org/certificates/1234-ABCD"
-status: "target"
+status: "planned"
 tags: 
     - produit
     - ia
