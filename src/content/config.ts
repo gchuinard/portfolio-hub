@@ -14,6 +14,7 @@ const projects = defineCollection({
     featured: z.boolean().optional(),
     demo: z.string().url().optional(),
     repo: z.string().url().optional(),
+    repoPrivate: z.boolean().optional(),
     status: z.union([
       z.enum(["online", "offline", "new", "updated", "in-progress", "planned", "beta"]),
       z.array(z.enum(["online", "offline", "new", "updated", "in-progress", "planned", "beta"])),

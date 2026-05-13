@@ -12,7 +12,7 @@ const project = await getEntry("projects", slug);
 if (!project) return Astro.redirect("/projects");
 
 const { Content } = await project.render();
-const { title, description, tags = [], stack = [], image, date, demo, repo } = project.data;
+const { title, description, tags = [], stack = [], image, date, demo, repo, repoPrivate } = project.data;
 ---
 
 <Base title={`${title} — Projet`} description={description}>
@@ -68,7 +68,7 @@ const { title, description, tags = [], stack = [], image, date, demo, repo } = p
             &gt; demo
           </a>
         )}
-        {repo && (
+        {repo && !repoPrivate && (
           <a
             href={repo}
             target="_blank"
@@ -76,6 +76,18 @@ const { title, description, tags = [], stack = [], image, date, demo, repo } = p
           >
             &gt; code
           </a>
+        )}
+        {repoPrivate && (
+          <button
+            id="repoLockedBtn"
+            type="button"
+            class="repo-locked-btn border bg-transparent px-4 py-2 text-xs font-mono"
+            data-text="> [LOCKED]"
+            aria-haspopup="dialog"
+            aria-controls="accessDeniedModal"
+          >
+            &gt; [LOCKED]
+          </button>
         )}
       </div>
     </div>
@@ -102,6 +114,41 @@ const { title, description, tags = [], stack = [], image, date, demo, repo } = p
       <Content />
     </div>
   </article>
+
+  {repoPrivate && (
+    <div
+      id="accessDeniedModal"
+      class="access-denied-modal fixed inset-0 z-[80] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="accessDeniedTitle"
+      data-slug={slug}
+    >
+      <div class="ad-window relative w-full max-w-2xl bg-[#0a0a0a] border border-[#ff3030]/50 shadow-[0_0_40px_rgba(255,48,48,0.25)]">
+        <!-- Title bar -->
+        <div class="flex items-center gap-2 border-b border-[#ff3030]/30 bg-[#0d0d0d] px-3 py-2">
+          <span class="inline-block w-2.5 h-2.5 bg-[#ff3030]"></span>
+          <span class="inline-block w-2.5 h-2.5 bg-[#7a7068]"></span>
+          <span class="inline-block w-2.5 h-2.5 bg-[#7a7068]"></span>
+          <span id="accessDeniedTitle" class="ml-3 text-[10px] text-[#7a7068] font-mono tracking-wider">
+            ssh: git@github.com:gchuinard/private — bash
+          </span>
+          <button
+            id="accessDeniedClose"
+            type="button"
+            class="ml-auto text-[10px] text-[#7a7068] hover:text-[#ff3030] font-mono"
+            aria-label="Close"
+          >[ ESC ]</button>
+        </div>
+
+        <!-- Terminal body -->
+        <div
+          id="accessDeniedOutput"
+          class="px-5 py-4 text-[12px] leading-relaxed font-mono min-h-[320px] max-h-[60vh] overflow-y-auto"
+        ></div>
+      </div>
+    </div>
+  )}
 
 </Base>
 
@@ -186,4 +233,188 @@ const { title, description, tags = [], stack = [], image, date, demo, repo } = p
 
   .prose-terminal :global(strong) { color: #00ff41; }
   .prose-terminal :global(em)     { color: #00cc35; font-style: normal; }
+
+  /* ──── REPO LOCKED BUTTON — GLITCH ───────────────────────── */
+  .repo-locked-btn {
+    position: relative;
+    color: #ff7a7a;
+    border-color: rgba(255, 48, 48, 0.35);
+    letter-spacing: 0.05em;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+  .repo-locked-btn::before,
+  .repo-locked-btn::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    padding: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  .repo-locked-btn::before { color: #ff3030; transform: translate(-1px, 0); }
+  .repo-locked-btn::after  { color: #00ff41; transform: translate(1px, 0); }
+
+  .repo-locked-btn:hover {
+    color: #ff3030;
+    border-color: rgba(255, 48, 48, 0.7);
+    background: rgba(255, 48, 48, 0.05);
+    animation: glitch-jitter 0.25s steps(2) infinite;
+  }
+  .repo-locked-btn:hover::before,
+  .repo-locked-btn:hover::after {
+    opacity: 0.6;
+    animation: glitch-shift 0.4s steps(3) infinite;
+  }
+
+  @keyframes glitch-jitter {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(0.5px, -0.5px); }
+  }
+  @keyframes glitch-shift {
+    0%   { transform: translate(-2px, 0); }
+    33%  { transform: translate(2px, 1px); }
+    66%  { transform: translate(-1px, -1px); }
+    100% { transform: translate(2px, 0); }
+  }
+
+  /* ──── ACCESS DENIED MODAL ───────────────────────────────── */
+  .access-denied-modal.is-open {
+    display: flex !important;
+    animation: ad-fade-in 0.18s ease-out;
+  }
+  .ad-window {
+    animation: ad-window-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes ad-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes ad-window-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.985); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);     }
+  }
+
+  #accessDeniedOutput {
+    color: #00aa2a;
+  }
+  #accessDeniedOutput .ad-prompt  { color: #00ff41; }
+  #accessDeniedOutput .ad-info    { color: #007a1f; }
+  #accessDeniedOutput .ad-muted   { color: #005c17; }
+  #accessDeniedOutput .ad-warn    { color: #ffaa00; }
+  #accessDeniedOutput .ad-error   { color: #ff3030; font-weight: 700; }
+  #accessDeniedOutput .ad-fatal   {
+    color: #ff3030;
+    font-weight: 700;
+    animation: ad-flicker 1.4s infinite;
+  }
+  #accessDeniedOutput .ad-blink::after {
+    content: "▮";
+    color: #00ff41;
+    animation: ad-blink 0.8s steps(2, jump-none) infinite;
+    margin-left: 2px;
+  }
+  @keyframes ad-flicker {
+    0%, 100% { opacity: 1; }
+    47%      { opacity: 1; }
+    50%      { opacity: 0.55; }
+    53%      { opacity: 1; }
+  }
+  @keyframes ad-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
 </style>
+
+<script>
+  // ── ACCESS DENIED MODAL — TERMINAL TYPEWRITER ──────────────────
+  const btn    = document.getElementById('repoLockedBtn');
+  const modal  = document.getElementById('accessDeniedModal') as HTMLElement | null;
+  const output = document.getElementById('accessDeniedOutput');
+  const close  = document.getElementById('accessDeniedClose');
+
+  if (btn && modal && output && close) {
+    const slug = modal.dataset.slug ?? 'private-repo';
+
+    // Sequence of lines to print. [delay_after_previous_ms, html]
+    const sequence: [number, string][] = [
+      [120,  `<p><span class="ad-prompt">$</span> git clone https://github.com/gchuinard/${slug}.git</p>`],
+      [320,  `<p class="ad-info">Cloning into '${slug}'...</p>`],
+      [480,  `<p class="ad-muted">Username for 'https://github.com': <span class="ad-info">anonymous</span></p>`],
+      [520,  `<p class="ad-muted">Password for 'https://anonymous@github.com': <span class="ad-info">••••••••••••</span></p>`],
+      [740,  `<p class="ad-warn">remote: Support for password authentication was removed on August 13, 2021.</p>`],
+      [180,  `<p class="ad-warn">remote: Please see https://docs.github.com/get-started/getting-started-with-git</p>`],
+      [300,  `<p class="ad-error">fatal: Authentication failed for 'https://github.com/gchuinard/${slug}.git'</p>`],
+      [620,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p><span class="ad-prompt">$</span> ssh -T git@github.com</p>`],
+      [380,  `<p class="ad-error">Permission denied (publickey).</p>`],
+      [600,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p class="ad-info">[*] retry attempt 1/3 ........... <span class="ad-error">FAILED</span></p>`],
+      [380,  `<p class="ad-info">[*] retry attempt 2/3 ........... <span class="ad-error">FAILED</span></p>`],
+      [380,  `<p class="ad-info">[*] retry attempt 3/3 ........... <span class="ad-error">LOCKED</span></p>`],
+      [600,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p class="ad-fatal">╔══════════════════════════════════════════╗</p>`],
+      [40,   `<p class="ad-fatal">║          [!] ACCESS DENIED [!]           ║</p>`],
+      [40,   `<p class="ad-fatal">╚══════════════════════════════════════════╝</p>`],
+      [400,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p class="ad-info">visibility&nbsp;&nbsp;&nbsp;: <span class="ad-error">private</span></p>`],
+      [120,  `<p class="ad-info">classification: <span class="ad-warn">production · live SaaS</span></p>`],
+      [120,  `<p class="ad-info">reason&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: client data + payment integration</p>`],
+      [400,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p class="ad-muted">// le code source de ce projet est confidentiel.</p>`],
+      [80,   `<p class="ad-muted">// une démo live ou un walkthrough technique reste possible</p>`],
+      [80,   `<p class="ad-muted">// sur demande — voir /contact.</p>`],
+      [400,  `<p class="ad-muted">&nbsp;</p>`],
+      [80,   `<p class="ad-prompt ad-blink">$ </p>`],
+    ];
+
+    let timers: number[] = [];
+
+    function reset() {
+      timers.forEach(t => window.clearTimeout(t));
+      timers = [];
+      if (output) output.innerHTML = '';
+    }
+
+    function play() {
+      reset();
+      let cumul = 0;
+      sequence.forEach(([wait, html]) => {
+        cumul += wait;
+        const id = window.setTimeout(() => {
+          if (!output) return;
+          const wrap = document.createElement('div');
+          wrap.innerHTML = html;
+          while (wrap.firstChild) output.appendChild(wrap.firstChild);
+          output.scrollTop = output.scrollHeight;
+        }, cumul);
+        timers.push(id);
+      });
+    }
+
+    function open() {
+      modal!.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      play();
+    }
+
+    function shut() {
+      modal!.classList.remove('is-open');
+      document.body.style.overflow = '';
+      reset();
+    }
+
+    btn.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) shut();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal!.classList.contains('is-open')) shut();
+    });
+  }
+</script>
