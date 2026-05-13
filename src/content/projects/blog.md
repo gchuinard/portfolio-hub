@@ -1,15 +1,11 @@
 ---
 title: "Blog"
 titleEn: "Blog"
-description: "Blog"
-descriptionEn: "Blog"
+description: "Blog personnel — articles techniques, retours d'expérience PO/QA, notes de lecture."
+descriptionEn: "Personal blog — technical articles, PO/QA lessons learned, reading notes."
 date: 2025-11-12
-tags: ["astro", "tailwind"]
-status: ["offline", "planned"]
-stack: ["Astro"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "blog", "écriture"]
+status: ["planned"]
 ---
 
-Blog
+// idée — pas encore commencée.

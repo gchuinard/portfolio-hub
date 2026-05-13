@@ -1,15 +1,12 @@
 ---
-title: "Visualisation formule de mathématiques"
+title: "Visualisation de formules mathématiques"
 titleEn: "Math Formula Visualizer"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+description: "Visualisation interactive de formules mathématiques — graphes 2D/3D, dérivées, intégrales, manipulation des paramètres en temps réel."
+descriptionEn: "Interactive math formula visualizer — 2D/3D plots, derivatives, integrals, real-time parameter tweaking."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+slug: "visualisation-formules-math"
+tags: ["idée", "dataviz", "maths"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

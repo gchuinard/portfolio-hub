@@ -1,15 +1,11 @@
 ---
-title: "Site d'échange de livre"
-titleEn: "Book Exchange Platform"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "Échange de livres"
+titleEn: "Book Swap"
+description: "Plateforme communautaire d'échange de livres entre particuliers, géolocalisée."
+descriptionEn: "Community platform for book swapping between individuals, geolocated."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "communauté", "livres"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

@@ -1,14 +1,12 @@
 ---
 title: "Smart Home"
 titleEn: "Smart Home"
-description: "Pilotage domotique simple (Home Assistant, dashboards, automatisations)."
-descriptionEn: "Simple home automation control (Home Assistant, dashboards, automations)."
+description: "Setup domotique perso — Home Assistant, dashboards de monitoring, automatisations Node-RED."
+descriptionEn: "Personal home automation setup — Home Assistant, monitoring dashboards, Node-RED automations."
 date: 2025-03-01
-tags: ["domotique", "home-assistant"]
-stack: ["Astro", "Home Assistant", "Node-RED"]
-image: "/images/smart-home.webp"
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/smart-home"
+tags: ["idée", "domotique", "home-assistant"]
+status: ["planned"]
 ---
 
-Petit descriptif du projet…
+// installation domotique perso — fiche à enrichir avec des retours
+// d'expérience concrets quand le setup sera stable et documenté.

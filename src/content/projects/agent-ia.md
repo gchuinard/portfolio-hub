@@ -1,15 +1,12 @@
 ---
-title: "Agent IA"
-titleEn: "AI Agent"
-description: "Agent IA qui permet d'automatiser une partie des tests automatiques"
-descriptionEn: "AI agent that automates part of the automated testing process."
+title: "Agent IA QA"
+titleEn: "QA AI Agent"
+description: "Agent IA qui automatise une partie des tests fonctionnels et API à partir de specs en langage naturel."
+descriptionEn: "AI agent automating part of the functional and API tests from natural-language specs."
 date: 2025-11-12
-tags: ["API", "IA"]
-status: ["offline", "planned"]
-stack: ["Python"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "ia", "qa", "automation"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — explorer l'usage des LLMs pour générer et exécuter des tests
+// API et E2E à partir de specs Gherkin ou de tickets.

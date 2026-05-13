@@ -1,15 +1,11 @@
 ---
-title: "Système de gestion des stocks"
-titleEn: "Inventory Management System"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "Gestion de stocks"
+titleEn: "Inventory Management"
+description: "Application de gestion de stocks multi-entrepôts — alertes seuils, inventaire en temps réel, mouvements et historique."
+descriptionEn: "Multi-warehouse inventory management app — threshold alerts, real-time stock counts, movements and history."
 date: 2025-11-12
-tags: ["React", "NestJS", "portfolio"]
-status: ["offline", "planned"]
-stack: ["React", "NestJS", PostgreSQL]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "saas", "logistique"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

@@ -1,15 +1,11 @@
 ---
-title: "Outil d'analyse de tendance technologique"
-titleEn: "Technology Trend Analysis Tool"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "Analyse de tendances tech"
+titleEn: "Tech Trend Analyzer"
+description: "Outil d'analyse des tendances tech à partir de sources publiques — GitHub stars, Hacker News, npm downloads, offres d'emploi."
+descriptionEn: "Tech trend analyzer pulling from public sources — GitHub stars, Hacker News, npm downloads, job listings."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "data", "veille"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

@@ -1,15 +1,11 @@
 ---
-title: "Gestion de liste des tâches"
-titleEn: "Task List Manager"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "Gestion de tâches"
+titleEn: "Task Manager"
+description: "Application de gestion de tâches — projets, sous-tâches, priorités, échéances et rappels."
+descriptionEn: "Task management app — projects, subtasks, priorities, due dates and reminders."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "productivité"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

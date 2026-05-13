@@ -1,15 +1,11 @@
 ---
-title: "CMS"
-titleEn: "CMS"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "CMS léger"
+titleEn: "Lightweight CMS"
+description: "Système de gestion de contenu minimaliste — édition markdown, médias, et publication statique sans surcouche admin lourde."
+descriptionEn: "Minimalist content management system — markdown editing, media handling, and static publishing without a heavy admin layer."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+tags: ["idée", "cms"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

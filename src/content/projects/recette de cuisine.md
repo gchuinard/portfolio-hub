@@ -1,15 +1,12 @@
 ---
-title: "Recette de Cuisine"
-titleEn: "Cooking Recipes"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+title: "Carnet de recettes"
+titleEn: "Recipe Book"
+description: "Carnet de recettes — recherche par ingrédients, planning de la semaine, liste de courses générée."
+descriptionEn: "Recipe book — search by ingredients, weekly planner, auto-generated shopping list."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+slug: "carnet-de-recettes"
+tags: ["idée", "cuisine"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.

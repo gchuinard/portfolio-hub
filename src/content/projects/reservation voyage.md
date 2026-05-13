@@ -1,15 +1,12 @@
 ---
 title: "Réservation de voyage"
 titleEn: "Travel Booking"
-description: "Mon hub personnel pour centraliser mes projets, mes compétences et mes certifications."
-descriptionEn: "My personal hub to centralize my projects, skills and certifications."
+description: "Plateforme de réservation de voyages — recherche multi-modale (train, avion, bus), comparateur et itinéraires."
+descriptionEn: "Travel booking platform — multi-modal search (train, plane, bus), comparator and itineraries."
 date: 2025-11-12
-tags: ["astro", "tailwind", "portfolio"]
-status: ["offline", "planned"]
-stack: ["Astro", "TailwindCSS"]
-featured: true
-demo: "https://mon-site-demo.dev"
-repo: "https://github.com/ton-user/hub-portfolio"
+slug: "reservation-voyage"
+tags: ["idée", "voyage"]
+status: ["planned"]
 ---
 
-Un site vitrine dynamique et modulaire, conçu pour présenter mes projets et mes compétences techniques de manière interactive.
+// idée — pas encore commencée.
