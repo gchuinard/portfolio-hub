@@ -3,11 +3,19 @@ import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import ProjectCard from "../components/ProjectCard.astro";
 
-const projects = (await getCollection("projects")).sort(
+const all = (await getCollection("projects")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
 
-const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
+const isReleased = (p: (typeof all)[number]) =>
+  (p.data.status ?? []).includes("online");
+
+const released = all.filter(isReleased);
+const upcoming = all.filter((p) => !isReleased(p));
+
+// Les tags des filtres ne couvrent QUE les projets sortis,
+// pour éviter d'afficher des facettes qui ne renvoient rien.
+const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
 <Base title="Projets — PortfolioHub">
@@ -18,70 +26,112 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
   </div>
   <h1 class="text-2xl font-bold text-[#00ff41] mb-1" data-i18n="projects.heading">Hub de Projets</h1>
   <p class="text-xs text-[#007a1f] mb-6">
-    <span class="text-[#00aa2a]">{projects.length} <span data-i18n="projects.entries">entrées trouvées</span></span>
+    <span class="text-[#00aa2a]">
+      <span id="releasedCount">{released.length}</span>
+      <span data-i18n="projects.released.entries">en ligne</span>
+      <span class="text-[#005c17]">·</span>
+      {upcoming.length} <span data-i18n="projects.upcoming.entries">en préparation</span>
+    </span>
     <span class="text-[#005c17]" data-i18n="projects.filter.hint"> — utilisez les filtres pour affiner</span>
   </p>
 
-  <!-- Filter section -->
-  <div class="border border-[#00ff41]/15 bg-[#0a0a0a] p-4 mb-6">
-    <p class="text-[10px] uppercase tracking-[0.2em] text-[#007a1f] mb-3 font-bold">
-      <span class="text-[#00aa2a]">$</span> grep --tags
+  <!-- ── RELEASED — filters + grid ──────────────────────────── -->
+  <section>
+    <p class="term-section-cmd">
+      grep --tags ./projects/online/
     </p>
 
-    <!-- Tags -->
-    <div id="filters" class="flex flex-wrap gap-2">
-      <button
-        data-tag="__all"
-        class="px-3 py-1 border border-[#00ff41]/25 text-xs text-[#00aa2a] transition-colors font-mono
-               hover:border-[#00ff41]/55 hover:text-[#00ff41] hover:bg-[#00ff41]/5
-               aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
-        aria-pressed="true"
-      >
-        [ ALL ]
-      </button>
-      {
-        allTags.map((t) => (
-          <button
-            data-tag={t}
-            class="px-3 py-1 border border-[#00ff41]/20 text-xs text-[#00aa2a] transition-colors font-mono
-                   hover:border-[#00ff41]/50 hover:text-[#00ff41] hover:bg-[#00ff41]/5
-                   aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
-            aria-pressed="false"
-          >
-            {t}
-          </button>
-        ))
-      }
+    <!-- Filter section -->
+    <div class="border border-[#00ff41]/15 bg-[#0a0a0a] p-4 mb-6">
+      <p class="text-[10px] uppercase tracking-[0.2em] text-[#007a1f] mb-3 font-bold">
+        <span class="text-[#00aa2a]">$</span> grep --tags
+      </p>
+
+      <!-- Tags -->
+      <div id="filters" class="flex flex-wrap gap-2">
+        <button
+          data-tag="__all"
+          class="px-3 py-1 border border-[#00ff41]/25 text-xs text-[#00aa2a] transition-colors font-mono
+                 hover:border-[#00ff41]/55 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+                 aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+          aria-pressed="true"
+        >
+          [ ALL ]
+        </button>
+        {
+          allTags.map((t) => (
+            <button
+              data-tag={t}
+              class="px-3 py-1 border border-[#00ff41]/20 text-xs text-[#00aa2a] transition-colors font-mono
+                     hover:border-[#00ff41]/50 hover:text-[#00ff41] hover:bg-[#00ff41]/5
+                     aria-[pressed=true]:border-[#00ff41]/55 aria-[pressed=true]:text-[#00ff41] aria-[pressed=true]:bg-[#00ff41]/10"
+              aria-pressed="false"
+            >
+              {t}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- AND/OR toggle -->
+      <div class="mt-3 flex items-center gap-3">
+        <span class="text-xs text-[#007a1f] font-mono" data-i18n="projects.filter.label">mode_filtre :</span>
+        <button
+          id="modeToggle"
+          class="relative w-28 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
+                 focus:outline-none focus:border-[#00ff41]/50 transition inline-flex items-center font-mono"
+        >
+          <span
+            id="slider"
+            class="absolute inset-1 w-[calc(50%-0.2rem)] h-[calc(100%-0.5rem)]
+                   bg-[#00ff41]/15 border border-[#00ff41]/35 transition-transform duration-200 z-0"
+          ></span>
+          <span id="lblAnd" class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#00ff41]" data-i18n="projects.filter.and">ET</span>
+          <span id="lblOr"  class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#007a1f]" data-i18n="projects.filter.or">OU</span>
+        </button>
+      </div>
     </div>
 
-    <!-- AND/OR toggle -->
-    <div class="mt-3 flex items-center gap-3">
-      <span class="text-xs text-[#007a1f] font-mono" data-i18n="projects.filter.label">mode_filtre :</span>
-      <button
-        id="modeToggle"
-        class="relative w-28 h-8 border border-[#00ff41]/25 bg-[#080808] overflow-hidden
-               focus:outline-none focus:border-[#00ff41]/50 transition inline-flex items-center font-mono"
-      >
-        <span
-          id="slider"
-          class="absolute inset-1 w-[calc(50%-0.2rem)] h-[calc(100%-0.5rem)]
-                 bg-[#00ff41]/15 border border-[#00ff41]/35 transition-transform duration-200 z-0"
-        ></span>
-        <span id="lblAnd" class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#00ff41]" data-i18n="projects.filter.and">ET</span>
-        <span id="lblOr"  class="relative z-10 flex-1 text-center text-[10px] font-bold select-none text-[#007a1f]" data-i18n="projects.filter.or">OU</span>
-      </button>
+    <!-- Released grid -->
+    <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 mt-2">
+      {released.map((p) => <ProjectCard entry={p} />)}
     </div>
-  </div>
 
-  <!-- Project grid -->
-  <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 mt-2">
-    {projects.map((p) => <ProjectCard entry={p} />)}
-  </div>
+    <!-- Empty state when filters match nothing -->
+    <p id="emptyState"
+       class="hidden mt-6 text-xs text-[#005c17] font-mono border border-[#00ff41]/10 bg-[#0a0a0a] p-4">
+      <span class="text-[#007a1f]">$</span> grep: <span data-i18n="projects.filter.empty">aucun projet ne correspond à ce filtre</span>
+    </p>
+  </section>
 
-  <!-- Filter script -->
+  <!-- ── UPCOMING — no filters, separate grid ───────────────── -->
+  {upcoming.length > 0 && (
+    <section class="mt-12">
+      <p class="term-section-cmd">cat ./roadmap.txt</p>
+
+      <div class="mb-5 border border-[#00ff41]/10 bg-[#0a0a0a] p-4">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-[#007a1f] mb-2 font-bold" data-i18n="projects.upcoming.label">
+          // en préparation
+        </p>
+        <p class="text-xs text-[#007a1f] leading-relaxed font-mono" data-i18n="projects.upcoming.intro">
+          # projets non livrés — exploration, prototype, ou backlog.
+          # les descriptions et stacks peuvent encore bouger.
+        </p>
+      </div>
+
+      <!-- Upcoming grid — subtly desaturated to read as "not live" -->
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 upcoming-grid">
+        {upcoming.map((p) => <ProjectCard entry={p} />)}
+      </div>
+    </section>
+  )}
+
+  <!-- Filter script (released grid only) -->
   <script type="module">
-    const grid = document.getElementById("grid");
-    const btns = document.querySelectorAll("#filters [data-tag]");
+    const grid     = document.getElementById("grid");
+    const btns     = document.querySelectorAll("#filters [data-tag]");
+    const counter  = document.getElementById("releasedCount");
+    const empty    = document.getElementById("emptyState");
     let active = new Set();
     let mode = "AND";
 
@@ -103,6 +153,7 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
     };
 
     function apply() {
+      let visible = 0;
       for (const el of grid.children) {
         const tags = (el.getAttribute("data-tags") || "").split(",").filter(Boolean);
         let show = true;
@@ -112,7 +163,10 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
             : [...active].some((t) => tags.includes(t));
         }
         el.classList.toggle("hidden", !show);
+        if (show) visible++;
       }
+      if (counter) counter.textContent = String(visible);
+      if (empty)   empty.classList.toggle("hidden", visible !== 0);
     }
 
     for (const btn of btns) {
@@ -142,4 +196,18 @@ const allTags = [...new Set(projects.flatMap((p) => p.data.tags ?? []))].sort();
 
     updateSlider();
   </script>
+
+  <style>
+    /* Les cartes "en préparation" sont volontairement plus discrètes
+       pour signaler visuellement qu'elles ne sont pas en ligne. */
+    .upcoming-grid > :global(a) {
+      opacity: 0.72;
+      filter: saturate(0.7);
+      transition: opacity 0.2s, filter 0.2s;
+    }
+    .upcoming-grid > :global(a:hover) {
+      opacity: 1;
+      filter: saturate(1);
+    }
+  </style>
 </Base>
