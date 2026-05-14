@@ -5,7 +5,7 @@ description: "Pipeline de données et dashboard analytique basé sur les donnée
 descriptionEn: "Data pipeline and analytics dashboard built on official Formula 1 data, to explore driver and team performance in real time."
 date: 2026-04-03
 slug: "dashboard-f1-data"
-tags: [python, data, sql, api, dashboard, analytics, etl, visualisation]
+tags: [data, etl, dashboard, analytics]
 stack: [Python, FastF1, PostgreSQL, FastAPI, Next.js, Recharts]
 status: ["offline", "planned"]
 featured: true

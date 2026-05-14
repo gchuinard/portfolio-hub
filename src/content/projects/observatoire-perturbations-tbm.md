@@ -5,7 +5,7 @@ description: "Pipeline de collecte et d'analyse des perturbations en temps réel
 descriptionEn: "Real-time data pipeline and analytics dashboard monitoring TBM tram disruptions in Bordeaux, identifying the most impacted lines and time slots."
 date: 2026-04-03
 slug: "observatoire-perturbations-tbm"
-tags: [python, data, sql, api, gtfs, transport, temps-réel, dashboard, analytics]
+tags: [data, transport, temps-réel, analytics]
 stack: [Python, GTFS-RT, SIRI-Lite, PostgreSQL, FastAPI, Next.js, Recharts]
 status: ["offline", "planned"]
 featured: true

@@ -5,7 +5,7 @@ description: "Site vitrine d'un praticien en massages bien-être à Bordeaux : p
 descriptionEn: "Showcase site for a wellness massage practitioner in Bordeaux: seven techniques, pricing and contact. Static, self-hosted."
 date: 2026-03-15
 slug: "un-moment-clement"
-tags: [html, css, javascript, docker, raspberry-pi, vitrine]
+tags: [raspberry-pi, vitrine]
 stack: [HTML, CSS, JS Vanilla, Nginx, Docker]
 status: ["online", "new"]
 featured: true

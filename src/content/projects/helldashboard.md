@@ -5,7 +5,7 @@ description: "Dashboard temps réel de la guerre galactique d'Helldivers 2, thé
 descriptionEn: "Real-time galactic war dashboard for Helldivers 2, themed as the Ministry of Truth. Voronoi SVG map, live metrics, 60s refresh."
 date: 2026-04-08
 slug: "helldashboard"
-tags: [react, typescript, vite, tailwind, api, dataviz, svg, gaming]
+tags: [api, dataviz, gaming]
 stack: [React 19, TypeScript, Vite 6, Tailwind 4, d3-delaunay]
 status: ["online", "new"]
 featured: true

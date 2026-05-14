@@ -5,7 +5,7 @@ description: "Pipeline de données qui collecte les issues de dépôts GitHub pu
 descriptionEn: "Data pipeline collecting issues from public GitHub repos, normalizing them and exposing agile metrics (lead time, bug/feature ratio) via FastAPI."
 date: 2026-04-05
 slug: "analyseur-backlog-github"
-tags: [python, data, sql, api, postgresql, fastapi, agile, backlog, kpi]
+tags: [data, agile, backlog, kpi]
 stack: [Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, GitHub API]
 status: ["in-progress"]
 featured: true
