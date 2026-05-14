@@ -24,7 +24,27 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      - name: Deploy via rsync
+      - name: Setup SSH key
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |
-          rsync -avz --delete dist/ "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/pi/sites/portfolio/public/"
+          mkdir -p "$RUNNER_TEMP/.ssh"
+          echo "$DEPLOY_KEY" > "$RUNNER_TEMP/.ssh/deploy_key"
+          chmod 600 "$RUNNER_TEMP/.ssh/deploy_key"
+          ssh-keyscan -H "$DEPLOY_HOST" > "$RUNNER_TEMP/.ssh/known_hosts" 2>/dev/null
+
+      - name: Deploy via rsync
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i $RUNNER_TEMP/.ssh/deploy_key -o UserKnownHostsFile=$RUNNER_TEMP/.ssh/known_hosts" \
+            dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH"
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/.ssh"
 
