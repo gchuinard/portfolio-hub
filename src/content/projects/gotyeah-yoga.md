@@ -5,7 +5,7 @@ description: "Plateforme complète pour studio de yoga indépendant : site vitri
 descriptionEn: "Full platform for an independent yoga studio: showcase site, credit-based booking, Stripe payments, yogi space, admin back-office (classes, workshops, payments, newsletters). In production."
 date: 2026-05-10
 slug: "gotyeah-yoga"
-tags: [saas, raspberry-pi, ci-cd]
+tags: [réservation, paiement-en-ligne, back-office]
 stack: [Next.js 16, TypeScript, Prisma 7, SQLite, Tailwind 4, Stripe, react-email, nodemailer, Docker, GitHub Actions]
 status: ["online", "new"]
 featured: true

@@ -5,7 +5,7 @@ description: "Plateforme de monitoring d'uptime auto-hébergée : checks HTTP to
 descriptionEn: "Self-hosted uptime monitoring platform: HTTP checks every 10 min, latency, SSL expiry, full user auth. Live in production on a Raspberry Pi."
 date: 2026-04-12
 slug: "gotyeah-monitor"
-tags: [monitoring, raspberry-pi, ci-cd]
+tags: [monitoring]
 stack: [FastAPI, Python 3.14, SQLAlchemy async, Alembic, MySQL 8, SvelteKit 2, Tailwind v4, Docker, GitHub Actions]
 status: ["online", "beta"]
 featured: true

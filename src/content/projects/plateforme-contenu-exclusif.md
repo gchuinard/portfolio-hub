@@ -4,7 +4,7 @@ titleEn: "Exclusive Content Platform"
 description: "Plateforme d'abonnement pour créateurs — contenus exclusifs, paiement récurrent, communauté."
 descriptionEn: "Subscription platform for creators — exclusive content, recurring payment, community."
 date: 2025-11-12
-tags: ["idée", "saas", "créateurs"]
+tags: ["idée", "créateurs"]
 status: ["planned"]
 ---
 

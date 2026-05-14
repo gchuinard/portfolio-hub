@@ -5,7 +5,7 @@ description: "Refonte complète du site vitrine de l'école de danse Desha-Mouli
 descriptionEn: "Full redesign of Desha-Moulin Dance School's showcase site (Bergerac, founded 1949). Sober one-page, CLI-editable banner, deployed on Raspberry Pi."
 date: 2026-04-02
 slug: "site-ecole-danse-desha-moulin"
-tags: [raspberry-pi, vitrine, seo]
+tags: [vitrine]
 stack: [HTML, CSS, JS Vanilla, Docker, Nginx, Sharp]
 status: ["online", "updated"]
 featured: true

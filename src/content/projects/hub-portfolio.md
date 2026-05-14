@@ -5,7 +5,7 @@ description: "Le site sur lequel vous êtes — hub personnel qui centralise pro
 descriptionEn: "The site you're looking at — personal hub centralizing projects, experiences, skills and certifications, with a phosphor terminal theme and FR/EN i18n."
 date: 2025-11-12
 slug: "hub-portfolio"
-tags: ["portfolio", "self-hosted"]
+tags: ["portfolio"]
 stack: ["Astro 5", "TailwindCSS 3", "MDX", "TypeScript"]
 status: ["online", "in-progress"]
 featured: true

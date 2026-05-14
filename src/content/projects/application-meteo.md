@@ -5,7 +5,7 @@ description: "Application météo full-stack basée sur l'API OpenWeatherMap : b
 descriptionEn: "Full-stack weather app powered by OpenWeatherMap: FastAPI backend serving a typed Next.js client, packaged with Docker Compose for one-command setup."
 date: 2026-04-12
 slug: "weather-now"
-tags: [api]
+tags: [météo]
 stack: [Next.js 16, TypeScript, Tailwind, shadcn/ui, FastAPI, Python 3.13, httpx]
 status: ["in-progress"]
 featured: true
