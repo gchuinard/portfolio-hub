@@ -5,7 +5,7 @@ description: "Clone Notion self-hosted : workspaces multi-membres, pages en arbo
 descriptionEn: "Self-hosted Notion clone: multi-member workspaces, hierarchical pages, databases with table/kanban/calendar/gallery views, block editor and native drag-and-drop."
 date: 2026-04-18
 slug: "gotyeah-notes"
-tags: [notion-clone]
+tags: [notion-clone, productivité, collaboratif]
 stack: [Next.js 16, TypeScript strict, Prisma 7, SQLite, Tailwind v4, BlockNote, dnd-kit, SWR]
 status: ["in-progress"]
 featured: true

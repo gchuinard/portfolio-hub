@@ -4,7 +4,7 @@ titleEn: "Smart Home"
 description: "Setup domotique perso — Home Assistant, dashboards de monitoring, automatisations Node-RED."
 descriptionEn: "Personal home automation setup — Home Assistant, monitoring dashboards, Node-RED automations."
 date: 2025-03-01
-tags: ["idée", "domotique", "home-assistant"]
+tags: ["idée", "domotique"]
 status: ["planned"]
 ---
 

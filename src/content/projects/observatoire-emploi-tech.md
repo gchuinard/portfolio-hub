@@ -5,7 +5,7 @@ description: "Pipeline de données et dashboard analytique qui scrape les offres
 descriptionEn: "Data pipeline and analytics dashboard scraping French tech job offers to map in-demand skills, salaries and market trends."
 date: 2026-04-03
 slug: "observatoire-emploi-tech"
-tags: [data, veille, analytics, emploi]
+tags: [data, veille, emploi]
 stack: [Python, BeautifulSoup, PostgreSQL, FastAPI, Next.js, Recharts]
 status: ["offline", "planned"]
 featured: true
