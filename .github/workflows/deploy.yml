@@ -30,8 +30,17 @@ jobs:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |
           mkdir -p "$RUNNER_TEMP/.ssh"
-          echo "$DEPLOY_KEY" > "$RUNNER_TEMP/.ssh/deploy_key"
-          chmod 600 "$RUNNER_TEMP/.ssh/deploy_key"
+          KEY="$RUNNER_TEMP/.ssh/deploy_key"
+          printf '%s\n' "$DEPLOY_KEY" | tr -d '\r' > "$KEY"
+          chmod 600 "$KEY"
+          if ! ssh-keygen -y -f "$KEY" < /dev/null > /dev/null 2>&1; then
+            echo "::error::DEPLOY_KEY n'est pas une cle privee valide une fois ecrite dans le runner."
+            echo "Diagnostic : $(wc -l < "$KEY") lignes, $(wc -c < "$KEY") octets"
+            grep -q "BEGIN.*PRIVATE KEY" "$KEY" && echo "marqueur BEGIN : present" || echo "marqueur BEGIN : ABSENT"
+            grep -q "END.*PRIVATE KEY" "$KEY" && echo "marqueur END : present" || echo "marqueur END : ABSENT"
+            exit 1
+          fi
+          echo "Cle SSH valide ($(wc -l < "$KEY") lignes)."
           ssh-keyscan -H "$DEPLOY_HOST" > "$RUNNER_TEMP/.ssh/known_hosts" 2>/dev/null
 
       - name: Deploy via rsync
