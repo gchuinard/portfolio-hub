@@ -7,6 +7,7 @@ date: 2026-04-12
 slug: "weather-now"
 tags: [météo, full-stack]
 stack: [Next.js 16, TypeScript, Tailwind, shadcn/ui, FastAPI, Python 3.13, httpx]
+image: "/images/application-meteo.svg"
 status: ["in-progress"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-meteo"

@@ -7,6 +7,7 @@ date: 2026-04-05
 slug: "analyseur-backlog-github"
 tags: [data, agile, backlog]
 stack: [Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, GitHub API]
+image: "/images/analyseur-backlog-github.svg"
 status: ["in-progress"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-datagit"

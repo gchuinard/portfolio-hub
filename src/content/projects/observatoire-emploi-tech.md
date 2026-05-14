@@ -7,6 +7,7 @@ date: 2026-04-03
 slug: "observatoire-emploi-tech"
 tags: [data, veille, emploi]
 stack: [Python, BeautifulSoup, PostgreSQL, FastAPI, Next.js, Recharts]
+image: "/images/observatoire-emploi-tech.svg"
 status: ["offline", "planned"]
 featured: true
 ---

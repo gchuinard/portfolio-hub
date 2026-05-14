@@ -7,6 +7,7 @@ date: 2025-11-12
 slug: "hub-portfolio"
 tags: ["portfolio", "multilingue"]
 stack: ["Astro 5", "TailwindCSS 3", "MDX", "TypeScript"]
+image: "/images/hub-portfolio.svg"
 status: ["online", "in-progress"]
 featured: true
 repo: "https://github.com/gchuinard/portfolio-hub"

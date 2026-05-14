@@ -7,6 +7,7 @@ date: 2026-04-03
 slug: "observatoire-perturbations-tbm"
 tags: [data, transport, temps-réel]
 stack: [Python, GTFS-RT, SIRI-Lite, PostgreSQL, FastAPI, Next.js, Recharts]
+image: "/images/observatoire-perturbations-tbm.svg"
 status: ["offline", "planned"]
 featured: true
 ---

@@ -13,6 +13,7 @@ if (!project) return Astro.redirect("/projects");
 
 const { Content } = await project.render();
 const { title, description, tags = [], stack = [], image, date, demo, repo, repoPrivate } = project.data;
+const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 ---
 
 <Base title={`${title} — Projet`} description={description}>
@@ -100,7 +101,7 @@ const { title, description, tags = [], stack = [], image, date, demo, repo, repo
         src={image}
         alt=""
         class="w-full"
-        style="filter: sepia(0.2) hue-rotate(80deg) saturate(0.85) brightness(0.9);"
+        style={imageIsSvg ? undefined : "filter: sepia(0.2) hue-rotate(80deg) saturate(0.85) brightness(0.9);"}
       />
     </div>
   )}

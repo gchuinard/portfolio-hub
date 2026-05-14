@@ -7,6 +7,7 @@ date: 2026-04-12
 slug: "gotyeah-monitor"
 tags: [monitoring, uptime]
 stack: [FastAPI, Python 3.14, SQLAlchemy async, Alembic, MySQL 8, SvelteKit 2, Tailwind v4, Docker, GitHub Actions]
+image: "/images/monitoring.svg"
 status: ["online", "beta"]
 featured: true
 demo: "https://monitor.gautierchuinard.com/"

@@ -5,6 +5,7 @@ const href = `/projects/${entry.data.slug ?? entry.slug}`;
 const tags  = entry.data.tags  ?? [];
 const stack = entry.data.stack ?? [];
 const img   = entry.data.image;
+const imgIsSvg = img?.toLowerCase().endsWith(".svg") ?? false;
 const statuses = entry.data.status ?? [];
 
 const dataTags = tags.map(t => t.toLowerCase()).join(",");
@@ -37,7 +38,7 @@ const badges = statuses.map(s => statusMap[s]).filter(Boolean);
         src={img}
         class="h-full w-full object-cover transition group-hover:opacity-90"
         loading="lazy"
-        style="filter: sepia(0.25) hue-rotate(80deg) saturate(0.8) brightness(0.85);"
+        style={imgIsSvg ? undefined : "filter: sepia(0.25) hue-rotate(80deg) saturate(0.8) brightness(0.85);"}
       />
     ) : (
       <div class="h-full w-full bg-[#080808] grid place-items-center font-mono">

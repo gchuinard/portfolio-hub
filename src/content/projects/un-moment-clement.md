@@ -7,6 +7,7 @@ date: 2026-03-15
 slug: "un-moment-clement"
 tags: [vitrine, bien-être]
 stack: [HTML, CSS, JS Vanilla, Nginx, Docker]
+image: "/images/un-moment-clement.svg"
 status: ["online", "new"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-clement"

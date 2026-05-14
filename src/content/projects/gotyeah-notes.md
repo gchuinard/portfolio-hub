@@ -7,6 +7,7 @@ date: 2026-04-18
 slug: "gotyeah-notes"
 tags: [notion-clone, productivité, collaboratif]
 stack: [Next.js 16, TypeScript strict, Prisma 7, SQLite, Tailwind v4, BlockNote, dnd-kit, SWR]
+image: "/images/gotyeah-notes.svg"
 status: ["in-progress"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-notes"

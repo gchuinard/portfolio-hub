@@ -7,6 +7,7 @@ date: 2026-04-08
 slug: "helldashboard"
 tags: [dataviz, gaming, temps-réel]
 stack: [React 19, TypeScript, Vite 6, Tailwind 4, d3-delaunay]
+image: "/images/helldashboard.svg"
 status: ["online", "new"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-helldashboard"

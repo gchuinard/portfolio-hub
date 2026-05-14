@@ -7,6 +7,7 @@ date: 2026-04-02
 slug: "site-ecole-danse-desha-moulin"
 tags: [vitrine, danse, one-page]
 stack: [HTML, CSS, JS Vanilla, Docker, Nginx, Sharp]
+image: "/images/site-ecole-danse-desha-moulin.svg"
 status: ["online", "updated"]
 featured: true
 demo: "https://cours-danse-bergerac.fr"

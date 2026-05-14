@@ -7,6 +7,7 @@ date: 2026-04-03
 slug: "dashboard-f1-data"
 tags: [data, f1, dashboard]
 stack: [Python, FastF1, PostgreSQL, FastAPI, Next.js, Recharts]
+image: "/images/dashboard-f1-data.svg"
 status: ["offline", "planned"]
 featured: true
 ---
