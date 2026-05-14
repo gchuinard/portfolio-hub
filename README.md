@@ -1,46 +1,43 @@
-# Astro Starter Kit: Basics
+# Hub Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+Portfolio personnel de **Gautier Chuinard** — Product Owner & QA.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Site statique qui centralise projets, expériences, compétences et certifications,
+dans un thème *terminal phosphore* (vert sur noir) avec internationalisation FR/EN
+côté client.
 
-## 🚀 Project Structure
+## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Astro 5** · **TailwindCSS 3** · **MDX** · **TypeScript**
+- Contenu en **Astro Content Collections** (`src/content/`), schémas **Zod**
+- Police *Space Mono*, icônes `lucide-astro`
+- Déploiement : **GitHub Actions** (rsync) vers un Raspberry Pi auto-hébergé
+
+## Commandes
+
+| Commande          | Action                                  |
+| :---------------- | :-------------------------------------- |
+| `npm install`     | Installe les dépendances                |
+| `npm run dev`     | Serveur local — `localhost:4321`        |
+| `npm run build`   | Build de production dans `./dist/`      |
+| `npm run preview` | Prévisualise le build avant déploiement |
+
+## Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+  content/      projets · certifications · expériences (.md + config.ts Zod)
+  components/   ProjectCard, Hero*, TerminalOverlay
+  layouts/      Base.astro — nav, footer, thème, i18n
+  pages/        index · projects · projects/[slug] · skills · certifications · experience · contact
+  data/         skills.json
+  scripts/      base-client.ts — thème, i18n, overlay
+  styles/       tailwind.css · base-boot.css
+public/
+  images/       un aperçu SVG par projet construit
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Conventions
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Esthétique, ajout d'un projet / d'une certification, i18n, vocabulaire des tags,
+aperçus SVG et déploiement sont documentés dans **[CLAUDE.md](./CLAUDE.md)**.

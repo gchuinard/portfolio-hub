@@ -1,6 +1,6 @@
 # Gautier Playbook — Hub Portfolio
 
-Portfolio personnel de Gautier Chuinard (Product Owner & QA). Site statique généré avec Astro, déployé sur GitHub Pages ou équivalent.
+Portfolio personnel de Gautier Chuinard (Product Owner & QA). Site statique généré avec Astro, déployé via GitHub Actions (rsync) sur un Raspberry Pi auto-hébergé.
 
 ## Stack
 
@@ -38,6 +38,9 @@ src/
     base-boot.css
   scripts/
     base-client.ts   ← thème, i18n, terminal overlay (côté client)
+
+public/
+  images/            ← un aperçu .svg par projet construit (thème terminal)
 ```
 
 ## Esthétique / Conventions visuelles
@@ -74,7 +77,7 @@ titleEn: "Title EN"           # optionnel
 description: "Description FR"
 descriptionEn: "Description EN"  # optionnel
 date: YYYY-MM-DD
-tags: ["tag1", "tag2"]        # minuscules, servent aux filtres
+tags: ["tag1", "tag2"]        # 2-3 tags fonctionnels, minuscules (voir note ci-dessous)
 status: "new"                 # valeur unique : online | offline | new | updated | in-progress | planned | beta
 # ou plusieurs statuts en tableau (ex: online + état de dev) :
 # status: ["online", "new"]  — toujours online/offline en premier si présent
@@ -82,13 +85,17 @@ stack: ["Tech1", "Tech2"]
 featured: true
 demo: "https://..."           # optionnel
 repo: "https://..."           # optionnel
-image: "/images/mon-projet.png"  # optionnel
+image: "/images/<slug>.svg"   # optionnel — aperçu SVG (voir note ci-dessous)
 ---
 
 Corps en markdown (affiché sur la page détail /projects/[slug]).
 ```
 
 Les projets sont triés par `date` décroissante dans `projects.astro`.
+
+**Tags** — 2-3 tags **fonctionnels** par projet (ce que *fait* le produit : `dashboard`, `vitrine`, `paiement-en-ligne`, `monitoring`…), **pas** de tags techno (la techno vit dans `stack:`). Kebab-case pour les mots composés (`temps-réel`, `back-office`). Les fiches "idée" gardent `idée` + leurs tags conceptuels.
+
+**Aperçu (`image:`)** — chaque projet *construit* a un SVG dans `public/images/<slug>.svg`, au thème terminal phosphore (fenêtre, fond noir, palette verte, glow, scanlines), en 16:9 (`viewBox="0 0 800 450"`), dont le contenu illustre ce que fait le projet. `ProjectCard.astro` et `projects/[slug].astro` n'appliquent **pas** le filtre `sepia/hue-rotate` aux fichiers `.svg` (ce filtre harmonise les captures d'écran ; il décalerait vers le cyan un SVG déjà au thème). Les fiches "idée" n'ont pas d'aperçu.
 
 ## Ajouter une certification
 
@@ -108,9 +115,16 @@ logo: "/logos/cert.png"  # optionnel
 ---
 ```
 
+## Déploiement
+
+Auto-déploiement via GitHub Actions (`.github/workflows/deploy.yml`) à chaque push sur `main` : build Astro, puis `rsync` de `dist/` vers un Raspberry Pi auto-hébergé (runner `self-hosted`).
+
+Quatre secrets repo : `DEPLOY_USER`, `DEPLOY_HOST`, `DEPLOY_PATH`, `DEPLOY_KEY` (clé SSH privée multi-lignes, collée telle quelle). Le workflow écrit la clé dans un fichier temporaire, la valide via `ssh-keygen`, puis lance le `rsync`.
+
 ## Ce qu'il ne faut pas faire
 
 - Ne pas ajouter de `border-radius` — l'esthétique est volontairement angulaire.
 - Ne pas toucher au script `is:inline` de `Base.astro` sans mettre à jour les deux versions FR et EN.
 - Ne pas utiliser `getStaticPaths` manuel pour les projets — le routing dynamique `[slug].astro` s'appuie sur `getCollection("projects")`.
 - Ne pas installer de framework JS (React, Vue…) — tout est Astro vanilla + scripts `<script type="module">`.
+- Ne pas mettre de tags techno dans `tags:` — la techno va dans `stack:`, les tags décrivent la fonction.
