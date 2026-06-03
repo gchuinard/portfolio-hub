@@ -10,6 +10,7 @@ stack: [HTML, CSS, JS Vanilla, Nginx, Docker]
 image: "/images/un-moment-clement.svg"
 status: ["online", "new"]
 featured: true
+live: "https://unmomentclement.fr/"
 repo: "https://github.com/gchuinard/gotyeah-clement"
 ---
 

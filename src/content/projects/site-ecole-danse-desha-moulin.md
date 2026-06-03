@@ -10,7 +10,7 @@ stack: [HTML, CSS, JS Vanilla, Docker, Nginx, Sharp]
 image: "/images/site-ecole-danse-desha-moulin.svg"
 status: ["online", "updated"]
 featured: true
-demo: "https://cours-danse-bergerac.fr"
+live: "https://cours-danse-bergerac.fr"
 repo: "https://github.com/gchuinard/gotyeah-danse"
 ---
 

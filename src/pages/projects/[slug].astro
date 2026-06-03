@@ -12,7 +12,7 @@ const project = await getEntry("projects", slug);
 if (!project) return Astro.redirect("/projects");
 
 const { Content } = await project.render();
-const { title, description, tags = [], stack = [], image, date, demo, repo, repoPrivate } = project.data;
+const { title, description, tags = [], stack = [], image, date, demo, live, repo, repoPrivate } = project.data;
 const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 ---
 
@@ -60,6 +60,17 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 
       <!-- Action buttons -->
       <div class="flex gap-3 flex-shrink-0">
+        {live && (
+          <a
+            href={live}
+            target="_blank"
+            rel="noopener"
+            class="cta-luxe px-4 py-2 text-xs font-bold inline-flex items-center gap-1.5"
+          >
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+            &gt; live
+          </a>
+        )}
         {demo && (
           <a
             href={demo}

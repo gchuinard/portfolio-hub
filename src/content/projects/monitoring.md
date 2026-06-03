@@ -10,7 +10,7 @@ stack: [FastAPI, Python 3.14, SQLAlchemy async, Alembic, MySQL 8, SvelteKit 2, T
 image: "/images/monitoring.svg"
 status: ["online", "beta"]
 featured: true
-demo: "https://monitor.gautierchuinard.com/"
+live: "https://monitor.gautierchuinard.com/"
 repo: "https://github.com/gchuinard/gotyeah-monitor"
 ---
 

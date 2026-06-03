@@ -10,6 +10,7 @@ stack: [Next.js 16, TypeScript, Prisma 7, SQLite, Tailwind 4, Stripe, react-emai
 image: "/images/gotyeah-yoga.svg"
 status: ["online", "new"]
 featured: true
+live: "https://yoga.gautierchuinard.com"
 repoPrivate: true
 ---
 
@@ -35,5 +36,7 @@ guests…) — chaque scénario gère son propre setup/cleanup. Garde-fou
 typage DateTime dédié pour prévenir les régressions SQLite TEXT vs
 INTEGER.
 
-> Code source confidentiel — paiements live + données client.
-> Démo et walkthrough technique disponibles sur demande via `/contact`.
+> Site **en production** : [yoga.gautierchuinard.com](https://yoga.gautierchuinard.com)
+> (vitrine publique accessible à tous). Code source confidentiel — paiements
+> live + données client. Walkthrough technique du back-office et du code sur
+> demande via `/contact`.
