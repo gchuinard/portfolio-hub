@@ -9,6 +9,9 @@ pnpm-debug.log
 .astro/
 dist/
 
+# CSP : conf nginx générée au build (hashes du build courant) — pas versionnée
+deploy/nginx-csp.conf.final
+
 # Vite
 vite.config.ts.timestamp*
 vite.config.mjs.timestamp*

@@ -53,6 +53,31 @@ jobs:
             -e "ssh -i $RUNNER_TEMP/.ssh/deploy_key -o UserKnownHostsFile=$RUNNER_TEMP/.ssh/known_hosts" \
             dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH"
 
+      # Pousse la CSP générée au build (hashes des scripts inline) DANS le conteneur NPM,
+      # puis recharge nginx → la CSP servie reste synchro avec le build à chaque deploy.
+      # Le dossier /data de NPM est root : on n'écrit pas par scp (le user de deploy n'a
+      # pas les droits), on STREAME le fichier via `docker exec -i` (le user de deploy doit
+      # être dans le groupe docker — c'est le cas du compte qui fait déjà tourner la stack).
+      # Étape SAUTÉE tant que le secret/var CSP_CONF_PATH n'existe pas → deploy inchangé.
+      # Setup (une fois) : dans NPM → host gautierchuinard.com → Custom location "/" →
+      # Advanced, la ligne CSP est déjà remplacée par `include /data/nginx/custom/gautier-csp.conf;`.
+      # Valeurs (non sensibles, mettables en repo *Variables* plutôt que Secrets) :
+      #   CSP_CONF_PATH = /data/nginx/custom/gautier-csp.conf   (chemin DANS le conteneur NPM)
+      #   NPM_CONTAINER = npm                                   (défaut si non défini)
+      - name: Deploy CSP header (NPM include + reload)
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          CSP_CONF_PATH: ${{ secrets.CSP_CONF_PATH || vars.CSP_CONF_PATH }}
+          NPM_CONTAINER: ${{ secrets.NPM_CONTAINER || vars.NPM_CONTAINER || 'npm' }}
+        if: ${{ env.CSP_CONF_PATH != '' }}
+        run: |
+          SSH="ssh -i $RUNNER_TEMP/.ssh/deploy_key -o UserKnownHostsFile=$RUNNER_TEMP/.ssh/known_hosts $DEPLOY_USER@$DEPLOY_HOST"
+          # écrit la conf CSP générée dans le conteneur NPM (root), via docker exec
+          cat deploy/nginx-csp.conf.final | $SSH "docker exec -i $NPM_CONTAINER sh -c 'cat > $CSP_CONF_PATH'"
+          # nginx -t d'abord : si la conf est invalide, on NE recharge PAS (CSP cassée jamais servie)
+          $SSH "docker exec $NPM_CONTAINER nginx -t && docker exec $NPM_CONTAINER nginx -s reload"
+
       - name: Cleanup SSH key
         if: always()
         run: rm -rf "$RUNNER_TEMP/.ssh"

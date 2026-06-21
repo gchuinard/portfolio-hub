@@ -117,9 +117,21 @@ logo: "/logos/cert.png"  # optionnel
 
 ## Déploiement
 
-Auto-déploiement via GitHub Actions (`.github/workflows/deploy.yml`) à chaque push sur `main` : build Astro, puis `rsync` de `dist/` vers un Raspberry Pi auto-hébergé (runner `self-hosted`).
+Auto-déploiement via GitHub Actions (`.github/workflows/deploy.yml`) à chaque push sur `main` : build Astro, puis `rsync` de `dist/` vers un Raspberry Pi auto-hébergé.
 
-Quatre secrets repo : `DEPLOY_USER`, `DEPLOY_HOST`, `DEPLOY_PATH`, `DEPLOY_KEY` (clé SSH privée multi-lignes, collée telle quelle). Le workflow écrit la clé dans un fichier temporaire, la valide via `ssh-keygen`, puis lance le `rsync`.
+Quatre secrets repo : `DEPLOY_USER`, `DEPLOY_HOST`, `DEPLOY_PATH`, `DEPLOY_KEY` (clé SSH privée multi-lignes, collée telle quelle). Le workflow écrit la clé dans un fichier temporaire, la valide via `ssh-keygen`, puis lance le `rsync`. Le site est servi par **Nginx Proxy Manager** (homelab Pi mutualisé), derrière Cloudflare (proxy orange) qui laisse passer la CSP mais réécrit HSTS/X-Frame-Options/Referrer-Policy.
+
+## CSP : hashes injectés au build (ne pas casser le JS)
+
+Le proxy sert une **CSP stricte** `script-src 'self' <hashes…>` (PAS `'unsafe-inline'`). Le site a des scripts **inline** (2 `is:inline` obligatoires dans `Base.astro` — thème anti-flash + dico i18n EN — qui doivent tourner avant le 1er rendu, plus des `<script>` bundlés qu'Astro inline) ; chacun doit être autorisé par son hash SHA-256, sinon le navigateur **bloque l'exécution** (`script-src-elem` violation) et le JS paraît « KO ».
+
+Pour ne jamais avoir à maintenir ces hashes à la main :
+- `inject-csp-hashes.mjs` tourne **après `astro build`** (cf. `package.json` → `build`). Il scanne `dist/**/*.html`, calcule le SHA-256 de **chaque** script inline (comme le navigateur — Astro n'émet pas de `<meta>` CSP, donc on hashe le contenu nous-mêmes), dédoublonne sur tout le site, et remplace le marqueur de `deploy/nginx-csp.conf` → `deploy/nginx-csp.conf.final`. Échoue le build si 0 hash ou marqueur résiduel (une CSP cassée ne part jamais).
+- La CI (`deploy.yml`, étape « Deploy CSP header ») **streame** le `.final` dans le conteneur NPM via `docker exec -i npm sh -c 'cat > /data/nginx/custom/gautier-csp.conf'` (le dossier `/data` de NPM est root → pas de `scp`, et le compte de deploy est dans le groupe docker), puis `nginx -t && nginx -s reload`. L'étape est **sautée** si `CSP_CONF_PATH` (repo *Variable* ou *Secret*) n'est pas défini ; `NPM_CONTAINER` vaut `npm` par défaut.
+- Côté **NPM** (proxy_host id 7, base `database.sqlite`), la custom location `/` a son `advanced_config` = `include /data/nginx/custom/gautier-csp.conf;` + COOP/Permissions-Policy/CORP. Persisté **en base** → survit aux régénérations NPM. Servi à travers Cloudflare (orange) qui transmet la CSP telle quelle (vérifié : 9 hashes côté public).
+- `deploy/nginx-csp.conf.final` est un artefact de build (gitignoré). Les hashes sont **stables** tant qu'un script inline n'est pas modifié → un deploy sans changement de script ne touche pas la CSP.
+
+⚠️ Si tu modifies un `<script>`/`is:inline`, son hash change : c'est **automatique** au prochain build+deploy. Ne jamais coller `'unsafe-inline'` dans `script-src` pour « débloquer » — ça annule la CSP (et la note Sonar).
 
 ## Ce qu'il ne faut pas faire
 
