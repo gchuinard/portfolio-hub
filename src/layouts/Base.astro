@@ -1,4 +1,5 @@
 ---
+import "../styles/fonts.css";
 import "../styles/tailwind.css";
 import "../styles/base-boot.css";
 import TerminalOverlay from "../components/TerminalOverlay.astro";
@@ -46,12 +47,7 @@ const swatchesLight = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Police Space Mono self-hostée (src/styles/fonts.css) — plus de dépendance Google Fonts -->
     <!-- Applique le thème sauvegardé avant le premier rendu pour éviter le flash -->
     <script is:inline>
       (function() {
