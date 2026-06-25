@@ -381,28 +381,31 @@ const commands: Record<string, Cmd> = {
   },
 
   theme: {
-    desc: 'change la couleur du phosphore (ex: theme amber)',
+    desc: 'change la couleur (ex: theme cyan)',
     run(args) {
-      const hues: Record<string, number> = { green: 0, phosphor: 0, amber: 55, cyan: 130, lime: 30, rose: -60, magenta: -60 };
+      const swatches = Array.from(document.querySelectorAll('.swatch-btn')) as HTMLElement[];
+      const titles = swatches.map((s) => (s.title || '').toLowerCase()).filter(Boolean);
       const arg = (args[0] ?? '').toLowerCase();
       if (!arg) {
-        line('<span class="text-[#007a1f]">usage: theme [green|amber|cyan|lime|rose]</span>');
+        line('<span class="text-[#007a1f]">usage: theme &lt;couleur&gt; — dispo: ' + titles.join(' · ') + '</span>');
         return;
       }
-      if (!(arg in hues)) {
+      const alias: Record<string, string> = {
+        vert: 'phosphore', green: 'phosphore', phosphor: 'phosphore',
+        jaune: 'jaune', yellow: 'jaune', amber: 'jaune', ambre: 'jaune',
+        violet: 'purple', purple: 'purple', cyan: 'cyan',
+        craie: 'craie', chalk: 'craie', lin: 'lin',
+      };
+      const want = alias[arg] ?? arg;
+      const btn = swatches.find((s) => (s.title || '').toLowerCase() === want);
+      if (!btn) {
         line(`<span class="text-[#ff5f57]">theme: ${arg.replace(/</g, '&lt;')}: inconnu</span>`);
-        line('<span class="text-[#007a1f]">dispo: green · amber · cyan · lime · rose</span>');
+        line('<span class="text-[#007a1f]">dispo: ' + titles.join(' · ') + '</span>');
         return;
       }
-      const deg = hues[arg];
-      const r = document.getElementById('theme-root') ?? document.documentElement;
-      r.style.setProperty('--hue', deg + 'deg');
-      try {
-        const t = JSON.parse(localStorage.getItem('gh-theme') || '{}');
-        t.hue = deg;
-        localStorage.setItem('gh-theme', JSON.stringify(t));
-      } catch (err) { /* ignore */ }
-      line(`<span class="text-[#007a1f]">phosphor → </span><span class="text-[#00ff41]">${arg}</span> <span class="text-[#005c17]">(hue ${deg}°)</span>`);
+      // On clique le vrai swatch → couleur exacte + nav synchro + persistance.
+      btn.click();
+      line(`<span class="text-[#007a1f]">couleur → </span><span class="text-[#00ff41]">${(btn.title || want).replace(/</g, '&lt;')}</span>`);
     },
   },
 
@@ -532,7 +535,7 @@ input.addEventListener('keydown', (e: KeyboardEvent) => {
 const argCompletions: Record<string, string[]> = {
   cd:  ['projects', 'skills', 'certifications', 'contact', '~'],
   cat: ['about.txt', 'stack.txt', 'contact.txt'],
-  theme: ['green', 'amber', 'cyan', 'lime', 'rose'],
+  theme: ['phosphore', 'cyan', 'purple', 'jaune', 'craie', 'lin', 'vert'],
   sudo: ['hire-me'],
 };
 
@@ -578,13 +581,10 @@ document.addEventListener('keydown', (e: KeyboardEvent) => {
   konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
   if (konamiIdx === konami.length) {
     konamiIdx = 0;
-    const r = document.getElementById('theme-root') ?? document.documentElement;
-    r.style.setProperty('--hue', '55deg');
-    try {
-      const t = JSON.parse(localStorage.getItem('gh-theme') || '{}');
-      t.hue = 55;
-      localStorage.setItem('gh-theme', JSON.stringify(t));
-    } catch (err) { /* ignore */ }
+    // Clique le swatch "Jaune" (vibe CRT ambre) via le vrai système de thème.
+    const amber = (Array.from(document.querySelectorAll('.swatch-btn')) as HTMLElement[])
+      .find((b) => (b.title || '').toLowerCase() === 'jaune');
+    amber?.click();
     if (!isOpen) open();
     line('<span class="text-[#ffaa00]">▞▚ cheat activated ▚▞</span> <span class="text-[#007a1f]">— amber CRT mode unlocked.</span>');
   }
