@@ -223,9 +223,9 @@ const commands: Record<string, Cmd> = {
   status: {
     desc: 'live status of my self-hosted homelab',
     run() {
-      const services = [
+      const services: { name: string; url: string; hardened?: boolean }[] = [
         { name: 'portfolio',  url: 'https://gautierchuinard.com' },
-        { name: 'sonar',      url: 'https://sonar.gautierchuinard.com' },
+        { name: 'sonar',      url: 'https://sonar.gautierchuinard.com', hardened: true },
         { name: 'stack',      url: 'https://stack.gautierchuinard.com' },
         { name: 'filer',      url: 'https://filer.gautierchuinard.com' },
         { name: 'monitor',    url: 'https://monitor.gautierchuinard.com' },
@@ -253,7 +253,15 @@ const commands: Record<string, Cmd> = {
           .catch(() => {
             window.clearTimeout(timer);
             const el = document.getElementById(id);
-            if (el) { el.className = 'text-[#ff5f57]'; el.innerHTML = '● unreachable'; }
+            if (!el) return;
+            if (svc.hardened) {
+              // CORP same-origin (durcissement) → ping cross-origin bloqué : up mais blindé.
+              el.className = 'text-[#ffaa00]';
+              el.innerHTML = '● protégé <span class="text-[#005c17]">(CORP same-origin)</span>';
+            } else {
+              el.className = 'text-[#ff5f57]';
+              el.innerHTML = '● unreachable';
+            }
           });
       });
       blank();
