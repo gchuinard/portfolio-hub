@@ -35,6 +35,14 @@ const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
     <span class="text-[#005c17]" data-i18n="projects.filter.hint"> — utilisez les filtres pour affiner</span>
   </p>
 
+  <!-- Preview disclaimer -->
+  <div class="mb-6 border-l-2 border-[#00ff41]/25 bg-[#0a0a0a] px-4 py-2.5 font-mono">
+    <p class="text-[11px] text-[#007a1f] leading-relaxed">
+      <span class="text-[#00aa2a]">#</span> Les aperçus sont volontairement habillés au <span class="text-[#00aa2a]">thème terminal</span> du portfolio : c'est <span class="text-[#00aa2a]">illustratif</span>, pas le vrai rendu des projets.<br />
+      <span class="text-[#005c17]"># Chaque réalisation a son propre design — jette un œil aux versions en ligne. Je m'adapte au contexte, pas que du vert sur noir.</span>
+    </p>
+  </div>
+
   <!-- ── RELEASED — filters + grid ──────────────────────────── -->
   <section>
     <p class="term-section-cmd">
