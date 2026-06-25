@@ -18,7 +18,7 @@ Plateforme web complète pour une **pension féline**, de la gestion de comptes 
 
 ### Réservation & séjour
 
-- **Workflow de réservation bout-en-bout** — demande du client → validation de la pension → devis tarifé (au jour, à la visite, suppléments forfaitaires) → acompte.
+- **Workflow de réservation bout-en-bout**, demande du client → validation de la pension → devis tarifé (au jour, à la visite, suppléments forfaitaires) → acompte.
 - **Messagerie** par séjour, **avis de maison** par chat (validé / avec réserve / refusé) et **notifications in-app** temps réel.
 - **Carnet de séjour** quotidien (photos + notes).
 - **Facturation PDF** générée à la volée.
@@ -31,6 +31,6 @@ Plateforme web complète pour une **pension féline**, de la gestion de comptes 
 ### Design system
 
 - **Design system maison** d'inspiration mid-century illustrée (façon Charley Harper).
-- **Typo & palette** — Newsreader + Manrope + JetBrains Mono, palette crème + tons joaillerie.
+- **Typo & palette**, Newsreader + Manrope + JetBrains Mono, palette crème + tons joaillerie.
 
 Stack **Next.js 16 + PostgreSQL 16 + Prisma 7**, build Docker multi-stage optimisé arm64, CI GitHub Actions, **en ligne** sur `chatpitre.gautierchuinard.com` (Raspberry Pi derrière NPM + Cloudflare).

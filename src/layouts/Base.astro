@@ -6,13 +6,13 @@ import TerminalOverlay from "../components/TerminalOverlay.astro";
 
 const {
   title = "Gautier Playbook",
-  description = "Gautier Playbook — projets, compétences, PO, QA et certifications de Gautier Chuinard."
+  description = "Gautier Playbook, projets, compétences, PO, QA et certifications de Gautier Chuinard."
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 
 // Métadonnées sociales (Open Graph / Twitter Card)
-const ogDescription = description ?? "Gautier Playbook — projets, compétences, PO, QA et certifications de Gautier Chuinard.";
+const ogDescription = description ?? "Gautier Playbook, projets, compétences, PO, QA et certifications de Gautier Chuinard.";
 const canonicalURL = new URL(Astro.url.pathname, "https://gautierchuinard.com").href;
 const ogImage = "https://gautierchuinard.com/og.png";
 
@@ -72,7 +72,7 @@ const swatchesLight = [
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Police Space Mono self-hostée (src/styles/fonts.css) — plus de dépendance Google Fonts -->
+    <!-- Police Space Mono self-hostée (src/styles/fonts.css), plus de dépendance Google Fonts -->
     <!-- Applique le thème sauvegardé avant le premier rendu pour éviter le flash -->
     <script is:inline>
       (function() {
@@ -224,7 +224,7 @@ const swatchesLight = [
       <!-- FOOTER -->
       <footer class="power-node border-t border-[#00ff41]/10 mt-10">
         <div class="mx-auto max-w-5xl px-4 py-4 text-xs text-[#007a1f] flex justify-between items-center">
-          <span># © 2026 gautier@playbook — all rights reserved</span>
+          <span># © 2026 gautier@playbook, all rights reserved</span>
           <span class="text-[#005c17]">// built with astro + tailwind</span>
         </div>
         <div class="mx-auto max-w-5xl px-4 pb-4 -mt-2 text-[10px] text-[#005c17] font-mono">
@@ -244,7 +244,7 @@ const swatchesLight = [
       if (lang !== 'fr') {
         var d = {
           'nav.projects':'projects','nav.experience':'experience','nav.skills':'skills','nav.certifications':'certifications','nav.contact':'contact',
-          'index.typewriter':"404: excuses not found.\nPO by day, QA by night — [defining] → [shipping] → [breaking] → [fixing]",
+          'index.typewriter':"404: excuses not found.\nPO by day, QA by night, [defining] → [shipping] → [breaking] → [fixing]",
           'outside.intro':"There's a thread running through most of my interests outside work: I don't really consume \u2014 I learn. Not a stance \u2014 just what holds my attention: understanding how something works, then doing it better.",
           'outside.item1.key':'cooking',
           'outside.item1.val':"Not for the effect \u2014 for the method. Learning the gestures, the reactions, the logic behind each technique. Repeating until it's mastered.",

@@ -17,15 +17,15 @@ Projet orienté **Data Product** avec posture de PO : piloter un backlog par la 
 
 ### Collecte & traitement
 
-- **Client HTTP GitHub** — gère pagination, rate limit et retries sur 403/429 pour collecter les issues d'un dépôt cible.
-- **Classification** — un module détecte le type (bug/feature/doc/other) à partir des labels.
+- **Client HTTP GitHub**, gère pagination, rate limit et retries sur 403/429 pour collecter les issues d'un dépôt cible.
+- **Classification**, un module détecte le type (bug/feature/doc/other) à partir des labels.
 
 ### Stockage & API
 
-- **PostgreSQL** — données stockées via SQLAlchemy + Alembic.
-- **FastAPI** — expose un endpoint `/issues/summary` avec la répartition par type et par état.
+- **PostgreSQL**, données stockées via SQLAlchemy + Alembic.
+- **FastAPI**, expose un endpoint `/issues/summary` avec la répartition par type et par état.
 
 ### Configuration & qualité
 
-- **Pilotage par `.env`** — DATABASE_URL, GITHUB_TOKEN, délai entre requêtes, retries.
-- **Tests** — via pytest, avec doc Swagger auto-générée.
+- **Pilotage par `.env`**, DATABASE_URL, GITHUB_TOKEN, délai entre requêtes, retries.
+- **Tests**, via pytest, avec doc Swagger auto-générée.

@@ -1,6 +1,6 @@
 ---
-title: "Product Owner / Delivery Manager — Produits & SI complexes"
-titleEn: "Product Owner / Delivery Manager — Complex Products & IS"
+title: "Product Owner / Delivery Manager, Produits & SI complexes"
+titleEn: "Product Owner / Delivery Manager, Complex Products & IS"
 company: "KB2M · LGM · CGI"
 location: "Bordeaux"
 type: "CDI"
@@ -15,7 +15,7 @@ descriptionEn: "Product steering of critical, high-complexity business applicati
 
 - Pilotage produit d'applicatifs critiques à forte complexité métier (MOA / PO)
 - Priorisation du backlog et arbitrage des évolutions par la valeur et le risque métier
-- Coordination de squads pluridisciplinaires (dev, ops, SI — 5 à 10 personnes)
+- Coordination de squads pluridisciplinaires (dev, ops, SI, 5 à 10 personnes)
 - Définition des règles métier et optimisation des processus
 - Pilotage de la stratégie de validation produit (API, E2E)
 - Conception et mise en place des tests automatisés avec indicateurs de couverture

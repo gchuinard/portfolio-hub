@@ -18,20 +18,20 @@ Projet né d'un besoin réel : comprendre objectivement le marché de l'emploi t
 
 ### Collecte des données
 
-- **Worker dédié** — agrège en continu les offres, stockées dans **PostgreSQL** via SQLAlchemy async ; l'API FastAPI reste en **lecture seule**, seul le worker écrit.
-- **Sources structurées** — **France Travail** (OAuth), **Adzuna** (HTTP Basic) et **6 flux ATS publics** (Greenhouse, Lever, Ashby, SmartRecruiters, Teamtailor, Workable). Pas de scraping fragile.
+- **Worker dédié**, agrège en continu les offres, stockées dans **PostgreSQL** via SQLAlchemy async ; l'API FastAPI reste en **lecture seule**, seul le worker écrit.
+- **Sources structurées**, **France Travail** (OAuth), **Adzuna** (HTTP Basic) et **6 flux ATS publics** (Greenhouse, Lever, Ashby, SmartRecruiters, Teamtailor, Workable). Pas de scraping fragile.
 
 ### Extraction et classification
 
-- **Catalogue regex de 207 entrées** — avec modélisation des prérequis, maintenu plutôt que fragile.
-- **Classification de poste en 11 catégories** — dev, data, ia, devops, qa, sécu…
-- **Stacks de marché** — détection des itemsets fréquents.
+- **Catalogue regex de 207 entrées**, avec modélisation des prérequis, maintenu plutôt que fragile.
+- **Classification de poste en 11 catégories**, dev, data, ia, devops, qa, sécu…
+- **Stacks de marché**, détection des itemsets fréquents.
 
 ### Dashboard et back-office
 
-- **Front Next.js 16** — quelles technos recrutent le plus, **carte choroplèthe** des 101 départements (d3-geo).
-- **Statistiques de salaire** — p25/p75 par région/rôle/séniorité.
+- **Front Next.js 16**, quelles technos recrutent le plus, **carte choroplèthe** des 101 départements (d3-geo).
+- **Statistiques de salaire**, p25/p75 par région/rôle/séniorité.
 - **Moteur de recommandation** de compétences.
-- **Back-office admin** — scanner de technos inconnues et outils d'audit d'extraction.
+- **Back-office admin**, scanner de technos inconnues et outils d'audit d'extraction.
 
 Architecture multi-services (worker + API + web) orchestrée en **Docker Compose**, durcie en prod (CAP_DROP, no-new-privileges, limites mémoire), **CI/CD GitHub Actions** (pytest, ruff, mypy, tsc, eslint) auto-déployée sur le Raspberry Pi.

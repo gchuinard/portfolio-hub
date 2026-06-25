@@ -18,12 +18,12 @@ Site vitrine léger et performant pour un proche praticien en massages, conçu *
 
 ### Massages proposés
 
-- **Sept techniques** — californien, Lomi Lomi, ayurvédique, deep tissue, réflexologie, bambous, personnalisé.
+- **Sept techniques**, californien, Lomi Lomi, ayurvédique, deep tissue, réflexologie, bambous, personnalisé.
 
 ### Conception
 
-- **Sans framework ni dépendance npm** — sobre, rapide et facile à maintenir.
+- **Sans framework ni dépendance npm**, sobre, rapide et facile à maintenir.
 - **Police locale Bhavuka** + JetBrains Mono chargée en async.
-- **Animations légères** — via **IntersectionObserver**.
+- **Animations légères**, via **IntersectionObserver**.
 
 Déployé en conteneur **Nginx Alpine** sur un **Raspberry Pi auto-hébergé**, derrière Nginx Proxy Manager et Cloudflare.

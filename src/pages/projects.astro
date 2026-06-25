@@ -18,7 +18,7 @@ const upcoming = all.filter((p) => !isReleased(p));
 const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
-<Base title="Projets — PortfolioHub">
+<Base title="Projets, PortfolioHub">
 
   <!-- Page header -->
   <div class="mb-2 text-xs text-[#007a1f] font-mono">
@@ -32,18 +32,18 @@ const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
       <span class="text-[#005c17]">·</span>
       {upcoming.length} <span data-i18n="projects.upcoming.entries">en préparation</span>
     </span>
-    <span class="text-[#005c17]" data-i18n="projects.filter.hint"> — utilisez les filtres pour affiner</span>
+    <span class="text-[#005c17]" data-i18n="projects.filter.hint">, utilisez les filtres pour affiner</span>
   </p>
 
   <!-- Preview disclaimer -->
   <div class="mb-6 border-l-2 border-[#00ff41]/25 bg-[#0a0a0a] px-4 py-2.5 font-mono">
     <p class="text-[11px] text-[#007a1f] leading-relaxed">
       <span class="text-[#00aa2a]">#</span> Les aperçus sont volontairement habillés au <span class="text-[#00aa2a]">thème terminal</span> du portfolio : c'est <span class="text-[#00aa2a]">illustratif</span>, pas le vrai rendu des projets.<br />
-      <span class="text-[#005c17]"># Chaque réalisation a son propre design — jette un œil aux versions en ligne. Je m'adapte au contexte, pas que du vert sur noir.</span>
+      <span class="text-[#005c17]"># Chaque réalisation a son propre design, jette un œil aux versions en ligne. Je m'adapte au contexte, pas que du vert sur noir.</span>
     </p>
   </div>
 
-  <!-- ── RELEASED — filters + grid ──────────────────────────── -->
+  <!-- ── RELEASED, filters + grid ──────────────────────────── -->
   <section>
     <p class="term-section-cmd">
       grep --tags ./projects/online/
@@ -112,7 +112,7 @@ const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
     </p>
   </section>
 
-  <!-- ── UPCOMING — no filters, separate grid ───────────────── -->
+  <!-- ── UPCOMING, no filters, separate grid ───────────────── -->
   {upcoming.length > 0 && (
     <section class="mt-12">
       <p class="term-section-cmd">cat ./roadmap.txt</p>
@@ -122,12 +122,12 @@ const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
           // en préparation
         </p>
         <p class="text-xs text-[#007a1f] leading-relaxed font-mono" data-i18n="projects.upcoming.intro">
-          # projets non livrés — exploration, prototype, ou backlog.
+          # projets non livrés, exploration, prototype, ou backlog.
           # les descriptions et stacks peuvent encore bouger.
         </p>
       </div>
 
-      <!-- Upcoming grid — subtly desaturated to read as "not live" -->
+      <!-- Upcoming grid, subtly desaturated to read as "not live" -->
       <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 upcoming-grid">
         {upcoming.map((p) => <ProjectCard entry={p} />)}
       </div>

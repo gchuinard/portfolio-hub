@@ -17,19 +17,19 @@ Dashboard **minimaliste** pour surveiller mon Raspberry Pi 5 en temps réel, ave
 
 ### Métriques système
 
-- **Temps réel** — CPU %, température SoC, RAM, remplissage disque, en jauges colorées.
-- **Sparklines** — historique visuel et *prévision de saturation* du disque par régression linéaire.
-- **Historique 1 h / 6 h / 24 h** — depuis des buffers mémoire côté serveur.
+- **Temps réel**, CPU %, température SoC, RAM, remplissage disque, en jauges colorées.
+- **Sparklines**, historique visuel et *prévision de saturation* du disque par régression linéaire.
+- **Historique 1 h / 6 h / 24 h**, depuis des buffers mémoire côté serveur.
 
 ### Docker & hôte
 
-- **Stats Docker** — regroupées par projet Compose (repliables), I/O réseau/disque.
-- **Hôte** — load average, processus hôte (hors Docker).
-- **Spécifique Pi** — throttling, voltage via `vcgencmd`.
+- **Stats Docker**, regroupées par projet Compose (repliables), I/O réseau/disque.
+- **Hôte**, load average, processus hôte (hors Docker).
+- **Spécifique Pi**, throttling, voltage via `vcgencmd`.
 
 ### Architecture & PWA
 
-- **Monolithique** — un seul service **Next.js** (App Router) qui combine l'UI et l'API (`/api/metrics`), pas de backend séparé.
-- **PWA** — service worker network-first (shell hors-ligne, API jamais cachée), mode mur/kiosk et préférences persistées.
+- **Monolithique**, un seul service **Next.js** (App Router) qui combine l'UI et l'API (`/api/metrics`), pas de backend séparé.
+- **PWA**, service worker network-first (shell hors-ligne, API jamais cachée), mode mur/kiosk et préférences persistées.
 
 Déployé sur le homelab : la **CI GitHub Actions** cross-build une image arm64 sur GHCR puis se connecte au Pi en SSH pour `docker compose pull`. ⚠️ L'API expose des infos système sensibles → servie **derrière authentification** (NPM), jamais exposée brute à Internet.

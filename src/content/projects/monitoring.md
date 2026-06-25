@@ -18,17 +18,17 @@ Outil de monitoring d'uptime conçu pour répondre à un besoin concret : survei
 
 ### Surveillance
 
-- **Worker périodique** — vérifie chaque URL toutes les 10 min, mesure la latence et contrôle le code de statut attendu.
-- **Expiration SSL** — suit l'expiration des certificats **SSL**.
-- **Historique** — conservé sur 7 jours glissants en **MySQL** via SQLAlchemy async.
+- **Worker périodique**, vérifie chaque URL toutes les 10 min, mesure la latence et contrôle le code de statut attendu.
+- **Expiration SSL**, suit l'expiration des certificats **SSL**.
+- **Historique**, conservé sur 7 jours glissants en **MySQL** via SQLAlchemy async.
 
 ### Authentification maison
 
-- **Comptes complets** — inscription, vérification email, connexion JWT.
-- **Gestion du compte** — réinitialisation de mot de passe, changement d'email par token.
-- **Administration** — interface d'administration dédiée.
+- **Comptes complets**, inscription, vérification email, connexion JWT.
+- **Gestion du compte**, réinitialisation de mot de passe, changement d'email par token.
+- **Administration**, interface d'administration dédiée.
 
 ### Architecture
 
-- **Stack séparée** — API **FastAPI** + frontend **SvelteKit**, orchestrée en **Docker Compose**, avec environnements dev/prod distincts.
-- **CI/CD GitHub Actions** — auto-déploie sur le Raspberry Pi à chaque push sur `main` (SSH → git pull → docker compose up).
+- **Stack séparée**, API **FastAPI** + frontend **SvelteKit**, orchestrée en **Docker Compose**, avec environnements dev/prod distincts.
+- **CI/CD GitHub Actions**, auto-déploie sur le Raspberry Pi à chaque push sur `main` (SSH → git pull → docker compose up).

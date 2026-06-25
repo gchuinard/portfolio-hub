@@ -14,19 +14,19 @@ live: "https://billets.cours-danse-bergerac.fr"
 repo: "https://github.com/gchuinard/gotyeah-danse"
 ---
 
-Billetterie **self-hosted** pour le spectacle de fin d'année de l'école de danse Desha-Moulin, au Centre Culturel de Bergerac — **salle en éventail, 754 places modélisées** (rangées A→Y). Pas de SaaS, pas de commission : un Raspberry Pi 5, une base SQLite, et c'est tout. Développée comme un **sous-projet de `gotyeah-danse`** (`/billetterie`).
+Billetterie **self-hosted** pour le spectacle de fin d'année de l'école de danse Desha-Moulin, au Centre Culturel de Bergerac, **salle en éventail, 754 places modélisées** (rangées A→Y). Pas de SaaS, pas de commission : un Raspberry Pi 5, une base SQLite, et c'est tout. Développée comme un **sous-projet de `gotyeah-danse`** (`/billetterie`).
 
 ### Principes métier verrouillés
 
-- **Pas de paiement en ligne** — les familles paient au studio, l'admin marque « payé » à la main.
-- **Pas de choix du siège** — les familles demandent **N places** et ne choisissent jamais leur siège.
-- **Anti-survente** — une demande `pending` **consomme la jauge** (un compteur, jamais des sièges précis) → la salle **ne peut pas être survendue**.
+- **Pas de paiement en ligne**, les familles paient au studio, l'admin marque « payé » à la main.
+- **Pas de choix du siège**, les familles demandent **N places** et ne choisissent jamais leur siège.
+- **Anti-survente**, une demande `pending` **consomme la jauge** (un compteur, jamais des sièges précis) → la salle **ne peut pas être survendue**.
 
 ### Placement et paiement
 
-- **Placement manuel et assisté** — l'algo propose jusqu'à 3 suggestions, un humain valide toujours.
-- **Indépendance** — on peut « placer maintenant, payer plus tard ».
-- **Règlement par versements** — espèces / chèques échelonnés avec date de dépôt ; une demande est *soldée* quand le net atteint le dû, sinon c'est un *acompte*.
+- **Placement manuel et assisté**, l'algo propose jusqu'à 3 suggestions, un humain valide toujours.
+- **Indépendance**, on peut « placer maintenant, payer plus tard ».
+- **Règlement par versements**, espèces / chèques échelonnés avec date de dépôt ; une demande est *soldée* quand le net atteint le dû, sinon c'est un *acompte*.
 
 ### Billets et entrée
 

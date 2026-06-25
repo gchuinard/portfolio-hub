@@ -17,20 +17,20 @@ Projet **front pur**, fait pour le plaisir et pour explorer la dataviz réactive
 
 ### Données
 
-- **Trois sources API** — communautaire v2, helldivers2.dev v1, endpoint raw `/WarSeason/801/Status`.
-- **Hook `useWarData` unique** — fusionne les sources pour exposer un état cohérent au reste de l'app.
-- **Refresh automatique** — toutes les 60s.
+- **Trois sources API**, communautaire v2, helldivers2.dev v1, endpoint raw `/WarSeason/801/Status`.
+- **Hook `useWarData` unique**, fusionne les sources pour exposer un état cohérent au reste de l'app.
+- **Refresh automatique**, toutes les 60s.
 
 ### Carte galactique
 
 - **Carte interactive** générée via **d3-delaunay** (algorithme Voronoi sur les positions des planètes).
-- **Code couleur par faction** — popup de détail avec biome et progression de libération.
+- **Code couleur par faction**, popup de détail avec biome et progression de libération.
 
 ### Esthétique militaire
 
-- **Polices** — Orbitron + Share Tech Mono.
-- **Code couleur par faction** — Super Terre cyan, Terminides verts, Automates rouges, Illuminés violets.
+- **Polices**, Orbitron + Share Tech Mono.
+- **Code couleur par faction**, Super Terre cyan, Terminides verts, Automates rouges, Illuminés violets.
 - **Barre de statut** façon HUD.
 
-> Front buildé et fonctionnel (CI lint + build), **pas encore déployé** — il
+> Front buildé et fonctionnel (CI lint + build), **pas encore déployé**, il
 > tourne en local (`npm run dev`). Mise en ligne possible en un push (Pages/Pi).

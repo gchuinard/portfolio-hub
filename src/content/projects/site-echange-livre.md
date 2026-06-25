@@ -8,4 +8,4 @@ tags: ["idée", "communauté", "livres"]
 status: ["planned"]
 ---
 
-// idée — pas encore commencée.
+// idée, pas encore commencée.

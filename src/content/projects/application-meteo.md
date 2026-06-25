@@ -14,18 +14,18 @@ live: "https://meteo.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-meteo"
 ---
 
-Application full-stack qui sépare proprement la couche d'agrégation (backend FastAPI + httpx) du client (Next.js App Router + shadcn/ui). Le backend masque la clé OpenWeatherMap, valide les réponses via des modèles **Pydantic** et expose un schéma stable au front — le client ne dépend pas de la forme de l'API externe.
+Application full-stack qui sépare proprement la couche d'agrégation (backend FastAPI + httpx) du client (Next.js App Router + shadcn/ui). Le backend masque la clé OpenWeatherMap, valide les réponses via des modèles **Pydantic** et expose un schéma stable au front, le client ne dépend pas de la forme de l'API externe.
 
 ### Backend complet
 
-- **Bien plus qu'une façade d'API** — **PostgreSQL 16 + SQLAlchemy async + Alembic**.
-- **Auth JWT** — avec rotation des refresh-tokens.
-- **Villes favorites** — sauvegardées par utilisateur, **i18n** et back-office admin.
+- **Bien plus qu'une façade d'API**, **PostgreSQL 16 + SQLAlchemy async + Alembic**.
+- **Auth JWT**, avec rotation des refresh-tokens.
+- **Villes favorites**, sauvegardées par utilisateur, **i18n** et back-office admin.
 
 ### Frontend typé
 
-- **Typé de bout en bout** — types TypeScript partagés entre back et front.
-- **Composants domain-driven** — regroupés dans `components/weather/`.
+- **Typé de bout en bout**, types TypeScript partagés entre back et front.
+- **Composants domain-driven**, regroupés dans `components/weather/`.
 - **Thème dark/light** cohérent via shadcn/ui.
 
-Packagée en **Docker Compose** (frontend + backend + base), endpoint `/docs` Swagger auto-généré. **CI/CD GitHub Actions** qui auto-déploie en continu sur le Raspberry Pi — **en ligne** sur `meteo.gautierchuinard.com` (API séparée sur `api-meteo`).
+Packagée en **Docker Compose** (frontend + backend + base), endpoint `/docs` Swagger auto-généré. **CI/CD GitHub Actions** qui auto-déploie en continu sur le Raspberry Pi, **en ligne** sur `meteo.gautierchuinard.com` (API séparée sur `api-meteo`).

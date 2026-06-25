@@ -16,9 +16,9 @@ Projet né d'une frustration d'usager : impossible de savoir si la ligne C est s
 
 ### Pipeline de données
 
-- **Collecte temps réel** — flux **GTFS-RT** et **SIRI-Lite** du réseau TBM (Bordeaux Métropole Open Data) : retards, annulations, alertes de service.
-- **Stockage** — base **PostgreSQL** avec horodatage précis.
-- **Moteur de détection** — classe chaque événement (retard mineur, perturbation significative, annulation, incident réseau) avec enrichissement par ligne, direction et plage horaire.
+- **Collecte temps réel**, flux **GTFS-RT** et **SIRI-Lite** du réseau TBM (Bordeaux Métropole Open Data) : retards, annulations, alertes de service.
+- **Stockage**, base **PostgreSQL** avec horodatage précis.
+- **Moteur de détection**, classe chaque événement (retard mineur, perturbation significative, annulation, incident réseau) avec enrichissement par ligne, direction et plage horaire.
 
 ### Dashboard
 
@@ -28,4 +28,4 @@ Projet né d'une frustration d'usager : impossible de savoir si la ligne C est s
 
 Ce projet illustre une démarche produit complète : partir d'un besoin utilisateur réel, définir les métriques qui font sens, et construire un pipeline robuste sur des données temps réel officielles.
 
-> **Concept produit** — spécifié, **pas encore développé**.
+> **Concept produit**, spécifié, **pas encore développé**.

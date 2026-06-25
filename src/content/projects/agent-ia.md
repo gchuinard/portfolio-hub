@@ -8,5 +8,5 @@ tags: ["idée", "ia", "qa"]
 status: ["planned"]
 ---
 
-// idée — explorer l'usage des LLMs pour générer et exécuter des tests
+// idée, explorer l'usage des LLMs pour générer et exécuter des tests
 // API et E2E à partir de specs Gherkin ou de tickets.

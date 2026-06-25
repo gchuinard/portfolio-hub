@@ -1,6 +1,6 @@
 ---
-title: "Chef de projet — Développeur freelance"
-titleEn: "Project Manager — Freelance Developer"
+title: "Chef de projet, Développeur freelance"
+titleEn: "Project Manager, Freelance Developer"
 company: "Freelance"
 location: "Bordeaux"
 type: "freelance"

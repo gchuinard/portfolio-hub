@@ -16,7 +16,7 @@ const { title, description, tags = [], stack = [], image, date, demo, live, repo
 const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 ---
 
-<Base title={`${title} — Projet`} description={description}>
+<Base title={`${title}, Projet`} description={description}>
 
   <!-- Breadcrumb -->
   <div class="mb-4 text-xs text-[#007a1f] font-mono">
@@ -143,7 +143,7 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
           <span class="inline-block w-2.5 h-2.5 bg-[#7a7068]"></span>
           <span class="inline-block w-2.5 h-2.5 bg-[#7a7068]"></span>
           <span id="accessDeniedTitle" class="ml-3 text-[10px] text-[#7a7068] font-mono tracking-wider">
-            ssh: git@github.com:gchuinard/private — bash
+            ssh: git@github.com:gchuinard/private, bash
           </span>
           <button
             id="accessDeniedClose"
@@ -246,7 +246,7 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
   .prose-terminal :global(strong) { color: #00ff41; }
   .prose-terminal :global(em)     { color: #00cc35; font-style: normal; }
 
-  /* ──── REPO LOCKED BUTTON — GLITCH ───────────────────────── */
+  /* ──── REPO LOCKED BUTTON, GLITCH ───────────────────────── */
   .repo-locked-btn {
     position: relative;
     color: #ff7a7a;
@@ -343,7 +343,7 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 </style>
 
 <script>
-  // ── ACCESS DENIED MODAL — TERMINAL TYPEWRITER ──────────────────
+  // ── ACCESS DENIED MODAL, TERMINAL TYPEWRITER ──────────────────
   const btn    = document.getElementById('repoLockedBtn');
   const modal  = document.getElementById('accessDeniedModal') as HTMLElement | null;
   const output = document.getElementById('accessDeniedOutput');
@@ -379,7 +379,7 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
       [400,  `<p class="ad-muted">&nbsp;</p>`],
       [80,   `<p class="ad-muted">// le code source de ce projet est confidentiel.</p>`],
       [80,   `<p class="ad-muted">// une démo live ou un walkthrough technique reste possible</p>`],
-      [80,   `<p class="ad-muted">// sur demande — voir /contact.</p>`],
+      [80,   `<p class="ad-muted">// sur demande, voir /contact.</p>`],
       [400,  `<p class="ad-muted">&nbsp;</p>`],
       [80,   `<p class="ad-prompt ad-blink">$ </p>`],
     ];
