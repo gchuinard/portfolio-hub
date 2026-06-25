@@ -14,6 +14,26 @@ if (!project) return Astro.redirect("/projects");
 const { Content } = await project.render();
 const { title, description, tags = [], stack = [], image, date, demo, live, repo, repoPrivate } = project.data;
 const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
+
+// Raison "ACCESS DENIED" spécifique au projet (modal des repos privés).
+const lockInfo: Record<string, { classification: string; reason: string }> = {
+  "gotyeah-yoga": {
+    classification: "production · SaaS client",
+    reason: "données client réelles + paiements Stripe",
+  },
+  "observatoire-emploi-tech": {
+    classification: "production · pipeline de données",
+    reason: "clés API & logique de collecte propriétaires",
+  },
+  "watch": {
+    classification: "homelab · monitoring privé",
+    reason: "expose des internals système du Pi (sécu infra)",
+  },
+};
+const lock = lockInfo[slug ?? ""] ?? {
+  classification: "private repository",
+  reason: "code source confidentiel",
+};
 ---
 
 <Base title={`${title}, Projet`} description={description}>
@@ -130,11 +150,13 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
   {repoPrivate && (
     <div
       id="accessDeniedModal"
-      class="access-denied-modal fixed inset-0 z-[80] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+      class="access-denied-modal fixed inset-0 z-[80] hidden items-start justify-center bg-black/85 backdrop-blur-sm px-4 pt-[7vh] pb-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="accessDeniedTitle"
       data-slug={slug}
+      data-classification={lock.classification}
+      data-reason={lock.reason}
     >
       <div class="ad-window relative w-full max-w-2xl bg-[#0a0a0a] border border-[#ff3030]/50 shadow-[0_0_40px_rgba(255,48,48,0.25)]">
         <!-- Title bar -->
@@ -351,6 +373,8 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
 
   if (btn && modal && output && close) {
     const slug = modal.dataset.slug ?? 'private-repo';
+    const classification = modal.dataset.classification ?? 'private repository';
+    const reason = modal.dataset.reason ?? 'code source confidentiel';
 
     // Sequence of lines to print. [delay_after_previous_ms, html]
     const sequence: [number, string][] = [
@@ -374,8 +398,8 @@ const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
       [40,   `<p class="ad-fatal">╚══════════════════════════════════════════╝</p>`],
       [400,  `<p class="ad-muted">&nbsp;</p>`],
       [80,   `<p class="ad-info">visibility&nbsp;&nbsp;&nbsp;: <span class="ad-error">private</span></p>`],
-      [120,  `<p class="ad-info">classification: <span class="ad-warn">production · live SaaS</span></p>`],
-      [120,  `<p class="ad-info">reason&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: client data + payment integration</p>`],
+      [120,  `<p class="ad-info">classification: <span class="ad-warn">${classification}</span></p>`],
+      [120,  `<p class="ad-info">reason&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${reason}</p>`],
       [400,  `<p class="ad-muted">&nbsp;</p>`],
       [80,   `<p class="ad-muted">// le code source de ce projet est confidentiel.</p>`],
       [80,   `<p class="ad-muted">// une démo live ou un walkthrough technique reste possible</p>`],
