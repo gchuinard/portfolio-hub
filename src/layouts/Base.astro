@@ -11,6 +11,14 @@ const {
 
 const currentPath = Astro.url.pathname;
 
+// Métadonnées sociales (Open Graph / Twitter Card)
+const ogDescription = description ?? "Gautier Playbook — projets, compétences, PO, QA et certifications de Gautier Chuinard.";
+const canonicalURL = new URL(Astro.url.pathname, "https://gautierchuinard.com").href;
+const ogImage = "https://gautierchuinard.com/og.png";
+
+// Date de build (calculée au build, statique sur le site généré)
+const buildDate = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+
 const links = [
   { href: "/projects",       label: "projets",        i18n: "nav.projects" },
   { href: "/experience",     label: "expérience",     i18n: "nav.experience" },
@@ -47,6 +55,23 @@ const swatchesLight = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Gautier Chuinard" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
     <!-- Police Space Mono self-hostée (src/styles/fonts.css) — plus de dépendance Google Fonts -->
     <!-- Applique le thème sauvegardé avant le premier rendu pour éviter le flash -->
     <script is:inline>
@@ -201,6 +226,9 @@ const swatchesLight = [
         <div class="mx-auto max-w-5xl px-4 py-4 text-xs text-[#007a1f] flex justify-between items-center">
           <span># © 2026 gautier@playbook — all rights reserved</span>
           <span class="text-[#005c17]">// built with astro + tailwind</span>
+        </div>
+        <div class="mx-auto max-w-5xl px-4 pb-4 -mt-2 text-[10px] text-[#005c17] font-mono">
+          <span class="text-[#007a1f]">$</span> last deploy: {buildDate}
         </div>
       </footer>
 

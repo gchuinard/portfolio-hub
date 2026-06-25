@@ -299,6 +299,172 @@ const commands: Record<string, Cmd> = {
     },
   },
 
+  neofetch: {
+    desc: 'system info, façon neofetch',
+    run() {
+      const rows: [string, string][] = [
+        ['   ▟█▙   ', '<span class="text-[#00ff41]">gautier</span><span class="text-[#007a1f]">@</span><span class="text-[#00ff41]">playbook</span>'],
+        ['  ▟███▙  ', '<span class="text-[#007a1f]">─────────────────────────</span>'],
+        [' ▟█████▙ ', '<span class="text-[#007a1f]">os:</span> PortfolioHub (Astro 5)'],
+        ['▟███████▙', '<span class="text-[#007a1f]">host:</span> Raspberry Pi 5 · self-hosted'],
+        ['▔▔▔▔▔▔▔▔▔', '<span class="text-[#007a1f]">role:</span> Product Owner · QA'],
+        ['         ', '<span class="text-[#007a1f]">location:</span> Bordeaux, FR'],
+        ['         ', '<span class="text-[#007a1f]">stack:</span> Astro · TS · Docker · Cloudflare'],
+        ['         ', '<span class="text-[#007a1f]">services:</span> 8 live → run <span class="text-[#00ff41]">status</span>'],
+      ];
+      blank();
+      rows.forEach(([logo, info]) => {
+        line(`<span style="white-space:pre" class="text-[#00ff41]">${logo}</span>  ${info}`);
+      });
+      line('<span style="white-space:pre">' + ['#003b0f','#005c17','#007a1f','#00aa2a','#00ff41','#39ff14','#ffaa00','#ff3030'].map((c) => `<span style="color:${c}">██</span>`).join('') + '</span>');
+      blank();
+    },
+  },
+
+  github: {
+    desc: 'mon activité github publique récente',
+    run() {
+      blank();
+      line('<span class="text-[#007a1f]">// GET api.github.com/users/gchuinard/events …</span>');
+      fetch('https://api.github.com/users/gchuinard/events/public?per_page=30')
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((events) => {
+          const pushes = (Array.isArray(events) ? events : [])
+            .filter((e: any) => e.type === 'PushEvent')
+            .slice(0, 6);
+          if (pushes.length === 0) {
+            line('<span class="text-[#007a1f]">(aucun push public récent)</span>');
+            blank();
+            return;
+          }
+          pushes.forEach((e: any) => {
+            const repo = String(e.repo?.name ?? '?').replace('gchuinard/', '');
+            const cs = e.payload?.commits ?? [];
+            const n = cs.length || 1;
+            const msg = String(cs[cs.length - 1]?.message ?? '').split('\n')[0].slice(0, 46);
+            line(`  <span class="text-[#00ff41]">${repo.replace(/</g, '&lt;')}</span> <span class="text-[#005c17]">+${n}</span> <span class="text-[#00aa2a]">${msg.replace(/</g, '&lt;')}</span>`);
+          });
+          blank();
+        })
+        .catch(() => {
+          line('<span class="text-[#ff5f57]">github: indisponible (rate-limit ou réseau)</span>');
+          blank();
+        });
+    },
+  },
+
+  infra: {
+    desc: 'mon homelab auto-hébergé (schéma)',
+    run() {
+      blank();
+      line('<span class="text-[#007a1f]">// ce portfolio + toutes mes apps tournent sur UN Raspberry Pi 5</span>');
+      blank();
+      const art = [
+        'visiteur ─▶ ┌────────────┐',
+        '            │ Cloudflare │  DNS · TLS · Access · CSP',
+        '            └─────┬──────┘',
+        '            ┌─────┴───────────┐',
+        "            │ Nginx Proxy Mgr │  reverse proxy · Let's Encrypt",
+        '            └─────┬───────────┘',
+        '        ┌─────────┼───────────┐',
+        '     ┌──┴──┐   ┌──┴──┐  …  ┌──┴──┐',
+        '     │ pf  │   │sonar│     │yoga │   docker × 8',
+        '     └─────┘   └─────┘     └─────┘',
+      ];
+      art.forEach((l, i) => {
+        const cls = i === 8 ? 'text-[#00ff41]' : 'text-[#00aa2a]';
+        line(`<span style="white-space:pre" class="${cls}">${l}</span>`);
+      });
+      line('<span class="text-[#005c17]">→ Pi 5 (ARM64) · CI/CD GitHub Actions · zéro SaaS payant</span>');
+      blank();
+    },
+  },
+
+  theme: {
+    desc: 'change la couleur du phosphore (ex: theme amber)',
+    run(args) {
+      const hues: Record<string, number> = { green: 0, phosphor: 0, amber: 55, cyan: 130, lime: 30, rose: -60, magenta: -60 };
+      const arg = (args[0] ?? '').toLowerCase();
+      if (!arg) {
+        line('<span class="text-[#007a1f]">usage: theme [green|amber|cyan|lime|rose]</span>');
+        return;
+      }
+      if (!(arg in hues)) {
+        line(`<span class="text-[#ff5f57]">theme: ${arg.replace(/</g, '&lt;')}: inconnu</span>`);
+        line('<span class="text-[#007a1f]">dispo: green · amber · cyan · lime · rose</span>');
+        return;
+      }
+      const deg = hues[arg];
+      const r = document.getElementById('theme-root') ?? document.documentElement;
+      r.style.setProperty('--hue', deg + 'deg');
+      try {
+        const t = JSON.parse(localStorage.getItem('gh-theme') || '{}');
+        t.hue = deg;
+        localStorage.setItem('gh-theme', JSON.stringify(t));
+      } catch (err) { /* ignore */ }
+      line(`<span class="text-[#007a1f]">phosphor → </span><span class="text-[#00ff41]">${arg}</span> <span class="text-[#005c17]">(hue ${deg}°)</span>`);
+    },
+  },
+
+  sudo: {
+    desc: 'run as root 😏 (try: sudo hire-me)',
+    run(args) {
+      const sub = args.join(' ').toLowerCase().trim();
+      if (sub === 'hire-me' || sub === 'hire me') {
+        blank();
+        line('<span class="text-[#007a1f]">[sudo] password for recruiter: </span><span class="text-[#005c17]">••••••••</span>');
+        line('<span class="text-[#00ff41]">✓ access granted.</span>');
+        line('<span class="text-[#00aa2a]">Gautier est ouvert aux opportunités PO / QA.</span>');
+        line('→ <a href="/contact" class="text-[#00ff41] hover:underline">/contact</a> <span class="text-[#007a1f]">· mail · LinkedIn</span>');
+        blank();
+      } else if (sub.startsWith('rm ') && /-r/.test(sub)) {
+        blank();
+        line("<span class=\"text-[#007a1f]\">rm: il est dangereux d'opérer récursivement sur '/'</span>");
+        line('<span class="text-[#ffaa00]">nice try 😏</span> <span class="text-[#007a1f]">— this incident has been reported.</span>');
+        blank();
+      } else if (!sub) {
+        line('<span class="text-[#007a1f]">usage: sudo &lt;command&gt;  (essaie: sudo hire-me)</span>');
+      } else {
+        line(`<span class="text-[#ff5f57]">${sub.replace(/</g, '&lt;')}: permission denied</span>`);
+        line('<span class="text-[#007a1f]">gautier is not in the sudoers file. This incident will be reported.</span>');
+      }
+    },
+  },
+
+  joke: {
+    desc: 'une blague de dev / QA',
+    run() {
+      const jokes = [
+        'Un testeur entre dans un bar. Commande 1 bière. Commande 0 bière. Commande 999999 bières. Commande -1 bière. Commande « azerty ». Commande ␀.',
+        '« Ça marche sur ma machine. » — ok, on livre ta machine au client.',
+        "Combien de PO pour changer une ampoule ? Aucun — c'est priorisé dans le backlog.",
+        "Il y a 2 sortes de bugs : ceux qu'on reproduit… et ceux qu'on démo au client.",
+        'Le test passe en local. La prod, elle, a un avis différent.',
+        '99 petits bugs dans le code. On en corrige un. On recompile. 127 petits bugs dans le code.',
+      ];
+      const i = Math.floor(performance.now() / 13) % jokes.length;
+      blank();
+      line(`<span class="text-[#00aa2a]">${jokes[i]}</span>`);
+      blank();
+    },
+  },
+
+  history: {
+    desc: 'commandes tapées cette session',
+    run() {
+      blank();
+      if (history.length === 0) {
+        line('<span class="text-[#007a1f]">(historique vide)</span>');
+        blank();
+        return;
+      }
+      history.forEach((h, i) =>
+        line(`  <span class="text-[#005c17]">${i + 1}</span>  <span class="text-[#00aa2a]">${h.replace(/</g, '&lt;')}</span>`),
+      );
+      blank();
+    },
+  },
+
   clear: {
     desc: 'clear the terminal',
     run() {
@@ -366,6 +532,8 @@ input.addEventListener('keydown', (e: KeyboardEvent) => {
 const argCompletions: Record<string, string[]> = {
   cd:  ['projects', 'skills', 'certifications', 'contact', '~'],
   cat: ['about.txt', 'stack.txt', 'contact.txt'],
+  theme: ['green', 'amber', 'cyan', 'lime', 'rose'],
+  sudo: ['hire-me'],
 };
 
 input.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -399,6 +567,26 @@ input.addEventListener('keydown', (e: KeyboardEvent) => {
     input.value = parts.join(' ') + ' ';
   } else if (matches.length > 1) {
     line(`<span class="text-[#007a1f]">${matches.join('  ')}</span>`);
+  }
+});
+
+// ── Konami code → amber CRT easter egg ──────────────────────────────────────
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+document.addEventListener('keydown', (e: KeyboardEvent) => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
+  if (konamiIdx === konami.length) {
+    konamiIdx = 0;
+    const r = document.getElementById('theme-root') ?? document.documentElement;
+    r.style.setProperty('--hue', '55deg');
+    try {
+      const t = JSON.parse(localStorage.getItem('gh-theme') || '{}');
+      t.hue = 55;
+      localStorage.setItem('gh-theme', JSON.stringify(t));
+    } catch (err) { /* ignore */ }
+    if (!isOpen) open();
+    line('<span class="text-[#ffaa00]">▞▚ cheat activated ▚▞</span> <span class="text-[#007a1f]">— amber CRT mode unlocked.</span>');
   }
 });
 

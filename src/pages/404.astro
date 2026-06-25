@@ -1,0 +1,73 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="404 — page introuvable" description="Cette page n'existe pas.">
+
+  <!-- Page header -->
+  <div class="mb-2 text-xs text-[#007a1f] font-mono">
+    <span class="text-[#00aa2a]">$</span> cd <span id="req-path" class="text-[#00aa2a]">./cette-page</span>
+  </div>
+  <h1 class="text-2xl font-bold text-[#00ff41] mb-1">404</h1>
+  <p class="text-xs text-[#00aa2a] mb-8 font-mono">
+    // la commande a planté, mais pas le serveur.
+  </p>
+
+  <section class="max-w-xl">
+
+    <!-- Faux output shell -->
+    <div class="quick-card">
+      <p class="text-[10px] text-[#007a1f] font-mono mb-3">
+        <span class="text-[#00aa2a]">$</span> cat /var/log/last_error
+      </p>
+
+      <div class="space-y-1 text-xs font-mono leading-relaxed">
+        <p class="text-[#00aa2a]">
+          <span class="text-[#007a1f]">$</span> cd <span class="text-[#00aa2a]" id="req-path-2">./cette-page</span>
+        </p>
+        <p class="text-[#007a1f]">
+          bash: cd: no such file or directory <span class="text-[#005c17]">(exit code 404)</span>
+        </p>
+        <p class="text-[#00ff41]">
+          segmentation fault <span class="text-[#005c17]">(core dumped)</span>
+        </p>
+      </div>
+
+      <p class="mt-5 text-[10px] text-[#005c17] font-mono leading-relaxed">
+        # La page que tu cherches a été ramassée par le garbage collector.<br/>
+        # Pas de panique : le reste du système tourne toujours.
+      </p>
+
+      <!-- Liens de retour -->
+      <div class="mt-5">
+        <p class="text-[10px] uppercase tracking-[0.18em] text-[#007a1f] mb-2 font-mono">
+          <span class="text-[#00aa2a]">$</span> ls ./issues-de-secours/
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 border border-[#00ff41]/20 bg-[#080808] px-3 py-1.5 text-xs text-[#00aa2a] hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors font-mono"
+          >
+            <span class="text-[#007a1f]">&gt;</span> cd ~
+          </a>
+          <a
+            href="/projects"
+            class="inline-flex items-center gap-1.5 border border-[#00ff41]/20 bg-[#080808] px-3 py-1.5 text-xs text-[#00aa2a] hover:border-[#00ff41]/50 hover:text-[#00ff41] transition-colors font-mono"
+          >
+            <span class="text-[#007a1f]">&gt;</span> ls ./projects/
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<script>
+  // Remplace le placeholder par le vrai chemin demandé (sans casser le rendu si JS off).
+  const path = window.location.pathname;
+  for (const id of ["req-path", "req-path-2"]) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = "." + path;
+  }
+</script>
