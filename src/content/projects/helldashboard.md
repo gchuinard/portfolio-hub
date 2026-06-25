@@ -2,13 +2,13 @@
 title: "Helldashboard"
 titleEn: "Helldashboard"
 description: "Dashboard temps réel de la guerre galactique d'Helldivers 2, thématisé « Ministère de la Paix ». Carte SVG Voronoi, métriques agrégées, refresh 60s."
-descriptionEn: "Real-time galactic war dashboard for Helldivers 2, themed as the Ministry of Truth. Voronoi SVG map, live metrics, 60s refresh."
+descriptionEn: "Real-time galactic war dashboard for Helldivers 2, themed as the Ministry of Peace. Voronoi SVG map, live metrics, 60s refresh."
 date: 2026-04-08
 slug: "helldashboard"
 tags: [dataviz, gaming, temps-réel]
 stack: [React 19, TypeScript, Vite 6, Tailwind 4, d3-delaunay]
 image: "/images/helldashboard.svg"
-status: ["online", "new"]
+status: ["new"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-helldashboard"
 ---
@@ -22,5 +22,9 @@ endpoint raw `/WarSeason/801/Status`) et les fusionne dans un hook
 Voronoi sur les positions des planètes), code couleur par faction, popup de
 détail avec biome et progression de libération.
 Esthétique militaire poussée — polices Orbitron + Share Tech Mono, code
-couleur par faction (Terminiides verts, Automates rouges, Illuminés
-violets), barre de statut façon HUD. Refresh automatique toutes les 60s.
+couleur par faction (Super Terre cyan, Terminides verts, Automates rouges,
+Illuminés violets), barre de statut façon HUD. Refresh automatique toutes
+les 60s.
+
+> Front buildé et fonctionnel (CI lint + build), **pas encore déployé** — il
+> tourne en local (`npm run dev`). Mise en ligne possible en un push (Pages/Pi).

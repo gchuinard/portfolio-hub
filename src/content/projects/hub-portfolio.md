@@ -10,6 +10,7 @@ stack: ["Astro 5", "TailwindCSS 3", "MDX", "TypeScript"]
 image: "/images/hub-portfolio.svg"
 status: ["online", "in-progress"]
 featured: true
+live: "https://gautierchuinard.com"
 repo: "https://github.com/gchuinard/portfolio-hub"
 ---
 
@@ -20,4 +21,6 @@ Le contenu vit dans des **Astro Content Collections** (projets,
 certifications, expériences) avec schémas Zod — ajouter un projet =
 créer un fichier markdown.
 Pensé pour rester maintenable sans framework JS lourd : tout est Astro
-vanilla + scripts `type="module"`, déployé sur GitHub Pages.
+vanilla + scripts `type="module"`, **auto-déployé par GitHub Actions
+(rsync) sur un Raspberry Pi auto-hébergé**, derrière Nginx Proxy Manager
++ Cloudflare, avec une CSP stricte injectée au build.

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" font-family="'Space Mono', ui-monospace, Consolas, 'DejaVu Sans Mono', 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.75" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse">
+      <rect width="3" height="1" fill="#000000" opacity="0.20"/>
+    </pattern>
+    <radialGradient id="vig" cx="50%" cy="42%" r="78%">
+      <stop offset="62%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <style>
+      .cur { animation: blink 1.1s steps(1, end) infinite; }
+      @keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+    </style>
+  </defs>
+
+  <rect width="800" height="450" fill="#0a0a0a"/>
+  <rect x="40" y="34" width="720" height="382" fill="#0b0b0b" stroke="#00ff41" stroke-opacity="0.22"/>
+  <rect x="40" y="34" width="720" height="34" fill="#0d0d0d"/>
+  <line x1="40" y1="68" x2="760" y2="68" stroke="#00ff41" stroke-opacity="0.22"/>
+
+  <!-- share badge + upload bar (crisp) -->
+  <rect x="470" y="234" width="266" height="20" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="180" y="320" width="320" height="13" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="182" y="322" width="256" height="9" fill="#00ff41" fill-opacity="0.55"/>
+
+  <g filter="url(#glow)">
+    <rect x="58" y="46" width="10" height="10" fill="#00ff41"/>
+    <rect x="76" y="46" width="10" height="10" fill="#007a1f"/>
+    <rect x="94" y="46" width="10" height="10" fill="#005c17"/>
+
+    <text x="124" y="56" font-size="13" fill="#00aa2a">gotyeah-filer<tspan fill="#005c17"> — ~/partages</tspan></text>
+    <text x="744" y="56" font-size="11.5" fill="#005c17" text-anchor="end">live</text>
+
+    <text x="64" y="106" font-size="14.5" fill="#00ff41"><tspan fill="#00aa2a">$</tspan> filer ls ~/partages</text>
+
+    <text x="64" y="144" font-size="14.5" fill="#00ff41">partages/</text>
+    <g font-size="14.5" xml:space="preserve">
+      <text x="64" y="172" fill="#005c17">├─ <tspan fill="#007a1f">▾</tspan> <tspan fill="#00aa2a">Photos été/</tspan>  <tspan fill="#005c17">12 fichiers · 340 Mo</tspan></text>
+      <text x="64" y="200" fill="#005c17">│  ├─ <tspan fill="#007a1f">•</tspan> <tspan fill="#00aa2a">IMG_2381.jpg</tspan></text>
+      <text x="64" y="228" fill="#005c17">│  └─ <tspan fill="#00ff41">▸</tspan> <tspan fill="#00aa2a">clip.mp4</tspan>  <tspan fill="#007a1f">preview ▷ (seek)</tspan></text>
+      <text x="64" y="256" fill="#005c17">├─ <tspan fill="#00ff41">▪</tspan> <tspan fill="#00aa2a">Docs famille.zip</tspan></text>
+      <text x="64" y="284" fill="#005c17">└─ <tspan fill="#007a1f">•</tspan> <tspan fill="#00aa2a">CV_2026.pdf</tspan>  <tspan fill="#005c17">↓ 3</tspan></text>
+    </g>
+
+    <text x="480" y="248" font-size="11.5" fill="#007a1f">share → mamie@… , paul@…  (whitelist)</text>
+
+    <text x="64" y="332" font-size="12.5" fill="#007a1f">upload</text>
+    <text x="514" y="332" font-size="12" fill="#005c17">812 Mo / 1 Go</text>
+
+    <text x="64" y="366" font-size="13" fill="#005c17">// accès par email · cookie signé · ZIP · auto-hébergé</text>
+    <text x="64" y="394" font-size="14.5" fill="#00aa2a">$ <tspan class="cur" fill="#00ff41">▮</tspan></text>
+  </g>
+
+  <rect width="800" height="450" fill="url(#scan)"/>
+  <rect width="800" height="450" fill="url(#vig)"/>
+</svg>

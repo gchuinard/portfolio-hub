@@ -1,15 +1,15 @@
 ---
 title: "Observatoire des perturbations TBM"
 titleEn: "TBM Transit Disruption Observatory"
-description: "Pipeline de collecte et d'analyse des perturbations en temps réel du réseau de tram TBM à Bordeaux, pour identifier les lignes et horaires les plus impactés."
-descriptionEn: "Real-time data pipeline and analytics dashboard monitoring TBM tram disruptions in Bordeaux, identifying the most impacted lines and time slots."
+description: "Concept de pipeline de collecte et d'analyse des perturbations en temps réel du réseau de tram TBM à Bordeaux, pour identifier les lignes et horaires les plus impactés."
+descriptionEn: "Concept for a real-time data pipeline and analytics dashboard monitoring TBM tram disruptions in Bordeaux, identifying the most impacted lines and time slots."
 date: 2026-04-03
 slug: "observatoire-perturbations-tbm"
 tags: [data, transport, temps-réel]
 stack: [Python, GTFS-RT, SIRI-Lite, PostgreSQL, FastAPI, Next.js, Recharts]
 image: "/images/observatoire-perturbations-tbm.svg"
-status: ["offline", "planned"]
-featured: true
+status: ["planned"]
+featured: false
 ---
 
 Projet né d'une frustration d'usager : impossible de savoir si la ligne C est 
@@ -26,3 +26,5 @@ les plus impactés**.
 Ce projet illustre une démarche produit complète : partir d'un besoin utilisateur 
 réel, définir les métriques qui font sens, et construire un pipeline robuste sur 
 des données temps réel officielles.
+
+> **Concept produit** — spécifié, **pas encore développé**.

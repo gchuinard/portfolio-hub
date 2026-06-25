@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" font-family="'Space Mono', ui-monospace, Consolas, 'DejaVu Sans Mono', 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.75" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse">
+      <rect width="3" height="1" fill="#000000" opacity="0.20"/>
+    </pattern>
+    <radialGradient id="vig" cx="50%" cy="42%" r="78%">
+      <stop offset="62%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <style>
+      .cur { animation: blink 1.1s steps(1, end) infinite; }
+      @keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+    </style>
+  </defs>
+
+  <rect width="800" height="450" fill="#0a0a0a"/>
+  <rect x="40" y="34" width="720" height="382" fill="#0b0b0b" stroke="#00ff41" stroke-opacity="0.22"/>
+  <rect x="40" y="34" width="720" height="34" fill="#0d0d0d"/>
+  <line x1="40" y1="68" x2="760" y2="68" stroke="#00ff41" stroke-opacity="0.22"/>
+
+  <!-- metric bars (crisp) -->
+  <rect x="150" y="160" width="250" height="12" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="152" y="162" width="102" height="8" fill="#00ff41" fill-opacity="0.6"/>
+  <rect x="150" y="190" width="250" height="12" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="152" y="192" width="146" height="8" fill="#ffaa00" fill-opacity="0.55"/>
+  <rect x="150" y="220" width="250" height="12" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="152" y="222" width="214" height="8" fill="#00ff41" fill-opacity="0.6"/>
+  <rect x="150" y="250" width="250" height="12" fill="#080808" stroke="#00ff41" stroke-opacity="0.25"/>
+  <rect x="152" y="252" width="168" height="8" fill="#00ff41" fill-opacity="0.6"/>
+  <!-- docker panel (crisp) -->
+  <rect x="470" y="150" width="266" height="124" fill="#080808" stroke="#00ff41" stroke-opacity="0.28"/>
+
+  <g filter="url(#glow)">
+    <rect x="58" y="46" width="10" height="10" fill="#00ff41"/>
+    <rect x="76" y="46" width="10" height="10" fill="#007a1f"/>
+    <rect x="94" y="46" width="10" height="10" fill="#005c17"/>
+
+    <text x="124" y="56" font-size="13" fill="#00aa2a">watch<tspan fill="#005c17"> — ~/pi5</tspan></text>
+    <text x="744" y="56" font-size="11.5" fill="#005c17" text-anchor="end">homelab</text>
+
+    <text x="64" y="106" font-size="14.5" fill="#00ff41"><tspan fill="#00aa2a">$</tspan> watch --metrics</text>
+
+    <g font-size="13" fill="#007a1f">
+      <text x="64" y="170">CPU</text>
+      <text x="64" y="200">TEMP</text>
+      <text x="64" y="230">RAM</text>
+      <text x="64" y="260">DISK</text>
+    </g>
+    <g font-size="12.5" fill="#00aa2a">
+      <text x="406" y="170">41%</text>
+      <text x="406" y="200" fill="#ffaa00">58°C</text>
+      <text x="406" y="230">3.4G</text>
+      <text x="406" y="260">67%</text>
+    </g>
+
+    <text x="486" y="174" font-size="12" fill="#007a1f">docker · par projet Compose</text>
+    <g font-size="13" xml:space="preserve">
+      <text x="486" y="202" fill="#005c17"><tspan fill="#00ff41">●</tspan> npm        <tspan fill="#00aa2a">3 ▸ up</tspan></text>
+      <text x="486" y="228" fill="#005c17"><tspan fill="#00ff41">●</tspan> gotyeah    <tspan fill="#00aa2a">5 ▸ up</tspan></text>
+      <text x="486" y="254" fill="#005c17"><tspan fill="#00ff41">●</tspan> media      <tspan fill="#00aa2a">2 ▸ up</tspan></text>
+    </g>
+
+    <text x="64" y="328" font-size="13" fill="#005c17">// forecast disque · historique 1h/6h/24h · sparklines</text>
+    <text x="64" y="362" font-size="13" fill="#005c17">// 1 service Next.js · /api/metrics · PWA · derrière auth</text>
+    <text x="64" y="392" font-size="14.5" fill="#00aa2a">$ <tspan class="cur" fill="#00ff41">▮</tspan></text>
+  </g>
+
+  <rect width="800" height="450" fill="url(#scan)"/>
+  <rect width="800" height="450" fill="url(#vig)"/>
+</svg>

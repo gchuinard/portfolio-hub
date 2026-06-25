@@ -1,15 +1,15 @@
 ---
 title: "Dashboard F1 Data"
 titleEn: "F1 Data Dashboard"
-description: "Pipeline de données et dashboard analytique basé sur les données officielles de la Formule 1, pour explorer les performances des pilotes et des écuries en temps réel."
-descriptionEn: "Data pipeline and analytics dashboard built on official Formula 1 data, to explore driver and team performance in real time."
+description: "Concept de pipeline de données et dashboard analytique basé sur les données officielles de la Formule 1, pour explorer les performances des pilotes et des écuries."
+descriptionEn: "Concept for a data pipeline and analytics dashboard built on official Formula 1 data, to explore driver and team performance."
 date: 2026-04-03
 slug: "dashboard-f1-data"
 tags: [data, f1, dashboard]
 stack: [Python, FastF1, PostgreSQL, FastAPI, Next.js, Recharts]
 image: "/images/dashboard-f1-data.svg"
-status: ["offline", "planned"]
-featured: true
+status: ["planned"]
+featured: false
 ---
 
 Projet orienté **Data Product**, conçu comme si j'étais PO d'une équipe d'analyse pour une écurie F1.  
@@ -20,3 +20,5 @@ impact des undercuts en course.
 Les choix de modélisation et de priorisation des vues sont documentés explicitement — 
 **quelles métriques, pour quel utilisateur, pourquoi**.  
 Ce projet illustre ma capacité à piloter un produit data de bout en bout : de la définition des besoins à la livraison d'insights actionnables.
+
+> **Concept produit** — spécifié et priorisé, **pas encore développé**.
