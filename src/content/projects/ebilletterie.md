@@ -10,6 +10,7 @@ stack: [Next.js 16, TypeScript, Prisma 6, SQLite, react-email, QR (html5-qrcode)
 image: "/images/ebilletterie.svg"
 status: ["online", "in-progress"]
 featured: false
+live: "https://billets.cours-danse-bergerac.fr"
 repo: "https://github.com/gchuinard/gotyeah-danse"
 ---
 
