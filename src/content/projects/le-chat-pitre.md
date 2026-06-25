@@ -8,8 +8,9 @@ slug: "le-chat-pitre"
 tags: [réservation, messagerie, back-office]
 stack: [Next.js 16, React 19, TypeScript, PostgreSQL, Prisma 7, Tailwind 4, WebRTC, Docker]
 image: "/images/le-chat-pitre.svg"
-status: ["new"]
+status: ["online", "new"]
 featured: true
+live: "https://chatpitre.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-chatpitre"
 ---
 
@@ -27,5 +28,5 @@ volée, **carnet de séjour** quotidien (photos + notes).
 **Design system maison** d'inspiration mid-century illustrée (façon Charley
 Harper) — Newsreader + Manrope + JetBrains Mono, palette crème + tons joaillerie.
 Stack **Next.js 16 + PostgreSQL 16 + Prisma 7**, build Docker multi-stage
-optimisé arm64, CI GitHub Actions, déployé sur le homelab derrière NPM +
-Cloudflare.
+optimisé arm64, CI GitHub Actions, **en ligne** sur `chatpitre.gautierchuinard.com`
+(Raspberry Pi derrière NPM + Cloudflare).

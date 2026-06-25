@@ -1,15 +1,16 @@
 ---
 title: "WeatherNow"
 titleEn: "WeatherNow"
-description: "Application météo full-stack (API OpenWeatherMap) : backend FastAPI + PostgreSQL avec auth JWT et villes favorites, client Next.js typé, i18n, auto-déployée en continu sur le homelab."
-descriptionEn: "Full-stack weather app (OpenWeatherMap API): FastAPI + PostgreSQL backend with JWT auth and saved cities, typed Next.js client, i18n, continuously auto-deployed to the homelab."
+description: "Application météo full-stack (API OpenWeatherMap) : backend FastAPI + PostgreSQL avec auth JWT et villes favorites, client Next.js typé, i18n, déployée en ligne sur le homelab."
+descriptionEn: "Full-stack weather app (OpenWeatherMap API): FastAPI + PostgreSQL backend with JWT auth and saved cities, typed Next.js client, i18n, deployed online on the homelab."
 date: 2026-04-12
 slug: "weather-now"
 tags: [météo, full-stack, dashboard]
 stack: [Next.js 16, TypeScript, shadcn/ui, FastAPI, Python 3.14, SQLAlchemy async, PostgreSQL, Docker]
 image: "/images/application-meteo.svg"
-status: ["updated"]
+status: ["online", "updated"]
 featured: true
+live: "https://meteo.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-meteo"
 ---
 
@@ -27,4 +28,5 @@ domain-driven (`components/weather/`), thème dark/light cohérent via
 shadcn/ui.
 Packagée en **Docker Compose** (frontend + backend + base), endpoint `/docs`
 Swagger auto-généré. **CI/CD GitHub Actions** qui auto-déploie en continu sur
-le Raspberry Pi (pas d'URL publique pour l'instant).
+le Raspberry Pi — **en ligne** sur `meteo.gautierchuinard.com` (API séparée
+sur `api-meteo`).

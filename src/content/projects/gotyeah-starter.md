@@ -8,7 +8,7 @@ slug: "gotyeah-starter"
 tags: [automatisation, devops, infrastructure]
 stack: [Python, FastAPI, httpx, Server-Sent Events, Docker]
 image: "/images/gotyeah-starter.svg"
-status: ["new"]
+status: ["online", "new"]
 featured: false
 repo: "https://github.com/gchuinard/gotyeah-starter"
 ---
