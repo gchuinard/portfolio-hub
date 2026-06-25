@@ -8,7 +8,7 @@ slug: "ebilletterie"
 tags: [billetterie, événementiel, back-office]
 stack: [Next.js 16, TypeScript, Prisma 6, SQLite, react-email, QR (html5-qrcode), Cloudflare Turnstile, Docker]
 image: "/images/ebilletterie.svg"
-status: ["in-progress"]
+status: ["online", "in-progress"]
 featured: false
 repo: "https://github.com/gchuinard/gotyeah-danse"
 ---
@@ -33,4 +33,4 @@ Billetterie **self-hosted** pour le spectacle de fin d'année de l'école de dan
 - **Emails** via react-email + Brevo.
 - **Formulaire public** protégé par **Cloudflare Turnstile**.
 
-Stack **Next.js 16 App Router + Prisma 6 / SQLite**, déployé en **Docker** sur le Pi 5 ARM64.
+Stack **Next.js 16 App Router + Prisma 6 / SQLite**, **en ligne** sur `billets.cours-danse-bergerac.fr` (Docker sur le Pi 5 ARM64, derrière Cloudflare Access).
