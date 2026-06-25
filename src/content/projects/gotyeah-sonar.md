@@ -14,21 +14,23 @@ live: "https://sonar.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-sonar"
 ---
 
-Scanner de sécurité web pour auditer **ses propres sites** (vérification de
-propriété par DNS obligatoire avant de scanner). Pensé QA/sécu : la note ne
-ment jamais — elle est **plafonnée par la pire sévérité** (CRITICAL → E) et par
-l'incomplétude de couverture.
-**Audit en trois phases** : passif (en-têtes HTTP avec *jugement de valeur* —
-CSP permissive, HSTS `max-age=0` —, robustesse TLS, qualité DNS SPF/DMARC/DKIM/
-DNSSEC), actif-léger (fichiers sensibles exposés, reflet CORS, mixed content,
-subdomain takeover), puis pentest (**nuclei** filtré par tag + **OWASP ZAP**
-baseline).
-**Dashboard temps réel** qui streame les findings en **SSE** (heartbeat qui
-survit aux timeouts proxy), **auth par magic-link** sans mot de passe, et
-**remédiation multilingue FR/EN** avec snippets par stack (Nginx/NPM/Cloudflare)
-et prompts prêts pour l'IA.
-**Intégration MCP** : serveur local stdio en lecture seule (Claude Code) et
-serveur distant OAuth via Pocket ID (claude.ai) avec action `run_scan`.
-Garde-fou anti-SSRF (blocage des IP privées et de 169.254.169.254).
-Déployé sur Raspberry Pi via **Docker** (nuclei pré-chargé, CI/CD + scan
-nocturne) derrière Nginx Proxy Manager + Cloudflare. Dépôt **public**.
+Scanner de sécurité web pour auditer **ses propres sites** — vérification de
+propriété par DNS obligatoire avant tout scan. Pensé QA/sécu : la note ne ment
+jamais, **plafonnée par la pire sévérité** (CRITICAL → E) et par l'incomplétude
+de couverture.
+
+### Audit en trois phases
+
+- **Passif** — en-têtes HTTP avec *jugement de valeur* (CSP permissive, HSTS `max-age=0`), robustesse TLS, qualité DNS (SPF / DMARC / DKIM / DNSSEC).
+- **Actif-léger** — fichiers sensibles exposés, reflet CORS, mixed content, subdomain takeover.
+- **Pentest** — **nuclei** filtré par tag + **OWASP ZAP** baseline.
+
+### Fonctionnalités
+
+- **Dashboard temps réel** — findings streamés en **SSE** (heartbeat qui survit aux timeouts proxy).
+- **Auth par magic-link**, sans mot de passe.
+- **Remédiation FR/EN** — snippets par stack (Nginx / NPM / Cloudflare) + prompts prêts pour l'IA.
+- **Intégration MCP** — serveur local stdio en lecture seule (Claude Code) et distant OAuth via Pocket ID (claude.ai), avec action `run_scan`.
+- **Garde-fou anti-SSRF** — blocage des IP privées et de `169.254.169.254`.
+
+Déployé sur Raspberry Pi via **Docker** (nuclei pré-chargé, CI/CD + scan nocturne) derrière Nginx Proxy Manager + Cloudflare. Dépôt **public**.

@@ -13,13 +13,19 @@ featured: true
 repo: "https://github.com/gchuinard/gotyeah-datagit"
 ---
 
-Projet orienté **Data Product** avec posture de PO : piloter un backlog par
-la donnée plutôt que par l'intuition.
-Le **client HTTP GitHub** gère pagination, rate limit et retries sur 403/429
-pour collecter les issues d'un dépôt cible. Un module de classification
-détecte le type (bug/feature/doc/other) à partir des labels.
-Les données sont stockées en **PostgreSQL** via SQLAlchemy + Alembic, et
-l'API **FastAPI** expose un endpoint `/issues/summary` avec la répartition
-par type et par état.
-Configuration entièrement pilotée par `.env` (DATABASE_URL, GITHUB_TOKEN,
-délai entre requêtes, retries). Tests via pytest, doc Swagger auto-générée.
+Projet orienté **Data Product** avec posture de PO : piloter un backlog par la donnée plutôt que par l'intuition.
+
+### Collecte & traitement
+
+- **Client HTTP GitHub** — gère pagination, rate limit et retries sur 403/429 pour collecter les issues d'un dépôt cible.
+- **Classification** — un module détecte le type (bug/feature/doc/other) à partir des labels.
+
+### Stockage & API
+
+- **PostgreSQL** — données stockées via SQLAlchemy + Alembic.
+- **FastAPI** — expose un endpoint `/issues/summary` avec la répartition par type et par état.
+
+### Configuration & qualité
+
+- **Pilotage par `.env`** — DATABASE_URL, GITHUB_TOKEN, délai entre requêtes, retries.
+- **Tests** — via pytest, avec doc Swagger auto-générée.

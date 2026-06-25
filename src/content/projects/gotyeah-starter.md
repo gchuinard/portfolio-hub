@@ -13,16 +13,24 @@ featured: false
 repo: "https://github.com/gchuinard/gotyeah-starter"
 ---
 
-Application qui **automatise la mise en ligne d'un nouveau site** sur mon
-Raspberry Pi 5. Au lieu d'enchaîner les étapes à la main, elle orchestre une
-**cascade** : création du dépôt GitHub (vierge ou depuis template) →
-enregistrement **DNS A Cloudflare** pointant sur le Pi → **Nginx Proxy Manager**
-avec certificat Let's Encrypt et HTTPS forcé → injection du workflow GitHub
-Actions.
-**Logs en temps réel** streamés via **Server-Sent Events** ; en cas d'échec
-d'une étape, **rollback automatique** des opérations déjà effectuées.
-Backend **FastAPI** async (httpx pour les API externes), frontend HTML/CSS/JS
-vanilla. **Zéro dépendance SaaS** : tout l'état et les secrets vivent sur le Pi
-via `.env`.
-Conteneurisé (Docker `HEALTHCHECK`), CI/CD avec tests + déploiement SSH/rsync.
-Un outil d'infra interne qui transforme « créer un nouveau site » en un clic.
+Application qui **automatise la mise en ligne d'un nouveau site** sur mon Raspberry Pi 5. Au lieu d'enchaîner les étapes à la main, elle orchestre une **cascade** complète en un clic.
+
+### Cascade de provisioning
+
+- **Dépôt GitHub** — création vierge ou depuis template.
+- **DNS A Cloudflare** — enregistrement pointant sur le Pi.
+- **Nginx Proxy Manager** — certificat Let's Encrypt et HTTPS forcé.
+- **Workflow GitHub Actions** — injecté dans le dépôt.
+
+### Fiabilité
+
+- **Logs en temps réel** — streamés via **Server-Sent Events**.
+- **Rollback automatique** — en cas d'échec d'une étape, les opérations déjà effectuées sont annulées.
+
+### Architecture
+
+- **Backend FastAPI** async — httpx pour les API externes.
+- **Frontend HTML/CSS/JS** vanilla.
+- **Zéro dépendance SaaS** — tout l'état et les secrets vivent sur le Pi via `.env`.
+
+Conteneurisé (Docker `HEALTHCHECK`), CI/CD avec tests + déploiement SSH/rsync. Un outil d'infra interne qui transforme « créer un nouveau site » en un clic.

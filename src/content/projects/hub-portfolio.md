@@ -14,13 +14,16 @@ live: "https://gautierchuinard.com"
 repo: "https://github.com/gchuinard/portfolio-hub"
 ---
 
-Site statique avec esthétique terminal phosphore (vert sur noir, Space
-Mono partout, pas de border-radius), **i18n FR/EN client-side** géré via
-attributs `data-i18n` et toggle clavier.
-Le contenu vit dans des **Astro Content Collections** (projets,
-certifications, expériences) avec schémas Zod — ajouter un projet =
-créer un fichier markdown.
-Pensé pour rester maintenable sans framework JS lourd : tout est Astro
-vanilla + scripts `type="module"`, **auto-déployé par GitHub Actions
-(rsync) sur un Raspberry Pi auto-hébergé**, derrière Nginx Proxy Manager
-+ Cloudflare, avec une CSP stricte injectée au build.
+Site statique avec esthétique terminal phosphore (vert sur noir, Space Mono partout, pas de border-radius), **i18n FR/EN client-side** géré via attributs `data-i18n` et toggle clavier.
+
+### Contenu
+
+- **Astro Content Collections** — projets, certifications, expériences avec schémas Zod.
+- **Ajouter un projet** — créer un fichier markdown.
+
+### Architecture
+
+- **Sans framework JS lourd** — tout est Astro vanilla + scripts `type="module"`.
+- **Maintenabilité** — pensé pour rester maintenable dans le temps.
+
+Pensé pour rester maintenable, **auto-déployé par GitHub Actions (rsync) sur un Raspberry Pi auto-hébergé**, derrière Nginx Proxy Manager + Cloudflare, avec une CSP stricte injectée au build.

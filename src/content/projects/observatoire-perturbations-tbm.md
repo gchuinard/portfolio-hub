@@ -12,19 +12,20 @@ status: ["planned"]
 featured: false
 ---
 
-Projet né d'une frustration d'usager : impossible de savoir si la ligne C est 
-structurellement moins fiable que la ligne D, ou si c'est juste une impression.  
-Le pipeline collecte en continu les flux **GTFS-RT** et **SIRI-Lite** du réseau TBM 
-(Bordeaux Métropole Open Data) — retards, annulations, alertes de service — 
-et les stocke en base **PostgreSQL** avec horodatage précis.  
-Un moteur de détection classe chaque événement : retard mineur, perturbation 
-significative, annulation, incident réseau — avec enrichissement par ligne, 
-direction et plage horaire.  
-Le dashboard expose les insights clés : **taux de ponctualité par ligne, 
-pics de perturbations par heure et jour de semaine, cartographie des arrêts 
-les plus impactés**.  
-Ce projet illustre une démarche produit complète : partir d'un besoin utilisateur 
-réel, définir les métriques qui font sens, et construire un pipeline robuste sur 
-des données temps réel officielles.
+Projet né d'une frustration d'usager : impossible de savoir si la ligne C est structurellement moins fiable que la ligne D, ou si c'est juste une impression.
+
+### Pipeline de données
+
+- **Collecte temps réel** — flux **GTFS-RT** et **SIRI-Lite** du réseau TBM (Bordeaux Métropole Open Data) : retards, annulations, alertes de service.
+- **Stockage** — base **PostgreSQL** avec horodatage précis.
+- **Moteur de détection** — classe chaque événement (retard mineur, perturbation significative, annulation, incident réseau) avec enrichissement par ligne, direction et plage horaire.
+
+### Dashboard
+
+- **Taux de ponctualité par ligne**.
+- **Pics de perturbations** par heure et jour de semaine.
+- **Cartographie des arrêts** les plus impactés.
+
+Ce projet illustre une démarche produit complète : partir d'un besoin utilisateur réel, définir les métriques qui font sens, et construire un pipeline robuste sur des données temps réel officielles.
 
 > **Concept produit** — spécifié, **pas encore développé**.

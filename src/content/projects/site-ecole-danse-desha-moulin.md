@@ -14,12 +14,16 @@ live: "https://cours-danse-bergerac.fr"
 repo: "https://github.com/gchuinard/gotyeah-danse"
 ---
 
-Refonte complète d'un site d'école de danse familiale fondée en 1949.
-**Zéro framework, zéro build** — HTML/CSS/JS vanilla pour un site qui tiendra
-encore dans 10 ans sans dette technique.
-Pipeline d'optimisation d'images via **Sharp** (variantes WebP/AVIF
-responsive) et **CLI Node** dédié pour la mise à jour mensuelle de la
-bannière d'annonce — l'admin du site n'a pas à toucher au HTML.
-Source de vérité unique pour les horaires (section Planning), palette terre
-& sable cohérente avec l'identité du studio. **Hébergement Raspberry Pi**
-derrière Nginx, cache busting par paramètre de version.
+Refonte complète d'un site d'école de danse familiale fondée en 1949. **Zéro framework, zéro build** — HTML/CSS/JS vanilla pour un site qui tiendra encore dans 10 ans sans dette technique.
+
+### Conception
+
+- **Source de vérité unique** — horaires centralisés dans la section Planning.
+- **Palette terre & sable** — cohérente avec l'identité du studio.
+
+### Outils & images
+
+- **Pipeline Sharp** — variantes WebP/AVIF responsive optimisées.
+- **CLI Node dédié** — mise à jour mensuelle de la bannière d'annonce, sans toucher au HTML.
+
+Hébergement Raspberry Pi derrière Nginx, cache busting par paramètre de version.

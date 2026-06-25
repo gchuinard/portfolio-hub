@@ -13,18 +13,23 @@ featured: false
 repoPrivate: true
 ---
 
-Dashboard **minimaliste** pour surveiller mon Raspberry Pi 5 en temps réel :
-CPU %, température SoC, RAM, remplissage disque — jauges colorées, **sparklines**
-et *prévision de saturation* du disque par régression linéaire.
-**Stats Docker** regroupées par projet Compose (repliables), I/O réseau/disque,
-load average, processus hôte (hors Docker) et infos spécifiques Pi (throttling,
-voltage via `vcgencmd`). **Historique 1 h / 6 h / 24 h** depuis des buffers
-mémoire côté serveur.
-Architecture volontairement **monolithique** : un seul service **Next.js** (App
-Router) qui combine l'UI et l'API (`/api/metrics`) — pas de backend séparé.
-**PWA** avec service worker network-first (shell hors-ligne, API jamais cachée),
-mode mur/kiosk et préférences persistées.
-Déployé sur le homelab : la **CI GitHub Actions** cross-build une image arm64 sur
-GHCR puis se connecte au Pi en SSH pour `docker compose pull`. ⚠️ L'API expose des
-infos système sensibles → servie **derrière authentification** (NPM), jamais
-exposée brute à Internet.
+Dashboard **minimaliste** pour surveiller mon Raspberry Pi 5 en temps réel, avec une architecture volontairement réduite à un seul service.
+
+### Métriques système
+
+- **Temps réel** — CPU %, température SoC, RAM, remplissage disque, en jauges colorées.
+- **Sparklines** — historique visuel et *prévision de saturation* du disque par régression linéaire.
+- **Historique 1 h / 6 h / 24 h** — depuis des buffers mémoire côté serveur.
+
+### Docker & hôte
+
+- **Stats Docker** — regroupées par projet Compose (repliables), I/O réseau/disque.
+- **Hôte** — load average, processus hôte (hors Docker).
+- **Spécifique Pi** — throttling, voltage via `vcgencmd`.
+
+### Architecture & PWA
+
+- **Monolithique** — un seul service **Next.js** (App Router) qui combine l'UI et l'API (`/api/metrics`), pas de backend séparé.
+- **PWA** — service worker network-first (shell hors-ligne, API jamais cachée), mode mur/kiosk et préférences persistées.
+
+Déployé sur le homelab : la **CI GitHub Actions** cross-build une image arm64 sur GHCR puis se connecte au Pi en SSH pour `docker compose pull`. ⚠️ L'API expose des infos système sensibles → servie **derrière authentification** (NPM), jamais exposée brute à Internet.

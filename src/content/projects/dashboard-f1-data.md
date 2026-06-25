@@ -12,13 +12,23 @@ status: ["planned"]
 featured: false
 ---
 
-Projet orienté **Data Product**, conçu comme si j'étais PO d'une équipe d'analyse pour une écurie F1.  
-Le pipeline récupère les données via la bibliothèque **FastF1** (temps au tour, arrêts aux stands, positions, météo piste), 
-les normalise et les stocke dans une base **PostgreSQL** structurée autour de modèles métier clairs.  
-Un dashboard interactif expose les métriques clés : comparaison pilotes, dégradation des pneumatiques, 
-impact des undercuts en course.  
-Les choix de modélisation et de priorisation des vues sont documentés explicitement — 
-**quelles métriques, pour quel utilisateur, pourquoi**.  
-Ce projet illustre ma capacité à piloter un produit data de bout en bout : de la définition des besoins à la livraison d'insights actionnables.
+Projet orienté **Data Product**, conçu comme si j'étais PO d'une équipe d'analyse pour une écurie F1.
+
+### Pipeline de données
+
+- **Récupération via FastF1** — temps au tour, arrêts aux stands, positions, météo piste.
+- **Normalisation** — les données sont nettoyées et structurées.
+- **Stockage PostgreSQL** — base structurée autour de modèles métier clairs.
+
+### Dashboard analytique
+
+- **Comparaison pilotes** — métriques clés exposées de manière interactive.
+- **Dégradation des pneumatiques** — suivi de l'usure en course.
+- **Impact des undercuts** — analyse stratégique en course.
+
+### Démarche produit
+
+- **Choix documentés** — modélisation et priorisation des vues explicitées : **quelles métriques, pour quel utilisateur, pourquoi**.
+- **Bout en bout** — illustre ma capacité à piloter un produit data de la définition des besoins à la livraison d'insights actionnables.
 
 > **Concept produit** — spécifié et priorisé, **pas encore développé**.
