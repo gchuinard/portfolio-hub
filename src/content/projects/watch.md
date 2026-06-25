@@ -10,7 +10,7 @@ stack: [Next.js 16, React 19, TypeScript, systeminformation, Docker, GitHub Acti
 image: "/images/watch.svg"
 status: ["online", "new"]
 featured: false
-repo: "https://github.com/gchuinard/watch"
+repoPrivate: true
 ---
 
 Dashboard **minimaliste** pour surveiller mon Raspberry Pi 5 en temps réel :

@@ -8,7 +8,7 @@ slug: "weather-now"
 tags: [météo, full-stack, dashboard]
 stack: [Next.js 16, TypeScript, shadcn/ui, FastAPI, Python 3.14, SQLAlchemy async, PostgreSQL, Docker]
 image: "/images/application-meteo.svg"
-status: ["online", "updated"]
+status: ["online", "new"]
 featured: true
 live: "https://meteo.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-meteo"

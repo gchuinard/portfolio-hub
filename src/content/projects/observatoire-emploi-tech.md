@@ -11,7 +11,7 @@ image: "/images/observatoire-emploi-tech.svg"
 status: ["online", "new"]
 featured: true
 live: "https://stack.gautierchuinard.com"
-repo: "https://github.com/gchuinard/gotyeah-stack"
+repoPrivate: true
 ---
 
 Projet né d'un besoin réel : comprendre objectivement le marché de l'emploi tech
