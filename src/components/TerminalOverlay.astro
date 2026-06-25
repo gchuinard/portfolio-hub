@@ -78,6 +78,7 @@ if (!overlay || !backdrop || !trigger || !closeBtn || !input || !output) {
 let history: string[] = [];
 let historyIdx = -1;
 let isOpen = false;
+let statusRun = 0;
 
 // ── Open / Close ───────────────────────────────────────────────────────────
 function open() {
@@ -136,6 +137,7 @@ function printWelcome() {
   line('<span class="text-[#00ff41]">gautier@playbook v1.0</span> — <span class="text-[#007a1f]">interactive navigation shell</span>');
   blank();
   line('Type <span class="text-[#00ff41]">help</span> to list available commands.');
+  line('<span class="text-[#007a1f]">tip: try</span> <span class="text-[#00ff41]">status</span> <span class="text-[#007a1f]">— état live de mon homelab.</span>');
   blank();
 }
 
@@ -165,7 +167,7 @@ const commands: Record<string, Cmd> = {
       line('drwxr-xr-x  <span class="text-[#00ff41]">projects/</span>       <span class="text-[#007a1f]">— hub de projets</span>');
       line('drwxr-xr-x  <span class="text-[#00ff41]">skills/</span>         <span class="text-[#007a1f]">— compétences & outils</span>');
       line('drwxr-xr-x  <span class="text-[#00ff41]">certifications/</span> <span class="text-[#007a1f]">— formations & certifications</span>');
-      line('drwxr-xr-x  <span class="text-[#00ff41]">contact/</span>        <span class="text-[#007a1f]">— formulaire de contact</span>');
+      line('drwxr-xr-x  <span class="text-[#00ff41]">contact/</span>        <span class="text-[#007a1f]">— mail / réseaux</span>');
       blank();
     },
   },
@@ -218,6 +220,46 @@ const commands: Record<string, Cmd> = {
     },
   },
 
+  status: {
+    desc: 'live status of my self-hosted homelab',
+    run() {
+      const services = [
+        { name: 'portfolio',  url: 'https://gautierchuinard.com' },
+        { name: 'sonar',      url: 'https://sonar.gautierchuinard.com' },
+        { name: 'stack',      url: 'https://stack.gautierchuinard.com' },
+        { name: 'filer',      url: 'https://filer.gautierchuinard.com' },
+        { name: 'monitor',    url: 'https://monitor.gautierchuinard.com' },
+        { name: 'meteo',      url: 'https://meteo.gautierchuinard.com' },
+        { name: 'chat-pitre', url: 'https://chatpitre.gautierchuinard.com' },
+        { name: 'yoga',       url: 'https://mathildeallaine.yoga' },
+      ];
+      const run = ++statusRun;
+      blank();
+      line('<span class="text-[#007a1f]">// ping live — chaque service tourne sur mon Raspberry Pi 5</span>');
+      blank();
+      services.forEach((svc, i) => {
+        const id = `st-${run}-${i}`;
+        line(`  <span class="text-[#00ff41]">${svc.name.padEnd(12)}</span> <span id="${id}" class="text-[#007a1f]">· · · checking</span>`);
+        const t0 = performance.now();
+        const ctrl = new AbortController();
+        const timer = window.setTimeout(() => ctrl.abort(), 6000);
+        fetch(svc.url, { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
+          .then(() => {
+            window.clearTimeout(timer);
+            const ms = Math.round(performance.now() - t0);
+            const el = document.getElementById(id);
+            if (el) { el.className = 'text-[#00ff41]'; el.innerHTML = `● up   <span class="text-[#005c17]">${ms}ms</span>`; }
+          })
+          .catch(() => {
+            window.clearTimeout(timer);
+            const el = document.getElementById(id);
+            if (el) { el.className = 'text-[#ff5f57]'; el.innerHTML = '● unreachable'; }
+          });
+      });
+      blank();
+    },
+  },
+
   cat: {
     desc: 'read a file  (try: cat about.txt, cat stack.txt)',
     run(args) {
@@ -240,7 +282,7 @@ const commands: Record<string, Cmd> = {
       } else if (file === 'contact.txt' || file === 'contact') {
         blank();
         line('<span class="text-[#007a1f]">// contact.txt</span>');
-        line('→ <a href="/contact" class="text-[#00ff41] hover:underline">/contact</a> — formulaire de contact');
+        line('→ <a href="/contact" class="text-[#00ff41] hover:underline">/contact</a> — mail · LinkedIn · GitHub');
         blank();
       } else {
         line(`<span class="text-[#ff5f57]">cat: ${file ?? '(no file)'}: no such file</span>`);
