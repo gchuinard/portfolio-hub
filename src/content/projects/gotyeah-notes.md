@@ -12,6 +12,7 @@ status: ["online", "beta"]
 featured: true
 live: "https://notes.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-notes"
+bodyEn: "A project born from a realization: Notion is great, but I want to **own my data**. So I'm rebuilding it, not all of it, just what I actually use.\n\n### Architecture\n\n- **Next.js 16 App Router**, Server Components by default, Server Actions for mutations.\n- **Prisma 7 + SQLite**, to stay portable and self-hostable without heavy infra.\n- **Custom auth**.\n\n### Data model\n\n- **10 entities**, User, Workspace, Membership, Section, Page, Database, DatabaseProperty, Record, View, PageVisit, with explicit invariants.\n- **Denormalized `visibility`**, recursive sync via a single helper.\n- **Permissions**, return 404 rather than 403 to avoid leaking existence.\n\n### Editing and interactions\n\n- **BlockNote block editor**, with 500ms debounced autosave.\n- **Universal drag-and-drop**, sidebar, table rows, kanban cards via dnd-kit.\n- **Optimistic updates**, everywhere via SWR.\n- **Client-side filters and sorts**, to stay responsive."
 ---
 
 Projet né d'un constat : Notion est génial, mais je veux **posséder mes données**. Donc je le reconstruis, pas tout, juste ce que j'utilise vraiment.

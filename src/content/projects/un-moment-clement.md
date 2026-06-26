@@ -5,13 +5,14 @@ description: "Site vitrine d'un praticien en massages bien-être à Bordeaux : p
 descriptionEn: "Showcase site for a wellness massage practitioner in Bordeaux: seven techniques, pricing and contact. Static, self-hosted."
 date: 2026-03-15
 slug: "un-moment-clement"
-tags: [vitrine, bien-être]
-stack: [HTML, CSS, JS Vanilla, Nginx, Docker]
+tags: ["vitrine", "bien-être"]
+stack: ["HTML", "CSS", "JS Vanilla", "Nginx", "Docker"]
 image: "/images/un-moment-clement.svg"
 status: ["online", "new"]
 featured: true
 live: "https://unmomentclement.fr/"
 repo: "https://github.com/gchuinard/gotyeah-clement"
+bodyEn: "Lightweight, high-performance showcase site for a relative who practices massage therapy, built **without any framework or npm dependency** to stay lean, fast and easy to maintain.\n\n### Massages offered\n\n- **Seven techniques**, Californian, Lomi Lomi, Ayurvedic, deep tissue, reflexology, bamboo, custom.\n\n### Design\n\n- **No framework or npm dependency**, lean, fast and easy to maintain.\n- **Local Bhavuka font** + JetBrains Mono loaded async.\n- **Lightweight animations**, via **IntersectionObserver**.\n\nDeployed as an **Nginx Alpine** container on a **self-hosted Raspberry Pi**, behind Nginx Proxy Manager and Cloudflare."
 ---
 
 Site vitrine léger et performant pour un proche praticien en massages, conçu **sans framework ni dépendance npm** pour rester sobre, rapide et facile à maintenir.

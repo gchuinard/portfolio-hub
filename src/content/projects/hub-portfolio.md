@@ -12,6 +12,7 @@ status: ["online", "in-progress"]
 featured: true
 live: "https://gautierchuinard.com"
 repo: "https://github.com/gchuinard/portfolio-hub"
+bodyEn: "Static site with a phosphor terminal aesthetic (green on black, Space Mono everywhere, no border-radius), **client-side FR/EN i18n** handled via `data-i18n` attributes and a keyboard toggle.\n\n### Content\n\n- **Astro Content Collections**, projects, certifications, experiences with Zod schemas.\n- **Adding a project**, create a markdown file.\n\n### Architecture\n\n- **No heavy JS framework**, everything is vanilla Astro + `type=\"module\"` scripts.\n- **Maintainability**, designed to stay maintainable over time.\n\nDesigned to stay maintainable, **auto-deployed by GitHub Actions (rsync) on a self-hosted Raspberry Pi**, behind Nginx Proxy Manager + Cloudflare, with a strict CSP injected at build time."
 ---
 
 Site statique avec esthétique terminal phosphore (vert sur noir, Space Mono partout, pas de border-radius), **i18n FR/EN client-side** géré via attributs `data-i18n` et toggle clavier.

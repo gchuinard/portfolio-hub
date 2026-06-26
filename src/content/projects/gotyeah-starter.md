@@ -5,12 +5,12 @@ description: "Outil d'automatisation qui provisionne un nouveau site sur le home
 descriptionEn: "Automation tool that provisions a new homelab site in one cascade: GitHub repo, Cloudflare DNS, SSL cert via Nginx Proxy Manager and workflow injection, real-time SSE logs, automatic rollback."
 date: 2026-06-19
 slug: "gotyeah-starter"
-tags: [automatisation, devops, infrastructure]
-stack: [Python, FastAPI, httpx, Server-Sent Events, Docker]
+tags: ["automatisation", "devops", "infrastructure"]
+stack: ["Python", "FastAPI", "httpx", "Server-Sent Events", "Docker"]
 image: "/images/gotyeah-starter.svg"
 status: ["online", "new"]
-featured: false
 repo: "https://github.com/gchuinard/gotyeah-starter"
+bodyEn: "Application that **automates the deployment of a new site** on my Raspberry Pi 5. Instead of running through the steps by hand, it orchestrates a complete **cascade** in one click.\n\n### Provisioning cascade\n\n- **GitHub repo**, created blank or from a template.\n- **Cloudflare A record**, pointing to the Pi.\n- **Nginx Proxy Manager**, Let's Encrypt certificate and forced HTTPS.\n- **GitHub Actions workflow**, injected into the repo.\n\n### Reliability\n\n- **Real-time logs**, streamed via **Server-Sent Events**.\n- **Automatic rollback**, if a step fails, the operations already performed are reverted.\n\n### Architecture\n\n- **Async FastAPI backend**, httpx for external APIs.\n- **Vanilla HTML/CSS/JS frontend**.\n- **Zero SaaS dependency**, all state and secrets live on the Pi via `.env`.\n\nContainerized (Docker `HEALTHCHECK`), CI/CD with tests + SSH/rsync deployment. An internal infra tool that turns \"create a new site\" into one click."
 ---
 
 Application qui **automatise la mise en ligne d'un nouveau site** sur mon Raspberry Pi 5. Au lieu d'enchaîner les étapes à la main, elle orchestre une **cascade** complète en un clic.

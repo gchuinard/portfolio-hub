@@ -5,12 +5,13 @@ description: "Pipeline de données qui collecte les issues de dépôts GitHub pu
 descriptionEn: "Data pipeline collecting issues from public GitHub repos, normalizing them and exposing agile metrics (lead time, bug/feature ratio) via FastAPI."
 date: 2026-04-05
 slug: "analyseur-backlog-github"
-tags: [data, agile, backlog]
-stack: [Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, GitHub API]
+tags: ["data", "agile", "backlog"]
+stack: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Alembic", "GitHub API"]
 image: "/images/analyseur-backlog-github.svg"
 status: ["in-progress"]
 featured: true
 repo: "https://github.com/gchuinard/gotyeah-datagit"
+bodyEn: "**Data Product**-oriented project with a PO mindset: driving a backlog through data rather than intuition.\n\n### Collection & processing\n\n- **GitHub HTTP client**, handles pagination, rate limiting and retries on 403/429 to collect the issues of a target repository.\n- **Classification**, a module detects the type (bug/feature/doc/other) from the labels.\n\n### Storage & API\n\n- **PostgreSQL**, data stored via SQLAlchemy + Alembic.\n- **FastAPI**, exposes an `/issues/summary` endpoint with the breakdown by type and by state.\n\n### Configuration & quality\n\n- **Driven by `.env`**, DATABASE_URL, GITHUB_TOKEN, delay between requests, retries.\n- **Tests**, via pytest, with auto-generated Swagger docs."
 ---
 
 Projet orienté **Data Product** avec posture de PO : piloter un backlog par la donnée plutôt que par l'intuition.

@@ -66,6 +66,7 @@ export const COLLECTIONS = {
       { key: "demo", type: "url", hint: "URL de démo (optionnel)" },
       { key: "repo", type: "url", hint: "URL du dépôt (optionnel)" },
       { key: "repoPrivate", type: "boolean", omitWhenFalse: true, hint: "Dépôt privé → bouton [LOCKED]" },
+      { key: "bodyEn", type: "text", hint: "Corps EN (markdown), affiché en anglais à la place du body FR. Vide = le body FR reste affiché." },
     ],
   },
 

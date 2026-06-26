@@ -77,6 +77,13 @@ body {
 .swatch-cr { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +   0deg)); }
 .swatch-ln { filter: hue-rotate(calc(-1 * var(--hue, 0deg) +  30deg)); }
 
+/* Bascule FR/EN de blocs riches (markdown, etc.) via `data-lang` sur <html>.
+   Pour du contenu qu'on ne peut pas traduire en swappant textContent
+   (cf. base-client.ts qui ne gère que le texte simple via data-lang-fr/en). */
+.i18n-en { display: none; }
+[data-lang="en"] .i18n-fr { display: none; }
+[data-lang="en"] .i18n-en { display: revert; }
+
 /* CRT Scanline overlay */
 body::after {
   content: "";

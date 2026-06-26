@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection, getEntry } from "astro:content";
+import { renderMarkdown } from "../../lib/render-md";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -12,8 +13,10 @@ const project = await getEntry("projects", slug);
 if (!project) return Astro.redirect("/projects");
 
 const { Content } = await project.render();
-const { title, description, tags = [], stack = [], image, date, demo, live, repo, repoPrivate } = project.data;
+const { title, titleEn, description, descriptionEn, bodyEn, tags = [], stack = [], image, date, demo, live, repo, repoPrivate } = project.data;
 const imageIsSvg = image?.toLowerCase().endsWith(".svg") ?? false;
+// Corps anglais (markdown du frontmatter) rendu en HTML, basculé en CSS via data-lang.
+const bodyEnHtml = bodyEn ? await renderMarkdown(bodyEn) : null;
 
 // Raison "ACCESS DENIED" spécifique au projet (modal des repos privés).
 const lockInfo: Record<string, { classification: string; reason: string }> = {
@@ -54,8 +57,8 @@ const lock = lockInfo[slug ?? ""] ?? {
         <p class="text-[10px] text-[#007a1f] font-mono mb-1">
           <span class="text-[#00aa2a]">$</span> cat {slug}.md
         </p>
-        <h1 class="text-2xl font-bold text-[#00ff41]">{title}</h1>
-        <p class="text-sm text-[#00aa2a] mt-1">{description}</p>
+        <h1 class="text-2xl font-bold text-[#00ff41]" data-lang-fr={title} data-lang-en={titleEn ?? title}>{title}</h1>
+        <p class="text-sm text-[#00aa2a] mt-1" data-lang-fr={description} data-lang-en={descriptionEn ?? description}>{description}</p>
         <p class="text-[10px] text-[#007a1f] font-mono mt-1">
           <span class="text-[#005c17]">date:</span> {date.toLocaleDateString("fr-FR")}
         </p>
@@ -143,7 +146,8 @@ const lock = lockInfo[slug ?? ""] ?? {
       <span class="text-[#00aa2a]">$</span> cat README.md
     </div>
     <div class="border border-[#00ff41]/12 bg-[#0a0a0a] p-6">
-      <Content />
+      <div class={bodyEnHtml ? "i18n-fr" : undefined}><Content /></div>
+      {bodyEnHtml && <div class="i18n-en" set:html={bodyEnHtml} />}
     </div>
   </article>
 

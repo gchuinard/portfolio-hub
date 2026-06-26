@@ -6,6 +6,7 @@ descriptionEn: "AI agent automating part of the functional and API tests from na
 date: 2025-11-12
 tags: ["idée", "ia", "qa"]
 status: ["planned"]
+bodyEn: "// idea, explore using LLMs to generate and run API\n// and E2E tests from Gherkin specs or tickets."
 ---
 
 // idée, explorer l'usage des LLMs pour générer et exécuter des tests

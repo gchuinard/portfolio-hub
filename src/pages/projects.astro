@@ -37,9 +37,13 @@ const allTags = [...new Set(released.flatMap((p) => p.data.tags ?? []))].sort();
 
   <!-- Preview disclaimer -->
   <div class="mb-6 border-l-2 border-[#00ff41]/25 bg-[#0a0a0a] px-4 py-2.5 font-mono">
-    <p class="text-[11px] text-[#007a1f] leading-relaxed">
+    <p class="i18n-fr text-[11px] text-[#007a1f] leading-relaxed">
       <span class="text-[#00aa2a]">#</span> Les aperçus sont volontairement habillés au <span class="text-[#00aa2a]">thème terminal</span> du portfolio : c'est <span class="text-[#00aa2a]">illustratif</span>, pas le vrai rendu des projets.<br />
       <span class="text-[#005c17]"># Chaque réalisation a son propre design, jette un œil aux versions en ligne. Je m'adapte au contexte, pas que du vert sur noir.</span>
+    </p>
+    <p class="i18n-en text-[11px] text-[#007a1f] leading-relaxed">
+      <span class="text-[#00aa2a]">#</span> These previews are deliberately dressed in the portfolio's <span class="text-[#00aa2a]">terminal theme</span>: it's <span class="text-[#00aa2a]">illustrative</span>, not the projects' real rendering.<br />
+      <span class="text-[#005c17]"># Each project has its own design — take a look at the live versions. I adapt to the context, not just green on black.</span>
     </p>
   </div>
 

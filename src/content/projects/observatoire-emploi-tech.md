@@ -5,13 +5,14 @@ description: "Pipeline de données et dashboard analytique qui agrège les offre
 descriptionEn: "Data pipeline and analytics dashboard aggregating French tech job offers (France Travail, Adzuna, 6 ATS feeds) to map in-demand skills, salaries and market trends."
 date: 2026-04-03
 slug: "observatoire-emploi-tech"
-tags: [data, emploi, dashboard]
-stack: [Python, FastAPI, SQLAlchemy async, PostgreSQL, Next.js 16, React 19, Docker, GitHub Actions]
+tags: ["data", "emploi", "dashboard"]
+stack: ["Python", "FastAPI", "SQLAlchemy async", "PostgreSQL", "Next.js 16", "React 19", "Docker", "GitHub Actions"]
 image: "/images/observatoire-emploi-tech.svg"
 status: ["online", "new"]
 featured: true
 live: "https://stack.gautierchuinard.com"
 repoPrivate: true
+bodyEn: "A project born from a real need: objectively understanding the French tech job market rather than navigating a job search on instinct.\n\n### Data collection\n\n- **Dedicated worker**, continuously aggregates offers, stored in **PostgreSQL** via SQLAlchemy async; the FastAPI API stays **read-only**, only the worker writes.\n- **Structured sources**, **France Travail** (OAuth), **Adzuna** (HTTP Basic) and **6 public ATS feeds** (Greenhouse, Lever, Ashby, SmartRecruiters, Teamtailor, Workable). No fragile scraping.\n\n### Extraction and classification\n\n- **Regex catalog of 207 entries**, with prerequisite modeling, maintained rather than fragile.\n- **Job classification into 11 categories**, dev, data, ai, devops, qa, security…\n- **Market stacks**, frequent itemset detection.\n\n### Dashboard and back-office\n\n- **Next.js 16 front**, which technologies recruit the most, **choropleth map** of the 101 departments (d3-geo).\n- **Salary statistics**, p25/p75 by region/role/seniority.\n- **Recommendation engine** for skills.\n- **Admin back-office**, scanner for unknown technologies and extraction audit tools.\n\nMulti-service architecture (worker + API + web) orchestrated with **Docker Compose**, hardened in production (CAP_DROP, no-new-privileges, memory limits), **GitHub Actions CI/CD** (pytest, ruff, mypy, tsc, eslint) auto-deployed to the Raspberry Pi."
 ---
 
 Projet né d'un besoin réel : comprendre objectivement le marché de l'emploi tech français plutôt que de naviguer à l'instinct dans une recherche de poste.
