@@ -115,6 +115,24 @@ logo: "/logos/cert.png"  # optionnel
 ---
 ```
 
+## Admin local (gestion du contenu)
+
+Dashboard **dev uniquement** pour gérer projets / certifications / expériences
+sans éditer le YAML à la main : `npm run admin` → `http://127.0.0.1:4322`.
+
+- Écrit directement dans `src/content/**/*.md`, puis on relit `git diff` et on
+  commit/push (déploiement auto habituel). **Aucune empreinte en prod** : le
+  dossier `admin/` vit hors de `src/`, n'est ni buildé par Astro ni déployé.
+- Stack : serveur **HTTP natif Node** (`admin/server.mjs`), seule dépendance
+  `js-yaml` (devDependency, déjà tirée par Astro). UI vanilla, thème terminal.
+- **Source de vérité** : `admin/lib/schema.mjs` reflète `src/content/config.ts`.
+  Si tu ajoutes un champ au schéma Zod, ajoute-le aussi ici, sinon l'admin
+  l'ignore. `npm run admin:test` vérifie le round-trip sans perte sur tout le
+  contenu (et signale toute clé de frontmatter inconnue du schéma).
+- Garde-fous : identité = **nom de fichier** (renommage manuel) ; le champ
+  `slug` projet = URL publique (le changer casse les liens) ; serveur lié à
+  `127.0.0.1` + gardes anti-traversal / anti-CSRF. Détails : `admin/README.md`.
+
 ## Déploiement
 
 Auto-déploiement via GitHub Actions (`.github/workflows/deploy.yml`) à chaque push sur `main` : build Astro, puis `rsync` de `dist/` vers un Raspberry Pi auto-hébergé.

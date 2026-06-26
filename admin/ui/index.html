@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>admin · Hub Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="dot"></span>
+      <h1>GOT_YEAH // admin</h1>
+      <span class="prompt">$ ./manage-content --local</span>
+      <span class="spacer"></span>
+      <span class="prompt" id="rootHint"></span>
+    </header>
+
+    <div class="layout">
+      <aside>
+        <div class="tabs" id="tabs" role="tablist"></div>
+        <div class="list-toolbar">
+          <input id="search" type="text" placeholder="grep…" aria-label="Filtrer" autocomplete="off" />
+          <button class="btn primary" id="newBtn" title="Nouvelle entrée">[ + ]</button>
+        </div>
+        <ul class="entries" id="entries"></ul>
+      </aside>
+
+      <main id="editor">
+        <p class="editor-empty">
+          <span class="prompt">$</span> sélectionne une entrée à gauche, ou <strong>[ + ]</strong> pour en créer une.
+        </p>
+      </main>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <div id="modal" role="dialog" aria-modal="true">
+      <div class="box">
+        <h3 id="modalTitle">Confirmer</h3>
+        <p id="modalMsg"></p>
+        <div class="modal-actions">
+          <button class="btn" id="modalCancel">Annuler</button>
+          <button class="btn danger" id="modalConfirm">Confirmer</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/admin.js"></script>
+  </body>
+</html>
