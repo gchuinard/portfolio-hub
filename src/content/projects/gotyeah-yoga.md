@@ -5,10 +5,10 @@ description: "Plateforme complète pour studio de yoga indépendant : site vitri
 descriptionEn: "Full platform for an independent yoga studio: showcase site, credit-based booking, Stripe payments, yogi space, admin back-office (classes, workshops, payments, newsletters). Live in production for a real client."
 date: 2026-05-10
 slug: "gotyeah-yoga"
-tags: [réservation, paiement-en-ligne, back-office]
-stack: [Next.js 16, TypeScript, Prisma 7, SQLite, Tailwind 4, Stripe, react-email, nodemailer, Docker, GitHub Actions]
+tags: ["réservation", "paiement-en-ligne", "back-office", "vitrine"]
+stack: ["Next.js 16", "TypeScript", "Prisma 7", "SQLite", "Tailwind 4", "Stripe", "react-email", "nodemailer", "Docker", "GitHub Actions"]
 image: "/images/gotyeah-yoga.svg"
-status: ["online", "new"]
+status: ["online", "new", "in-progress"]
 featured: true
 live: "https://mathildeallaine.yoga"
 repoPrivate: true

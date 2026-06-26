@@ -34,6 +34,7 @@ import {
   HttpError,
   PROJECT_ROOT,
 } from "./lib/content.mjs";
+import { gitStatus, gitPublish, devStatus, startDev, stopDev, shutdownDev } from "./lib/ops.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const UI_DIR = path.join(HERE, "ui");
@@ -225,6 +226,28 @@ async function handleApi(req, res, url) {
     return sendJson(res, 200, await deleteEntry(col, file));
   }
 
+  // ── Boutons : publier (git) + serveur d'aperçu (npm run dev) ──────────────
+  if (pathname === "/api/git/status" && method === "GET") {
+    return sendJson(res, 200, await gitStatus());
+  }
+  if (pathname === "/api/git/publish" && method === "POST") {
+    assertSafeMutation(req);
+    const { message } = JSON.parse((await readBody(req)) || "{}");
+    // Toujours 200 : l'UI affiche le détail des étapes même en cas d'échec.
+    return sendJson(res, 200, await gitPublish(message));
+  }
+  if (pathname === "/api/dev/status" && method === "GET") {
+    return sendJson(res, 200, await devStatus(DEV_URL));
+  }
+  if (pathname === "/api/dev/start" && method === "POST") {
+    assertSafeMutation(req);
+    return sendJson(res, 200, await startDev(DEV_URL));
+  }
+  if (pathname === "/api/dev/stop" && method === "POST") {
+    assertSafeMutation(req);
+    return sendJson(res, 200, stopDev());
+  }
+
   throw new HttpError(404, "Route API inconnue.");
 }
 
@@ -278,5 +301,14 @@ server.listen(PORT, HOST, () => {
   console.log(`  → http://${HOST}:${PORT}`);
   console.log(`  contenu : ${path.join(rel, "src", "content")}`);
   console.log(`  preview : lance \`npm run dev\` (${DEV_URL}) en parallèle\n`);
-  console.log(`  Édite, puis relis \`git diff\` et commit/push toi-même.\n`);
+  console.log(`  Boutons UI : « ▶ aperçu » (npm run dev) et « ⬆ publier » (commit + push).\n`);
 });
+
+// Nettoyage : si l'admin s'arrête, on coupe le serveur d'aperçu qu'il a lancé.
+function gracefulExit() {
+  shutdownDev();
+  process.exit(0);
+}
+process.on("SIGINT", gracefulExit);
+process.on("SIGTERM", gracefulExit);
+process.on("exit", shutdownDev);

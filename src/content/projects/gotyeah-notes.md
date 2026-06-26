@@ -5,11 +5,12 @@ description: "Clone Notion self-hosted : workspaces multi-membres, pages en arbo
 descriptionEn: "Self-hosted Notion clone: multi-member workspaces, hierarchical pages, databases with table/kanban/calendar/gallery views, block editor and native drag-and-drop."
 date: 2026-04-18
 slug: "gotyeah-notes"
-tags: [notion-clone, productivité, collaboratif]
-stack: [Next.js 16, TypeScript strict, Prisma 7, SQLite, Tailwind v4, BlockNote, dnd-kit, SWR]
+tags: ["notion-clone", "productivité", "collaboratif"]
+stack: ["Next.js 16", "TypeScript strict", "Prisma 7", "SQLite", "Tailwind v4", "BlockNote", "dnd-kit", "SWR"]
 image: "/images/gotyeah-notes.svg"
-status: ["in-progress"]
+status: ["online", "beta"]
 featured: true
+live: "https://notes.gautierchuinard.com"
 repo: "https://github.com/gchuinard/gotyeah-notes"
 ---
 

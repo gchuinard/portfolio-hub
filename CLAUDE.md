@@ -129,6 +129,9 @@ sans éditer le YAML à la main : `npm run admin` → `http://127.0.0.1:4322`.
   Si tu ajoutes un champ au schéma Zod, ajoute-le aussi ici, sinon l'admin
   l'ignore. `npm run admin:test` vérifie le round-trip sans perte sur tout le
   contenu (et signale toute clé de frontmatter inconnue du schéma).
+- Deux boutons UI : **▶ aperçu** (lance/atteint `npm run dev`, groupe de
+  processus tué proprement à l'arrêt) et **⬆ publier** (`git add -A` + commit +
+  push → déploiement auto). C'est le seul déclencheur de mise en ligne.
 - Garde-fous : identité = **nom de fichier** (renommage manuel) ; le champ
   `slug` projet = URL publique (le changer casse les liens) ; serveur lié à
   `127.0.0.1` + gardes anti-traversal / anti-CSRF. Détails : `admin/README.md`.

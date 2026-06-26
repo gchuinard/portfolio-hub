@@ -18,7 +18,8 @@
       <h1>GOT_YEAH // admin</h1>
       <span class="prompt">$ ./manage-content --local</span>
       <span class="spacer"></span>
-      <span class="prompt" id="rootHint"></span>
+      <button class="btn topbtn" id="devBtn" title="Lancer le serveur d'aperçu (npm run dev)">▶ aperçu</button>
+      <button class="btn topbtn primary" id="publishBtn" title="Commit + push → met à jour la prod">⬆ publier</button>
     </header>
 
     <div class="layout">
@@ -47,6 +48,29 @@
         <div class="modal-actions">
           <button class="btn" id="modalCancel">Annuler</button>
           <button class="btn danger" id="modalConfirm">Confirmer</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="publishModal" role="dialog" aria-modal="true">
+      <div class="box pm-box">
+        <h3>⬆ Publier (commit + push)</h3>
+        <p class="pm-intro">
+          <span class="prompt">#</span> Ces modifications partiront sur <code id="pmBranch">main</code> →
+          le site public se met à jour <strong>automatiquement</strong> (~30 s).
+        </p>
+        <div class="pm-section">
+          <label class="pm-label">modifications en attente</label>
+          <div id="pmPending" class="pm-pending"></div>
+        </div>
+        <div class="pm-section">
+          <label class="pm-label" for="pmMessage">message de commit</label>
+          <input id="pmMessage" type="text" autocomplete="off" spellcheck="false" />
+        </div>
+        <pre id="pmOutput" class="pm-output" hidden></pre>
+        <div class="modal-actions">
+          <button class="btn" id="pmCancel">Fermer</button>
+          <button class="btn primary" id="pmConfirm">Publier</button>
         </div>
       </div>
     </div>

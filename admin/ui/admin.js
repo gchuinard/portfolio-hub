@@ -474,22 +474,151 @@ async function remove(file) {
   }
 }
 
+// ── Bouton « aperçu » (npm run dev) ──────────────────────────────────────────
+let devRunning = false;
+async function refreshDevStatus() {
+  try {
+    const s = await api("GET", "/api/dev/status");
+    devRunning = !!s.running;
+  } catch {
+    devRunning = false;
+  }
+  const btn = $("#devBtn");
+  if (!btn) return;
+  btn.disabled = false;
+  if (devRunning) {
+    btn.classList.add("live");
+    btn.textContent = "aperçu : ouvrir ↗";
+    btn.title = `Ouvrir ${state.devUrl}`;
+  } else {
+    btn.classList.remove("live");
+    btn.textContent = "▶ aperçu";
+    btn.title = "Lancer le serveur d'aperçu (npm run dev)";
+  }
+}
+
+async function onDevClick() {
+  if (devRunning) {
+    window.open(state.devUrl, "_blank");
+    return;
+  }
+  const btn = $("#devBtn");
+  btn.disabled = true;
+  btn.textContent = "démarrage…";
+  try {
+    const r = await api("POST", "/api/dev/start", {});
+    if (r.alreadyRunning) toast("Aperçu déjà en ligne.");
+    else toast("Aperçu en cours de démarrage (~30 s la première fois)…");
+    // poll jusqu'à ce que le port réponde (cold start astro lent sur /mnt/c)
+    let seen = false;
+    for (let i = 0; i < 50; i++) {
+      await new Promise((res) => setTimeout(res, 1000));
+      await refreshDevStatus();
+      if (devRunning) { toast(`✓ aperçu en ligne → ${state.devUrl}`); seen = true; break; }
+    }
+    if (!seen) toast("Démarrage plus long que prévu — l'aperçu s'activera dès qu'il sera prêt.");
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    await refreshDevStatus();
+  }
+}
+
+// ── Bouton « publier » (commit + push) ────────────────────────────────────────
+async function openPublish() {
+  const modal = $("#publishModal");
+  const out = $("#pmOutput");
+  out.hidden = true;
+  out.className = "pm-output";
+  $("#pmConfirm").disabled = false;
+  $("#pmConfirm").textContent = "Publier";
+  const pending = $("#pmPending");
+  pending.innerHTML = '<span class="pm-clean">// chargement…</span>';
+  modal.classList.add("show");
+
+  try {
+    const st = await api("GET", "/api/git/status");
+    if (!st.ok) {
+      pending.innerHTML = `<span class="pm-clean">${st.error || "git indisponible"}</span>`;
+      $("#pmConfirm").disabled = true;
+      return;
+    }
+    $("#pmBranch").textContent = st.branch || "main";
+    if (st.clean) {
+      pending.innerHTML = '<span class="pm-clean">// rien à publier — aucune modification en attente.</span>';
+      $("#pmConfirm").disabled = true;
+    } else {
+      pending.innerHTML = "";
+      for (const p of st.pending) {
+        pending.append(el("div", { class: "pm-row" }, el("span", { class: "st" }, p.status || "?"), p.file));
+      }
+    }
+    if (!$("#pmMessage").value.trim()) $("#pmMessage").value = "contenu: mise à jour via admin";
+  } catch (e) {
+    pending.innerHTML = `<span class="pm-clean">${e.message}</span>`;
+    $("#pmConfirm").disabled = true;
+  }
+}
+
+async function doPublish() {
+  const btn = $("#pmConfirm");
+  const out = $("#pmOutput");
+  btn.disabled = true;
+  btn.textContent = "publication…";
+  try {
+    const r = await api("POST", "/api/git/publish", { message: $("#pmMessage").value });
+    out.hidden = false;
+    if (r.ok) {
+      out.className = "pm-output ok";
+      out.textContent = (r.steps || []).map((s) => `$ ${s.cmd}\n${s.out || "(ok)"}`).join("\n\n") +
+        `\n\n✓ publié sur ${r.branch} — le déploiement est en cours (~30 s).`;
+      toast("✓ publié — déploiement en cours.");
+      $("#pmPending").innerHTML = '<span class="pm-clean">// publié.</span>';
+      btn.textContent = "Publié ✓";
+    } else {
+      out.className = "pm-output err";
+      out.textContent = (r.error || "Échec.") + "\n\n" +
+        (r.steps || []).map((s) => `$ ${s.cmd}  [code ${s.code}]\n${s.out || ""}`).join("\n\n");
+      toast(r.nothing ? r.error : "Échec de la publication.", true);
+      btn.disabled = false;
+      btn.textContent = "Réessayer";
+    }
+  } catch (e) {
+    out.hidden = false;
+    out.className = "pm-output err";
+    out.textContent = e.message;
+    toast(e.message, true);
+    btn.disabled = false;
+    btn.textContent = "Réessayer";
+  }
+}
+
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
   try {
     state.schema = await api("GET", "/api/schema");
     state.devUrl = state.schema.devUrl || state.devUrl;
-    $("#rootHint").textContent = "src/content/";
     renderTabs();
     $("#search").addEventListener("input", renderList);
     $("#newBtn").addEventListener("click", newEntry);
+    $("#devBtn").addEventListener("click", onDevClick);
+    $("#publishBtn").addEventListener("click", openPublish);
+    $("#pmCancel").addEventListener("click", () => $("#publishModal").classList.remove("show"));
+    $("#pmConfirm").addEventListener("click", doPublish);
+    $("#publishModal").addEventListener("click", (e) => { if (e.target === $("#publishModal")) $("#publishModal").classList.remove("show"); });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") $("#modal").classList.remove("show");
+      if (e.key === "Escape") {
+        $("#modal").classList.remove("show");
+        $("#publishModal").classList.remove("show");
+      }
     });
     // compte global pour les onglets
     const { all } = await api("GET", "/api/list");
     updateTabCounts(Object.fromEntries(Object.entries(all).map(([k, v]) => [k, v.length])));
     await selectCollection(state.schema.order[0]);
+    // statut du serveur d'aperçu (puis rafraîchi périodiquement)
+    refreshDevStatus();
+    setInterval(refreshDevStatus, 5000);
   } catch (e) {
     document.body.innerHTML = `<pre style="color:#ff6a6a;padding:2rem;font-family:monospace">Erreur de démarrage admin :\n${e.message}\n\nLe serveur tourne-t-il ? (npm run admin)</pre>`;
   }

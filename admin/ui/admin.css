@@ -293,3 +293,77 @@ button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 #modal h3 { color: var(--red); margin: 0 0 0.6rem; font-size: 0.9rem; }
 #modal p { color: var(--green-2); font-size: 0.8rem; }
 #modal .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1rem; }
+
+/* ── Boutons de la barre du haut ────────────────────────────────────────── */
+.topbtn { padding: 0.32rem 0.7rem; font-size: 0.72rem; white-space: nowrap; }
+.topbtn:disabled { opacity: 0.5; cursor: progress; }
+#devBtn.live {
+  border-color: rgba(0, 255, 65, 0.6);
+  color: var(--green-1);
+}
+#devBtn.live::before {
+  content: "";
+  display: inline-block;
+  width: 7px; height: 7px;
+  margin-right: 6px;
+  background: var(--green-1);
+  border-radius: 50% !important;
+  animation: blink 1.4s steps(2) infinite;
+  vertical-align: middle;
+}
+
+/* ── Modale de publication ──────────────────────────────────────────────── */
+#publishModal {
+  position: fixed; inset: 0; z-index: 60;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+}
+#publishModal.show { display: flex; }
+#publishModal .pm-box {
+  background: var(--bg-1);
+  border: 1px solid rgba(0, 255, 65, 0.5);
+  max-width: 560px; width: 92%;
+  padding: 1.2rem;
+  max-height: 86vh;
+  overflow-y: auto;
+}
+#publishModal h3 { color: var(--green-1); margin: 0 0 0.7rem; font-size: 0.95rem; }
+.pm-intro { color: var(--green-3); font-size: 0.74rem; line-height: 1.5; margin: 0 0 1rem; }
+.pm-intro code { color: var(--green-1); background: var(--bg-2); padding: 0 4px; }
+.pm-section { margin-bottom: 0.9rem; }
+.pm-label { display: block; color: var(--green-2); font-size: 0.72rem; margin-bottom: 0.35rem; }
+.pm-pending {
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  background: var(--bg-2);
+  padding: 0.5rem 0.6rem;
+  max-height: 9rem; overflow-y: auto;
+  font-size: 0.72rem;
+}
+.pm-pending .pm-row { color: var(--green-2); white-space: pre; }
+.pm-pending .pm-row .st { color: var(--amber); display: inline-block; width: 1.6em; }
+.pm-pending .pm-clean { color: var(--green-4); }
+#publishModal input[type="text"] {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid rgba(0, 255, 65, 0.22);
+  color: var(--green-1);
+  padding: 0.5rem 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+#publishModal input[type="text"]:focus { outline: none; border-color: rgba(0, 255, 65, 0.6); }
+.pm-output {
+  background: var(--bg-2);
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  color: var(--green-2);
+  padding: 0.6rem;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 12rem; overflow-y: auto;
+  margin: 0 0 0.9rem;
+}
+.pm-output.ok { border-color: rgba(0, 255, 65, 0.5); }
+.pm-output.err { border-color: rgba(255, 48, 48, 0.5); color: #ff9a9a; }
+#publishModal .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 0.4rem; }

@@ -24,6 +24,13 @@ URL d'aperçu configurable : `DEV_URL=http://localhost:4321 npm run admin`.
 ## Ce que ça fait
 
 - Liste, crée, édite et supprime les entrées des 3 collections.
+- **Deux boutons dans la barre du haut** :
+  - **▶ aperçu** — lance `npm run dev` (serveur Astro sur `:4321`) directement
+    depuis l'admin ; quand il est prêt, le bouton devient un lien vers l'aperçu.
+    L'aperçu est tué proprement (tout le groupe de processus) à l'arrêt de l'admin.
+  - **⬆ publier** — montre les modifications en attente (`git status`), puis
+    `git add -A` + `commit` + `push origin <branche>` → met à jour la prod
+    automatiquement (~30 s). C'est le seul moment où quelque chose part en ligne.
 - Formulaires **générés depuis le schéma** (`admin/lib/schema.mjs`), aligné sur
   `src/content/config.ts` → mêmes champs, mêmes enums, mêmes règles que Zod.
 - Éditeur de tags/stack en chips avec autocomplétion du vocabulaire existant.
