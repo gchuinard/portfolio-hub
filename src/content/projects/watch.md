@@ -5,11 +5,10 @@ description: "Dashboard de monitoring minimaliste pour homelab Raspberry Pi 5 : 
 descriptionEn: "Minimalist monitoring dashboard for a Raspberry Pi 5 homelab: real-time system metrics (CPU, temperature, RAM, disk), Docker stats grouped by Compose project, 24 h history, PWA."
 date: 2026-06-23
 slug: "watch"
-tags: [monitoring, homelab, dashboard]
-stack: [Next.js 16, React 19, TypeScript, systeminformation, Docker, GitHub Actions]
+tags: ["monitoring", "homelab", "dashboard", "mcp"]
+stack: ["Next.js 16", "React 19", "TypeScript", "systeminformation", "Docker", "GitHub Actions"]
 image: "/images/watch.svg"
 status: ["online", "new"]
-featured: false
 repoPrivate: true
 ---
 

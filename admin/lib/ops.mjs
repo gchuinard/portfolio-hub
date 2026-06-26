@@ -143,7 +143,13 @@ export async function startDev(devUrl) {
   try {
     // `detached: true` → l'enfant devient leader de son groupe de processus,
     // ce qui permet de tuer TOUT l'arbre (npm → astro → vite) d'un coup.
-    devProc = spawn(NPM, ["run", "dev"], { cwd: PROJECT_ROOT, detached: true });
+    // CHOKIDAR_USEPOLLING : sur /mnt/c (WSL) inotify ne remonte pas les events ;
+    // le polling garantit que le hot-reload voit les éditions faites par l'admin.
+    devProc = spawn(NPM, ["run", "dev"], {
+      cwd: PROJECT_ROOT,
+      detached: true,
+      env: { ...process.env, CHOKIDAR_USEPOLLING: "true" },
+    });
   } catch (e) {
     return { ok: false, error: `Impossible de lancer npm: ${e.message}` };
   }

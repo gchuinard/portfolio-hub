@@ -271,8 +271,10 @@ const lock = lockInfo[slug ?? ""] ?? {
   /* ──── REPO LOCKED BUTTON, GLITCH ───────────────────────── */
   .repo-locked-btn {
     position: relative;
-    color: #ff7a7a;
-    border-color: rgba(255, 48, 48, 0.35);
+    /* Au repos : rouge calme, raccord avec le thème (même retenue que le bouton
+       vert « > code »). Le rouge vif « access denied » est réservé au survol. */
+    color: #cc5a4d;
+    border-color: rgba(255, 60, 60, 0.25);
     letter-spacing: 0.05em;
     transition: color 0.15s, border-color 0.15s, background 0.15s;
     cursor: pointer;
@@ -295,7 +297,7 @@ const lock = lockInfo[slug ?? ""] ?? {
 
   .repo-locked-btn:hover {
     color: #ff3030;
-    border-color: rgba(255, 48, 48, 0.7);
+    border-color: rgba(255, 60, 60, 0.55);
     background: rgba(255, 48, 48, 0.05);
     animation: glitch-jitter 0.25s steps(2) infinite;
   }
