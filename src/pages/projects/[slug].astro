@@ -271,13 +271,16 @@ const lock = lockInfo[slug ?? ""] ?? {
   /* ──── REPO LOCKED BUTTON, GLITCH ───────────────────────── */
   .repo-locked-btn {
     position: relative;
-    /* Au repos : rouge calme, raccord avec le thème (même retenue que le bouton
-       vert « > code »). Le rouge vif « access denied » est réservé au survol. */
+    /* Au repos : rouge calme, raccord avec le thème. Le rouge vif « access
+       denied » est réservé au survol. */
     color: #cc5a4d;
     border-color: rgba(255, 60, 60, 0.25);
     letter-spacing: 0.05em;
     transition: color 0.15s, border-color 0.15s, background 0.15s;
     cursor: pointer;
+    /* Contre-rotation de la teinte : annule le hue-rotate global (#theme-root)
+       pour que le verrou reste ROUGE quel que soit le thème (cyan, jaune…). */
+    filter: hue-rotate(calc(-1 * var(--hue, 0deg)));
   }
   .repo-locked-btn::before,
   .repo-locked-btn::after {
@@ -325,6 +328,9 @@ const lock = lockInfo[slug ?? ""] ?? {
   }
   .ad-window {
     animation: ad-window-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Même contre-rotation : la fenêtre « ACCESS DENIED » reste rouge dans
+       tous les thèmes (sinon elle virerait au violet/cyan avec --hue). */
+    filter: hue-rotate(calc(-1 * var(--hue, 0deg)));
   }
   @keyframes ad-fade-in {
     from { opacity: 0; }
