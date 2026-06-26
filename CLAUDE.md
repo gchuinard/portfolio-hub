@@ -68,7 +68,9 @@ Pour les composants dynamiques (ProjectCard), utiliser `data-lang-fr={title}` et
 
 ## Ajouter un projet
 
-Créer `src/content/projects/<slug>.md` avec ce frontmatter (tous les champs optionnels sauf `title`, `description`, `date`) :
+> Le plus simple : via l'admin (`npm run admin`).
+
+À la main, créer `src/content/projects/<slug>.md` avec ce frontmatter (tous les champs optionnels sauf `title`, `description`, `date`) :
 
 ```yaml
 ---
@@ -99,7 +101,9 @@ Les projets sont triés par `date` décroissante dans `projects.astro`.
 
 ## Ajouter une certification
 
-Créer `src/content/certifications/<slug>.md` :
+> Le plus simple : via l'admin (`npm run admin`).
+
+À la main, créer `src/content/certifications/<slug>.md` :
 
 ```yaml
 ---
@@ -120,9 +124,10 @@ logo: "/logos/cert.png"  # optionnel
 Dashboard **dev uniquement** pour gérer projets / certifications / expériences
 sans éditer le YAML à la main : `npm run admin` → `http://127.0.0.1:4322`.
 
-- Écrit directement dans `src/content/**/*.md`, puis on relit `git diff` et on
-  commit/push (déploiement auto habituel). **Aucune empreinte en prod** : le
+- Écrit directement dans `src/content/**/*.md` ; **publication via le bouton ⬆**
+  (ou `git` à la main) → déploiement auto. **Aucune empreinte en prod** : le
   dossier `admin/` vit hors de `src/`, n'est ni buildé par Astro ni déployé.
+- Usage détaillé (boutons aperçu/publier, champs, règles) : `admin/README.md`.
 - Stack : serveur **HTTP natif Node** (`admin/server.mjs`), seule dépendance
   `js-yaml` (devDependency, déjà tirée par Astro). UI vanilla, thème terminal.
 - **Source de vérité** : `admin/lib/schema.mjs` reflète `src/content/config.ts`.

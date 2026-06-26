@@ -21,6 +21,20 @@ côté client.
 | `npm run dev`     | Serveur local — `localhost:4321`        |
 | `npm run build`   | Build de production dans `./dist/`      |
 | `npm run preview` | Prévisualise le build avant déploiement |
+| `npm run admin`   | Dashboard d'édition du contenu — `127.0.0.1:4322` |
+
+## Éditer le contenu (admin local)
+
+Plutôt que d'éditer le YAML à la main, lance le dashboard local :
+
+```bash
+npm run admin      # → http://127.0.0.1:4322
+```
+
+Il gère projets / certifications / expériences (créer · éditer · supprimer),
+avec aperçu live (**▶ aperçu**) et publication en un clic (**⬆ publier** =
+commit + push → déploiement auto). Guide complet :
+**[admin/README.md](./admin/README.md)**.
 
 ## Structure
 
